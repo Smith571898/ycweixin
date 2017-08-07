@@ -55,12 +55,7 @@
 			<version>5.1.38</version>
 		</dependency>
 
-		<!-- oracle 驱动 自已在 maven仓库中创建的 -->
-		<dependency>
-			<groupId>ojdbc</groupId>
-			<artifactId>ojdbc</artifactId>
-			<version>6</version>
-		</dependency>
+	
 
 		<!-- servlet 包，上线后不要，因为 tomcat的lib中自带有, 所以要配置 scope为provided -->
 		<dependency>
@@ -147,12 +142,7 @@
 			<version>1.2</version>
 		</dependency>
 
-		<!-- 文件上传, 自己在maven仓库中定义的 -->
-		<dependency>
-			<groupId>com.yc</groupId>
-			<artifactId>smartupload</artifactId>
-			<version>1.0</version>
-		</dependency>
+
 
 
 		<!--redis 客户端 -->
@@ -182,6 +172,19 @@
 			<artifactId>xstream</artifactId>
 			<version>1.4.9</version>
 		</dependency>
+
+		<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.2.4</version>
+	</dependency>
+	
+	 <dependency>
+    <groupId>com.jspsmart.upload</groupId>
+    <artifactId>smartupload</artifactId>
+    <version>1.2.6</version>
+	</dependency>
+  
 
 	</dependencies>
 	<build>
