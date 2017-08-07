@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.yc.weixin.bean.WeChatUserMapper">
+ 
+  <!-- 加入带日志的ehcahe缓存 -->
+ <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+ </cache>
+ 
+
+	
+ <select id="findAllUserInfo"  resultType="WeChatUser" parameterType="map">
+ select  uid,head,nikname,sex,address,followtime,isfollow,name,telephone,schoolname,nowclass,ycclass from userinfo where 1=1
+
+ 
+		<if  test="start!=null">
+		limit #{start},#{pagesize}
+		</if>
+	
+ 
+
+ 
+ </select>
+ 
+ 	<select id="findWeChatUserCount"   resultType="int">
+	select count(1) from userinfo where 1=1
+	</select>
+ 
+ </mapper>
