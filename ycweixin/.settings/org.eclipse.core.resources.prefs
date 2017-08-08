@@ -1,5 +1,12 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+<<<<<<< HEAD
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
+=======
+encoding//src/main/java/com/yc/weixin/dao/BaseDao.java=UTF-8
+encoding//src/main/java/com/yc/weixin/web/controller/MessageController.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/resources/db.sql=gbk
+>>>>>>> branch 'master' of https://git@github.com/Smith571898/ycweixin.git
 encoding/<project>=UTF-8
