@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yc</groupId>
-	<artifactId>springtx1</artifactId>
+	<artifactId>ycweixin</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springtx1 Maven Webapp</name>
+	<name>ycweixin Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -55,7 +55,7 @@
 			<version>5.1.38</version>
 		</dependency>
 
-	
+
 
 		<!-- servlet 包，上线后不要，因为 tomcat的lib中自带有, 所以要配置 scope为provided -->
 		<dependency>
@@ -142,9 +142,6 @@
 			<version>1.2</version>
 		</dependency>
 
-
-
-
 		<!--redis 客户端 -->
 		<dependency>
 			<groupId>redis.clients</groupId>
@@ -175,6 +172,7 @@
 		</dependency>
 
 		<dependency>
+
     <groupId>com.google.code.gson</groupId>
     <artifactId>gson</artifactId>
     <version>2.2.4</version>
@@ -200,9 +198,21 @@
     <version>2.4</version>
 </dependency>
 
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jspsmart.upload</groupId>
+			<artifactId>smartupload</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
-		<finalName>springtx1</finalName>
+		<finalName>ycweixin</finalName>
 	</build>
 </project>

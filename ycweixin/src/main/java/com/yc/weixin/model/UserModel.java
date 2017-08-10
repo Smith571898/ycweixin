@@ -1,35 +1,28 @@
-package com.yc.weixin.bean;
+package com.yc.weixin.model;
 
-import java.io.Serializable;
-
-public class WeChatUser implements  Serializable {
+public class UserModel {
+	private Integer subscribe;
 	private String openid;
 	private String nickname;
-	private String headimgurl;
 	private Integer sex;
-	private long subscirbe_time;
-	private Integer subscribe;
 	private String city;
-	
-	private String country;
-	private String province;
 	private String language;
-	
-
-	
-	
+	private String province;
+	private String country;
+	private String headimgurl;
+	private long subscirbe_time;
 	private String unionid;
 	private String remark;
 	private Integer groupid;
 	private String[] tagid_list;
+	public Integer getSubscribe() {
+		return subscribe;
+	}
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
 		this.city = city;
-	}
-	public Integer getSubscribe() {
-		return subscribe;
 	}
 	public void setSubscribe(Integer subscribe) {
 		this.subscribe = subscribe;

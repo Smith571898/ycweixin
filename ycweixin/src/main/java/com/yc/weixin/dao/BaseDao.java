@@ -12,7 +12,7 @@ public interface BaseDao<T> {
 	 *            mapper中的方法名
 	 *            "com.yc.bean."+ 类名 +"Mapper."+sqlId 
 	 */
-	public void save(T t, String sqlId);
+	public boolean save(T t, String sqlId);
 	
 	/**
 	 * 保存对象<br />

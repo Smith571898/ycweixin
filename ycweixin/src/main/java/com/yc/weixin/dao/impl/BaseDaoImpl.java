@@ -30,8 +30,9 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 	}
 
 	@Override
-	public void save(T t, String sqlId) {
+	public boolean save(T t, String sqlId) {
 		super.getSqlSession().insert(MAPPERPATH + t.getClass().getSimpleName() + "Mapper." + sqlId, t);
+		return true;
 	}
 
 	@Override

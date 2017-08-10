@@ -11,20 +11,27 @@
 
 	
  <select id="findAllUserInfo"  resultType="WeChatUser" parameterType="map">
- select  uid,head,nikname,sex,address,followtime,isfollow,name,telephone,schoolname,nowclass,ycclass from userinfo where 1=1
+ select  uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass from userinfo where 1=1
 
- 
 		<if  test="start!=null">
 		limit #{start},#{pagesize}
 		</if>
-	
- 
 
- 
  </select>
  
  	<select id="findWeChatUserCount"   resultType="int">
 	select count(1) from userinfo where 1=1
 	</select>
+	
+<insert id="addUserInfoTogether">
+
+	insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values
+	
+	<foreach collection="UserInfoList" item="list" separator=",">
+	(#{uid},#{headimgurl},#{nickname},#{sex},#{address},#{subscribe_time},#{subscribe},'','','','','')
+	</foreach>
+	
+
+</insert>
  
  </mapper>
