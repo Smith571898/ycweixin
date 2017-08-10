@@ -1,18 +1,30 @@
 package com.yc.weixin.model;
 
 public class UserModel {
+	//是否关注
 	private Integer subscribe;
 	private String openid;
+	//昵称
 	private String nickname;
+	//性别 
 	private Integer sex;
+	//语言
 	private String language;
+	//省
 	private String province;
+	//国家
 	private String country;
+	//头像地址
 	private String headimgurl;
+	//关注时间
 	private long subscirbe_time;
+	//多个公众号的联合id
 	private String unionid;
+	//备注
 	private String remark;
+	//分组id
 	private Integer groupid;
+	//标签列表
 	private String[] tagid_list;
 	public Integer getSubscribe() {
 		return subscribe;

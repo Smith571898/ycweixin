@@ -34,4 +34,19 @@ public class Testone {
 		out.close();
 	}
 
+	@Test
+	public void test2(){
+		System.out.println(String.format("Content-Disposition:form-data;name=\"media\";filename=\"file1%s\"\r\n", ".jpg"));
+		String str = "ACCESS_TOKEN\r\nTYPE";
+		str = str.replace("ACCESS_TOKEN", "l7gZG4j1ZdItEf9mbpjQGoRnvAtZ1PZ2Xc8OJMd5Qsn-8644O5pmFnX7q5UwhD2dRf-rahiGcY9LCCE1ANQlSGT-wSvDDQdPS-eo5157d6Tl90TY13A8abcVCrgj7wOVQMUcAFACYG");
+		str = str.replace("TYPE", "image");
+		System.out.println(str);
+		System.out.println("------------------------------------");
+		String uploadMediaUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
+		uploadMediaUrl = uploadMediaUrl.replace("TYPE","image");
+		uploadMediaUrl = uploadMediaUrl.replace("ACCESS_TOKEN","l7gZG4j1ZdItEf9mbpjQGoRnvAtZ1PZ2Xc8OJMd5Qsn-8644O5pmFnX7q5UwhD2dRf-rahiGcY9LCCE1ANQlSGT-wSvDDQdPS-eo5157d6Tl90TY13A8abcVCrgj7wOVQMUcAFACYG");
+		System.out.println(uploadMediaUrl);
+
+	}
+	
 }
