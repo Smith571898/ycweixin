@@ -60,6 +60,30 @@
 				}
 			}]
 		}];
+		var treeData_3 = [{
+			"id" : 1,
+			"text" : "素材管理",
+			"state" : "closed",
+			"children" : [{
+				"id":11,
+				"text":"上传临时素材",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+				}
+			},{
+				"id":22,
+				"text":"上传永久素材",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+				}
+			},{
+				"id":22,
+				"text":"查看传永久素材",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+				}
+			}]
+		}];
 		//生成树
 		$("#newsTypeTree").tree({
 			data:treeData,
@@ -81,6 +105,15 @@
 		});
 		$("#manUser").tree({
 			data:treeData_2,
+			onClick: function(node){
+				//alert(node.text);  // alert node text property when clicked
+				if(node.attributes){
+					openTab(node);
+				}
+			}
+		});
+		$("#mediaTree").tree({
+			data:treeData_3,
 			onClick: function(node){
 				//alert(node.text);  // alert node text property when clicked
 				if(node.attributes){
@@ -127,6 +160,9 @@
 			</div>
 			<div title="消息推送" style="overflow: auto; padding: 10px;">
 				<ul id="newsTree"></ul>
+			</div>
+			<div title="素材管理" style="overflow: auto; padding: 10px;">
+				<ul id="mediaTree"></ul>
 			</div>
 			
 		</div>

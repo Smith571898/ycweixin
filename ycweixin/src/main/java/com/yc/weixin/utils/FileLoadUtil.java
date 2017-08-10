@@ -17,7 +17,7 @@ public class FileLoadUtil {
 	
 	private String weburl;
 
-	
+	//通过时间生成文件名
 	private String genNewFilePrefixName() {
 		// 生成新的文件名
 		Date d = new Date();
@@ -26,6 +26,7 @@ public class FileLoadUtil {
 		return filePrefixName;
 	}
 	
+	//生成图片所在的文件夹
 	private String genNewFileDir(HttpServletRequest req){
 		Calendar c = Calendar.getInstance();
 		String tomcatdir = req.getRealPath("/"); // xxx/xxx/webapps/ycweixin
@@ -41,13 +42,17 @@ public class FileLoadUtil {
 		return picpath.getAbsolutePath();
 	}
 	
+	//生成图片路径
 	private String getFilepath(HttpServletRequest req){
 		String dir = genNewFileDir(req);
 		String name = genNewFilePrefixName();
-		weburl += name+".jpg";
-		return dir+File.separator+name+".jpg";
+		String contentType = req.getContentType();
+		String fileExt = FileSuffixUtil.getFileExt(contentType);
+		weburl += name+ fileExt;
+		return dir+File.separator+name+fileExt;
 	}
 	
+	//图片下载
 	public void fileupload(HttpServletRequest req , List<String> urls) throws Exception{
 		for(String uri:urls){
 			URL url = new URL(uri);
@@ -73,7 +78,5 @@ public class FileLoadUtil {
 			out.flush();
 			out.close();
 		}
-		
 	}
-
 }

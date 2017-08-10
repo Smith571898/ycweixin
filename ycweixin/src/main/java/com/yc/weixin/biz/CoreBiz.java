@@ -2,8 +2,6 @@ package com.yc.weixin.biz;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Service;
-
 public interface CoreBiz {
 	
 	/**
@@ -12,5 +10,5 @@ public interface CoreBiz {
 	 * @return
 	 */
 	public String processXml(HttpServletRequest req);
-	
+
 }

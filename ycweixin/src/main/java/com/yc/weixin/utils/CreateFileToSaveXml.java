@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CreateFileToSaveXml {
 	
+	//从微信号传过来的数据存到xml中
 	public static void saveToXml(HttpServletRequest req) throws IOException{
 		File root = new File(req.getSession().getServletContext().getRealPath("/"));
 		File rootfile = root.getParentFile();

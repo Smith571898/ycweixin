@@ -1,9 +1,13 @@
 package com.yc.weixin.model;
 
 public class UserGroupModel {
+	//当前关注公众号的人数
 	private Integer total;
+	//当前获取到的人数
 	private Integer count;
+	//下一次获取用户分组需要的openid
 	private String next_openid;
+	//openid的集合
 	private DataFromUserGroupModel data;
 	public Integer getTotal() {
 		return total;
