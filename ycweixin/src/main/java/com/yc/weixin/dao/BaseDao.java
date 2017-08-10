@@ -80,7 +80,7 @@ public interface BaseDao<T> {
 	 * @param id :    要删除的数据的编号
 	 * @param sqlId:  mapper中的方法名
 	 */
-	public void del(Class<T> clazz,  String sqlId, int id);
+	public void del(Class<T> clazz,  String sqlId, String id);
 	/**
 	 * 根据条件  parameterMap删除<br />
 	 * @param clazz
@@ -126,7 +126,7 @@ public interface BaseDao<T> {
 	 * 聚合查询<br />
 	 * @return
 	 */
-	public Integer getFunc(Class<T> clazz, String sqlId);
+	public int getFunc(Class<T> clazz, String sqlId);
 	
 	/**
 	 * 聚合查询<br />
@@ -134,9 +134,16 @@ public interface BaseDao<T> {
 	 * @param sqlId     mapper里面的方法名
 	 * @return
 	 */
-	public double getFunc(T t, String sqlId);
+	public int getFunc(T t, String sqlId);
 	
 	public int getFunc( Class<T> clazz, String sqlId, Map<String,Object> parameterMap );
+
+	T findOne(Class<T> clazz, String sqlId);
+
+	T findOne(T t, String sqlId);
+
+	T findOne(Class<T> clazz, String sqlId, Map<String, Object> parameterMap);
+
 
 	
 	

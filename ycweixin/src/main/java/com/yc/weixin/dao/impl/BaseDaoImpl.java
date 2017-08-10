@@ -15,10 +15,9 @@ import com.yc.weixin.dao.BaseDao;
 
 /**
  * sqlId:全是调用的各个mapper文件中的 方法名
- * 
  * @param <T>
  */
-@Repository(value="baseDao")
+@Repository(value = "baseDao")
 public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 
 	private final String MAPPERPATH = "com.yc.weixin.bean.";
@@ -65,7 +64,8 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 		super.getSqlSession().update(MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId, list);
 	}
 
-	public void del(Class<T> clazz, String sqlId, int id) {
+	@Override
+	public void del(Class<T> clazz, String sqlId, String id) {
 		super.getSqlSession().delete(MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId,id);
 	}
 	@Override
@@ -95,16 +95,48 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 
 	@Override
 	public List<T> findAll(Class<T> clazz, String sqlId, Map<String, Object> parameterMap) {
-		return super.getSqlSession().selectList(MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId ,parameterMap);
+		                                     // com.yc.bean.     HouseMapper.findHouseCondition
+		return super.getSqlSession().selectList(  MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId ,parameterMap);
+	}
+	
+	@Override
+	public T findOne(Class<T> clazz, String sqlId) {
+		List<T> list= super.getSqlSession().selectList(  MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId );
+		if( list!=null&&list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
 
 	@Override
-	public Integer getFunc(Class<T> clazz, String sqlId) {
+	public T findOne(T t, String sqlId) {
+		List<T> list=super.getSqlSession().selectList(  MAPPERPATH + t.getClass().getSimpleName() + "Mapper." + sqlId ,t);
+		if( list!=null&&list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+
+	@Override
+	public T findOne(Class<T> clazz, String sqlId, Map<String, Object> parameterMap) {
+		List<T> list=super.getSqlSession().selectList(  MAPPERPATH + clazz.getSimpleName() + "Mapper." + sqlId ,parameterMap);
+		if( list!=null&&list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
+	
+
+	@Override
+	public int getFunc(Class<T> clazz, String sqlId) {
 		return super.getSqlSession().selectOne(MAPPERPATH+clazz.getSimpleName()+ "Mapper." + sqlId );
 	}
 
 	@Override
-	public double getFunc(T t, String sqlId) {
+	public int getFunc(T t, String sqlId) {
 		return super.getSqlSession().selectOne(MAPPERPATH+t.getClass().getSimpleName()+ "Mapper." + sqlId ,t);
 	}
 
@@ -112,8 +144,6 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 	public int getFunc(Class<T> clazz, String sqlId, Map<String, Object> parameterMap) {
 		return super.getSqlSession().selectOne(MAPPERPATH+clazz.getSimpleName()+ "Mapper." + sqlId ,parameterMap);
 	}
-
-	
 	
 	
 

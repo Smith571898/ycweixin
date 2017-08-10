@@ -23,8 +23,14 @@ public class MessageBizImpl implements MessageBiz {
 	}
 	@Override
 	public Integer finFollowPushCount() {
-		Integer total=this.baseDao.getFunc(FollowPushMessage.class, "findFollowPushCount");
+		Integer total=(int) this.baseDao.getFunc(FollowPushMessage.class, "findFollowPushCount");
 		return total;
 	}
+	@Override
+	public boolean updateFollowPush(FollowPushMessage fpm) {
+		this.baseDao.save(fpm, "updateFollowPush");
+		return true;
+	}
+
 
 }
