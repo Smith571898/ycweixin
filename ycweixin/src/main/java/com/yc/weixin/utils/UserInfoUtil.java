@@ -32,9 +32,10 @@ public class UserInfoUtil {
 					+ "&lang=zh_CN";
 			response = CommonUtil.getResources(uri);
 			UserModel um = CommonUtil.gson.fromJson(response, UserModel.class);
+			System.out.println(um);
 			list.add(um);
 		}
-
+		
 		return list;
 	}
 
