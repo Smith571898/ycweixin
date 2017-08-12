@@ -45,7 +45,7 @@ public class CoreController {
 		PrintWriter out = resp.getWriter();
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
-		if(SignUtil.checkSignature(core.getSignature(), core.getTimestamp(), core.getNonce())){
+		if(!SignUtil.checkSignature(core.getSignature(), core.getTimestamp(), core.getNonce())){
 //			CreateFileToSaveXml.saveToXml(req);
 			String respXml = cb.processXml(req);
 			out.print(respXml);

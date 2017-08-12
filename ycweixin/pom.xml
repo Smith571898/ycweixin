@@ -56,11 +56,7 @@
 		</dependency>
 
 		<!-- oracle 驱动 自已在 maven仓库中创建的 -->
-		<dependency>
-			<groupId>ojdbc</groupId>
-			<artifactId>ojdbc</artifactId>
-			<version>6</version>
-		</dependency>
+		
 
 		<!-- servlet 包，上线后不要，因为 tomcat的lib中自带有, 所以要配置 scope为provided -->
 		<dependency>
@@ -182,9 +178,27 @@
 			<artifactId>xstream</artifactId>
 			<version>1.4.9</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-core</artifactId>
+			<version>4.6.0</version>
+		</dependency>
+		
+		<dependency>
+			 <groupId>org.apache.lucene</groupId>
+			 <artifactId>lucene-queryparser</artifactId>
+	  		 <version>4.6.0</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.janeluo</groupId>
+    		<artifactId>ikanalyzer</artifactId>
+    		<version>2012_u1</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
-		<finalName>springtx1</finalName>
+		<finalName>ycweixin</finalName>
 	</build>
 </project>
