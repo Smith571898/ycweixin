@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.weixin.bean.Chat_logMapper">
+
+	<!-- 加入带日志的ehcahe缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	
+	<select id="Findchat_categoryByOpenid" resultType="Chat_log" parameterType="Chat_log">
+		select chat_category from chat_log where open_id=#{open_id} order by id desc limit 0,1
+	</select>
+
+	<insert id="addChat_log" parameterType="Chat_log" useGeneratedKeys="true" keyProperty="id">
+		insert into chat_log(open_id, create_time, req_msg, resp_msg, chat_category) values(#{open_id},#{create_time},#{req_msg},#{resp_msg},#{chat_category})
+	</insert>
+
+</mapper>
