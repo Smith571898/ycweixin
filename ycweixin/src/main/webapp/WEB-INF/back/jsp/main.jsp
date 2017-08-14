@@ -38,13 +38,13 @@
 				"id":12,
 				"text":"每周一推",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/news/manNews.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='FollowPush.action'' />"
 				}
 			},{
 				"id":13,
 				"text":"源辰大事件",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/news/manNews.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='FollowPush.action'' />"
 				}
 			}]
 		}];
@@ -56,7 +56,7 @@
 				"id":11,
 				"text":"查看用户",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='FollowPush.action'' />"
 				}
 			}]
 		}];

@@ -32,15 +32,18 @@ create table followpush(
 )
 
 create table  button(
-	bid int primary key,
+	bid int primary key auto_increment,
 	menutype  varchar(100),
 	name varchar(100),
 	menukey  varchar(100),
 	url   varchar(1024)	
+	
 )
+select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name  as sub_name from sub_button a join button b on  b.bid=a.sb_bid where 1=1
+drop table button
 drop table sub_button
 create table sub_button(
-	sbid int primary key,
+	sbid int primary key auto_increment,
 	sb_bid int,
 	menutype  varchar(100),
 	name varchar(100),
@@ -48,6 +51,7 @@ create table sub_button(
 	url   varchar(2000)
 )
 select * from sub_button
+update sub_button set sb_bid=1 where sbid=1
 insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(1,1,'click','源辰大事件','V1001_TODAY_THINK','www.baidu.com');
 insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(2,1,'click','每周之星','V1001_TODAY_THINK','www.baidu.com');
 insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(3,1,'click','心灵鸡汤','V1001_TODAY_THINK','www.baidu.com');
