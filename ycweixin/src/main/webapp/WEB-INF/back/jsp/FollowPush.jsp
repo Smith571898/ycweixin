@@ -88,13 +88,13 @@
 										align : 'center',
 										formatter : function() {
 
-											var btn = '<a id="editcls" onclick="showMessage()" >编辑</a>';
+											var btn = '<a id="editcl" onclick="showMessage()" >编辑</a>';
 											return btn;
 										}
 
 									} ] ],
 							onLoadSuccess : function(data) {
-								$('#editcls').linkbutton({
+								$('#editcl').linkbutton({
 									text : '编辑',
 									plain : true,
 									iconCls : 'icon-edit'									
@@ -111,12 +111,12 @@
 		
 	$('#win').append(' <iframe src="toeditor.action?ftitle='+row.ftitle+
 			'&fcontent='+row.fcontent+'&fpic='+row.fpic+
-			'&isfollowpush='+row.isfollowpush+'&fid='+row.fid+'" width="1020" height="630"></iframe> ');
+			'&isfollowpush='+row.isfollowpush+'&fid='+row.fid+'" style="overflow:hidden;height:630px;width:1200px" ></iframe> ');
 		alert(row.ftitle)
 		document.getElementById("win").style.display = "";
 		
 		$('#win').window({
-			width : 1020,
+			width : 1080,
 			height : 630,
 			modal : false,
 			openAnimation:'slide',

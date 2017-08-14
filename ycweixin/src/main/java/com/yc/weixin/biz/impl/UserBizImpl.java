@@ -29,7 +29,7 @@ public class UserBizImpl  implements UserBiz{
 
 	@Override
 	public boolean AddUserInfo(List<WeChatUser> UserInfoList) {
-		if(this.baseDao.save(UserInfoList, "addUserInfoTogether")){
+		if(this.baseDao.save(WeChatUser.class, "addUserInfoTogether", UserInfoList)){
 			return true;
 		}
 		return false;

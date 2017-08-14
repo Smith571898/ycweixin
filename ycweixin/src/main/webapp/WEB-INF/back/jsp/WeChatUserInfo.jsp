@@ -14,7 +14,7 @@
 			idField : 'uid',//标识  会记录我们选中的一行的ID  不一定是id  通常都是逐渐
 			rownumbers : true,//不换行显示
 			nowrap : true,
-			sortName : 'uid',//排序的列 这个参数会传到后台的servlet上  所以要有后台对应的接收
+			sortName : 'subscribe_time',//排序的列 这个参数会传到后台的servlet上  所以要有后台对应的接收
 			sortOrder : 'desc',//排序方式 降序
 			singleSelect : true,
 			
@@ -23,19 +23,19 @@
 			},
 			
 			columns : [[{
-				field : 'head',
+				field : 'headimgurl',
 				title : '微信头像',
 				width : 150,
 				height:50,
 				align : 'center',
 				formatter:function(value,row,index){
 					if(value){
-					return "<img src='images/"+value+"' style='width:100px;height:100px;'/>";/*这儿的value是一个图片的链接*/
+					return "<img src='../head/"+value+"' style='width:100px;height:100px;'/>";/*这儿的value是一个图片的链接*/
 					}
 				}
 				
 			},{
-				field : 'nikname',
+				field : 'nickname',
 				title : '微信名',
 				width : 150,
 				height:50,
@@ -53,13 +53,20 @@
 				height:50,
 				align : 'center'
 			},{
-				field : 'followtime',
+				field : 'subscribe_time',
 				title : '上次关注时间',
 				width : 150,
 				height:50,
-				align : 'center'
+				align : 'center',
+				formatter:function(subscribe_time){
+					
+					 var tt=new Date(parseInt(subscribe_time) * 1000).toLocaleString().substr(0,17)
+						// new Date(subscribe_time).toLocaleString(); 
+					   
+					    return  tt; 
+					}
 			},{
-				field : 'isfollow',
+				field : 'subscribe',
 				title : '当前是否关注',
 				width : 150,
 				height:50,

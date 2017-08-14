@@ -64,6 +64,7 @@ public class MessageUtil {
 	// 响应消息类型:图文
 	public static final String RESP_MESSAGE_TYPE_NEWS = "news";
 
+	//解析发送过来的xml对象,并将其转存到一个map中
 	public static Map<String, String> parseXml(HttpServletRequest req) throws DocumentException, IOException {
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -93,6 +94,7 @@ public class MessageUtil {
 		return map;
 	}
 
+	//将对象转成xml的插件对象
 	private static XStream xstream = new XStream(new XppDriver() {
 		public HierarchicalStreamWriter createWriter(Writer out) {
 			return new PrettyPrintWriter(out) {
@@ -100,6 +102,7 @@ public class MessageUtil {
 				boolean cdata = true;
 
 				public void startNode(String name, Class clazz) {
+					//当回送的消息是createTime时不加CDATA标记
 					if (name.equals("CreateTime")) {
 						cdata = false;
 					} else {
@@ -122,11 +125,13 @@ public class MessageUtil {
 		}
 	});
 
+	//将对象转换成xml
 	public static <T> String messageToXml(T t) {
 		xstream.alias("xml", t.getClass());
 		return xstream.toXML(t);
 	}
 
+	//把解析的xml对象存到webapps/logs/xml.txt中
 	public static void saveToXml(HttpServletRequest req, String str) throws IOException {
 		File root = new File(req.getSession().getServletContext().getRealPath("/"));
 		File rootfile = root.getParentFile();

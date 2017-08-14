@@ -34,8 +34,9 @@ public interface BaseDao<T> {
 	 * @param clazz
 	 * @param sqlId
 	 * @param list
+	 * @return 
 	 */
-	void save(Class<T> clazz, String sqlId, List<T> list);
+	public boolean save(Class<T> clazz, String sqlId, List<T> list);
 
 	/**
 	 * 更新对象 <br />

@@ -1,19 +1,32 @@
 package com.yc.weixin.model;
 
 public class UserModel {
+	//是否关注
 	private Integer subscribe;
 	private String openid;
+	//昵称
 	private String nickname;
+	//性别 
 	private Integer sex;
+
 	private String city;
+
 	private String language;
+	//省
 	private String province;
+	//国家
 	private String country;
+	//头像地址
 	private String headimgurl;
-	private long subscirbe_time;
+	//关注时间
+	private long subscribe_time;
+	//多个公众号的联合id
 	private String unionid;
+	//备注
 	private String remark;
+	//分组id
 	private Integer groupid;
+	//标签列表
 	private String[] tagid_list;
 	public Integer getSubscribe() {
 		return subscribe;
@@ -69,11 +82,12 @@ public class UserModel {
 	public void setHeadimgurl(String headimgurl) {
 		this.headimgurl = headimgurl;
 	}
-	public long getSubscirbe_time() {
-		return subscirbe_time;
+
+	public long getSubscribe_time() {
+		return subscribe_time;
 	}
-	public void setSubscirbe_time(long subscirbe_time) {
-		this.subscirbe_time = subscirbe_time;
+	public void setSubscribe_time(long subscribe_time) {
+		this.subscribe_time = subscribe_time;
 	}
 	public String getUnionid() {
 		return unionid;
@@ -103,7 +117,7 @@ public class UserModel {
 	public String toString() {
 		return "UserModel [subscribe=" + subscribe + ", openid=" + openid + ", nickname=" + nickname + ", sex=" + sex
 				+ ", language=" + language + ", province=" + province + ", country=" + country + ", headimgurl="
-				+ headimgurl + ", subscirbe_time=" + subscirbe_time + ", unionid=" + unionid + ", remark=" + remark
+				+ headimgurl + ", subscirbe_time=" + subscribe_time + ", unionid=" + unionid + ", remark=" + remark
 				+ ", groupid=" + groupid + ", tagid_list=" + tagid_list + "]";
 	}
 }

@@ -1,18 +1,16 @@
 package com.yc.weixin.bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class WeChatUser implements  Serializable {
 	private String openid;
 	private String nickname;
 	private String headimgurl;
-	private Integer sex;
-	private long subscirbe_time;
-	private Integer subscribe;
-	private String city;
-	
-	private String country;
-	private String province;
+	private String sex;
+	private long subscribe_time;
+	private String subscribe;
+	private String address;
 	private String language;
 	
 
@@ -22,18 +20,6 @@ public class WeChatUser implements  Serializable {
 	private String remark;
 	private Integer groupid;
 	private String[] tagid_list;
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public Integer getSubscribe() {
-		return subscribe;
-	}
-	public void setSubscribe(Integer subscribe) {
-		this.subscribe = subscribe;
-	}
 	public String getOpenid() {
 		return openid;
 	}
@@ -46,41 +32,41 @@ public class WeChatUser implements  Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public Integer getSex() {
-		return sex;
-	}
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
-	public String getLanguage() {
-		return language;
-	}
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
 	public String getHeadimgurl() {
 		return headimgurl;
 	}
 	public void setHeadimgurl(String headimgurl) {
 		this.headimgurl = headimgurl;
 	}
-	public long getSubscirbe_time() {
-		return subscirbe_time;
+	public String getSex() {
+		return sex;
 	}
-	public void setSubscirbe_time(long subscirbe_time) {
-		this.subscirbe_time = subscirbe_time;
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public long getSubscribe_time() {
+		return subscribe_time;
+	}
+	public void setSubscribe_time(long subscribe_time) {
+		this.subscribe_time = subscribe_time;
+	}
+	public String getSubscribe() {
+		return subscribe;
+	}
+	public void setSubscribe(String subscribe) {
+		this.subscribe = subscribe;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 	public String getUnionid() {
 		return unionid;
@@ -108,9 +94,31 @@ public class WeChatUser implements  Serializable {
 	}
 	@Override
 	public String toString() {
-		return "UserModel [subscribe=" + subscribe + ", openid=" + openid + ", nickname=" + nickname + ", sex=" + sex
-				+ ", language=" + language + ", province=" + province + ", country=" + country + ", headimgurl="
-				+ headimgurl + ", subscirbe_time=" + subscirbe_time + ", unionid=" + unionid + ", remark=" + remark
-				+ ", groupid=" + groupid + ", tagid_list=" + tagid_list + "]";
+		return "WeChatUser [openid=" + openid + ", nickname=" + nickname + ", headimgurl=" + headimgurl + ", sex=" + sex
+				+ ", subscribe_time=" + subscribe_time + ", subscribe=" + subscribe + ", address=" + address
+				+ ", language=" + language + ", unionid=" + unionid + ", remark=" + remark + ", groupid=" + groupid
+				+ ", tagid_list=" + Arrays.toString(tagid_list) + "]";
 	}
+	public WeChatUser(String openid, String nickname, String headimgurl, String sex, long subscribe_time,
+			String subscribe, String address, String language, String unionid, String remark, Integer groupid,
+			String[] tagid_list) {
+		super();
+		this.openid = openid;
+		this.nickname = nickname;
+		this.headimgurl = headimgurl;
+		this.sex = sex;
+		this.subscribe_time = subscribe_time;
+		this.subscribe = subscribe;
+		this.address = address;
+		this.language = language;
+		this.unionid = unionid;
+		this.remark = remark;
+		this.groupid = groupid;
+		this.tagid_list = tagid_list;
+	}
+	public WeChatUser() {
+		super();
+	}
+
+	
 }

@@ -23,12 +23,12 @@
 	select count(1) from userinfo where 1=1
 	</select>
 	
-<insert id="addUserInfoTogether">
+<insert id="addUserInfoTogether" parameterType="java.util.ArrayList">
 
 	insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values
 	
-	<foreach collection="UserInfoList" item="list" separator=",">
-	(#{uid},#{headimgurl},#{nickname},#{sex},#{address},#{subscribe_time},#{subscribe},'','','','','')
+	<foreach collection="list" item="user" separator=",">	
+	(#{user.openid},#{user.headimgurl},#{user.nickname},#{user.sex},#{user.address},#{user.subscribe_time},#{user.subscribe},'','','','','')
 	</foreach>
 	
 

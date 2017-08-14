@@ -2,7 +2,9 @@ package com.yc.weixin.model;
 
 public class AcessTokenModel {
 	
+	//token凭证
 	private String access_token;
+	//有效期
 	private String expires_in;
 	
 	public String getAccess_token() {
