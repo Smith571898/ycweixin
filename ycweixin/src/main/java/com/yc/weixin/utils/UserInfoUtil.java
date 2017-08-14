@@ -35,13 +35,12 @@ public class UserInfoUtil {
 			System.out.println(um);
 			list.add(um);
 		}
-		
 		return list;
 	}
 
 	//获取用户头像的url
 	public static List<String> getUserHeadImgUrl() throws IOException, KeyManagementException, NoSuchAlgorithmException, NoSuchProviderException {
-		String access_token = AccessTokenUtil.getAccessToken();
+		String access_token = AccessTokenUtil.access_token;
 		List<UserModel> users = getUserInfo(access_token);
 		List<String> headurl = new ArrayList<String>();
 		for(UserModel um:users){

@@ -10,30 +10,40 @@ import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.yc.weixin.model.AcessTokenModel;
 import com.yc.weixin.model.UserGroupModel;
 import com.yc.weixin.model.UserModel;
 
+@Component
 public class AccessTokenUtil {
 
 	public static final String APPID = "wx72a20d360dea4bbb";
 
 	public static final String APPSECRET = "696912240df8aa8577579e5391a26574";
+	
+	public static String access_token = "";
 
 	//获取access_token，拿到token后可以访问微信提供的接口
-	public static String getAccessToken() throws IOException {
-		String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret="
-				+ APPSECRET;
+	@Scheduled(cron="0/7200 * * * * ? ")
+	private void getAccessToken() {
+		try {
+			String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret="
+					+ APPSECRET;
 
-		String response = CommonUtil.getResources(uri);
+			String response = CommonUtil.getResources(uri);
 
-		AcessTokenModel atm = CommonUtil.gson.fromJson(response, AcessTokenModel.class);
+			AcessTokenModel atm = CommonUtil.gson.fromJson(response, AcessTokenModel.class);
 
-		System.out.println(atm);
-
-		return atm.getAccess_token();
+			access_token = atm.getAccess_token();
+			
+			System.out.println(access_token);
+		} catch (JsonSyntaxException | IOException e) {
+			e.printStackTrace();
+		}
 	}
-
-
 }

@@ -55,8 +55,6 @@
 			<version>5.1.38</version>
 		</dependency>
 
-
-
 		<!-- servlet 包，上线后不要，因为 tomcat的lib中自带有, 所以要配置 scope为provided -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -182,6 +180,24 @@
 			<version>1.2.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-core</artifactId>
+			<version>4.6.0</version>
+		</dependency>
+		
+		<dependency>
+			 <groupId>org.apache.lucene</groupId>
+			 <artifactId>lucene-queryparser</artifactId>
+	  		 <version>4.6.0</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.janeluo</groupId>
+    		<artifactId>ikanalyzer</artifactId>
+    		<version>2012_u1</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>ycweixin</finalName>

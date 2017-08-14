@@ -1,5 +1,6 @@
 package com.yc.weixin.web.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yc.weixin.bean.CoreMessage;
+import com.yc.weixin.biz.ChatBiz;
 import com.yc.weixin.biz.CoreBiz;
 import com.yc.weixin.utils.FileLoadUtil;
 import com.yc.weixin.utils.SignUtil;
@@ -26,12 +28,21 @@ public class CoreController {
 	@Resource(name="coreBizImpl")
 	private CoreBiz cb;
 	
+	@Resource(name="chatBizImpl")
+	private ChatBiz chatBiz;
+	
 	//get请求，验证请求来源是否为微信服务器
 	@RequestMapping(path = "hello", method=RequestMethod.GET)
 	public void helloGet(CoreMessage core, HttpServletResponse resp)throws NoSuchAlgorithmException, IOException{
 		PrintWriter out = resp.getWriter();
 		if(SignUtil.checkSignature(core.getSignature(), core.getTimestamp(), core.getNonce())){
 			out.print(core.getEchostr());
+		}
+
+		File indexDir = new File(chatBiz.getIndexDir());
+		// 如果索引目录不存在则创建索引
+		if (!indexDir.exists()){
+			chatBiz.createIndex();
 		}
 		
 		out.flush();
