@@ -68,21 +68,47 @@
 				"id":11,
 				"text":"上传临时素材",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='touploadTempMaterial.action' />"
 				}
 			},{
-				"id":22,
+				"id":12,
 				"text":"上传永久素材",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='touploadTempMaterial.action' />"
 				}
 			},{
-				"id":22,
+				"id":13,
 				"text":"查看传永久素材",
 				"attributes":{
-					"url" : "<iframe style='width:100%;height:80%' src='back/manager/user/manUser.jsp' />"
+					"url" : "<iframe style='width:100%;height:80%' src='touploadTempMaterial.action' />"
 				}
 			}]
+		}];
+		var treeData_4 = [{
+			"id" : 1,
+			"text" : "菜单管理",
+			"state" : "closed",
+			"children" : [{
+				"id":11,
+				"text":"菜单排列",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='showmenu.action' />"
+				}
+			},{
+					"id":12,
+					"text":"编辑菜单",
+					"attributes":{
+						"url" : "<iframe style='width:100%;height:80%' src='addmenu.action' />"
+					}
+			
+			},{
+				"id":13,
+				"text":"查看菜单",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='findmenu.action' />"
+				}
+		
+		}]
 		}];
 		//生成树
 		$("#newsTypeTree").tree({
@@ -114,6 +140,15 @@
 		});
 		$("#mediaTree").tree({
 			data:treeData_3,
+			onClick: function(node){
+				//alert(node.text);  // alert node text property when clicked
+				if(node.attributes){
+					openTab(node);
+				}
+			}
+		});
+		$("#menutree").tree({
+			data:treeData_4,
 			onClick: function(node){
 				//alert(node.text);  // alert node text property when clicked
 				if(node.attributes){
@@ -164,7 +199,9 @@
 			<div title="素材管理" style="overflow: auto; padding: 10px;">
 				<ul id="mediaTree"></ul>
 			</div>
-			
+			<div title="菜单管理" style="overflow: auto; padding: 10px;">
+				<ul id="menutree"></ul>
+			</div>
 		</div>
 	</div>
 	<div

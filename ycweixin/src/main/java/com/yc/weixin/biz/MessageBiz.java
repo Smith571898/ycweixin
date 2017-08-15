@@ -12,4 +12,9 @@ public interface MessageBiz {
 
 	public Integer finFollowPushCount();
 
+	public boolean updateFollowPush(FollowPushMessage fpm);
+	
+	
+
+	
 }

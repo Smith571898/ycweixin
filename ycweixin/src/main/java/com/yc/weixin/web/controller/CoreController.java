@@ -3,7 +3,10 @@ package com.yc.weixin.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,20 +19,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yc.weixin.bean.CoreMessage;
-import com.yc.weixin.biz.ChatBiz;
+import com.yc.weixin.bean.WeChatUser;
 import com.yc.weixin.biz.CoreBiz;
+import com.yc.weixin.biz.UserBiz;
+import com.yc.weixin.model.UserModel;
+import com.yc.weixin.utils.AccessTokenUtil;
 import com.yc.weixin.utils.FileLoadUtil;
 import com.yc.weixin.utils.SignUtil;
 import com.yc.weixin.utils.UserInfoUtil;
 
 @Controller
 public class CoreController {
+
+	private UserInfoUtil  userInfoUtil =new UserInfoUtil();
+	private FileLoadUtil  fileLoadUtil=new FileLoadUtil();
 	
+	@Resource(name="userBizImpl")
+	private  UserBiz userBiz;
 	@Resource(name="coreBizImpl")
 	private CoreBiz cb;
 	
-	@Resource(name="chatBizImpl")
-	private ChatBiz chatBiz;
+	
 	
 	//get请求，验证请求来源是否为微信服务器
 	@RequestMapping(path = "hello", method=RequestMethod.GET)
@@ -39,11 +49,6 @@ public class CoreController {
 			out.print(core.getEchostr());
 		}
 
-		File indexDir = new File(chatBiz.getIndexDir());
-		// 如果索引目录不存在则创建索引
-		if (!indexDir.exists()){
-			chatBiz.createIndex();
-		}
 		
 		out.flush();
 		out.close();
@@ -68,14 +73,60 @@ public class CoreController {
 	
 	//下载关注者头像到服务器
 	@RequestMapping(path = "file.action", method = RequestMethod.GET)
-	public void file(HttpServletRequest req){
-		FileLoadUtil flu = new FileLoadUtil();
+	public void file(HttpServletRequest request){
 		try {
-			List<String> userImg = UserInfoUtil.getUserHeadImgUrl();
-			flu.fileupload(req, userImg);
+			String access_token=AccessTokenUtil.access_token;
+			List<UserModel> list=userInfoUtil.getAllUserInfo(access_token);
+			List<WeChatUser> weChatUserList=new ArrayList<WeChatUser>();
+			for(UserModel um:list){
+				WeChatUser wu=new WeChatUser();
+				wu.setOpenid(um.getOpenid());
+				wu.setNickname(um.getNickname());
+				String aaa=um.getHeadimgurl();
+				System.out.println(aaa);
+				String headImgUrl=fileLoadUtil.fileupload(request, um.getHeadimgurl());
+				wu.setHeadimgurl(headImgUrl);
+				wu.setAddress(um.getCountry()+um.getProvince()+um.getCity());
+				if(um.getSex()==1){
+					wu.setSex("男");
+				}else if(um.getSex()==2){
+					wu.setSex("女");
+				}else{
+					wu.setSex("未知");
+				}
+				if(um.getSubscribe()==1){
+					wu.setSubscribe("已关注");
+				}else{
+					wu.setSubscribe("未关注");
+				}
+				wu.setSubscribe_time(um.getSubscribe_time());
+				
+				weChatUserList.add(wu);
+				
+				
+			}
+			userBiz.AddUserInfo(weChatUserList);
+		
+		} catch (KeyManagementException | NoSuchAlgorithmException | NoSuchProviderException | IOException e) {
+			
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	
+	
 	}
+	/*	FileLoadUtil flu = new FileLoadUtil();
+		try {
+			List<String> userImg = UserInfoUtil.getUserHeadImgUrl();
+			for(String url:userImg){
+				String filename=	flu.fileupload(req, url);
+			}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
 
 }

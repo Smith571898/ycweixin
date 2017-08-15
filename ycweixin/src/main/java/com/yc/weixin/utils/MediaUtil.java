@@ -25,7 +25,7 @@ public class MediaUtil {
 	public static MediaModel uploadTempMedia(String type,String mediaFileUrl) {
 		MediaModel mediaModel = null;
 		uploadTempMediaUrl = uploadTempMediaUrl.replace("TYPE",type);
-		uploadTempMediaUrl = uploadTempMediaUrl.replace("ACCESS_TOKEN","l7gZG4j1ZdItEf9mbpjQGoRnvAtZ1PZ2Xc8OJMd5Qsn-8644O5pmFnX7q5UwhD2dRf-rahiGcY9LCCE1ANQlSGT-wSvDDQdPS-eo5157d6Tl90TY13A8abcVCrgj7wOVQMUcAFACYG");
+		uploadTempMediaUrl = uploadTempMediaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
 			getMediaModel(uploadTempMediaUrl,mediaFileUrl);
@@ -39,7 +39,7 @@ public class MediaUtil {
 	public static MediaModel uploadMateria(String type,String mediaFileUrl){
 		MediaModel mediaModel = null;
 		uploadMaterialUrl = uploadMaterialUrl.replace("TYPE",type);
-		uploadMaterialUrl = uploadMaterialUrl.replace("ACCESS_TOKEN","l7gZG4j1ZdItEf9mbpjQGoRnvAtZ1PZ2Xc8OJMd5Qsn-8644O5pmFnX7q5UwhD2dRf-rahiGcY9LCCE1ANQlSGT-wSvDDQdPS-eo5157d6Tl90TY13A8abcVCrgj7wOVQMUcAFACYG");
+		uploadMaterialUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
 			getMediaModel(uploadMaterialUrl,mediaFileUrl);

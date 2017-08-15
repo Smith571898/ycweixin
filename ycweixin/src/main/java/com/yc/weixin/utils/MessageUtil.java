@@ -108,6 +108,14 @@ public class MessageUtil {
 					} else {
 						cdata = true;
 					}
+					if (name.equals("ArticleCount")) {
+						cdata = false;
+					} else {
+						cdata = true;
+					}
+					if (name.equals("com.yc.weixin.resp.message.Article")){
+						name = "item";
+					}
 					super.startNode(name, clazz);
 				}
 

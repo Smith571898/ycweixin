@@ -2,29 +2,49 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.yc.weixin.bean.WeChatUserMapper">
- 
-  <!-- 加入带日志的ehcahe缓存 -->
- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
- </cache>
- 
+<mapper namespace="com.yc.weixin.bean.WeChatUserMapper">
 
-	
- <select id="findAllUserInfo"  resultType="WeChatUser" parameterType="map">
- select  uid,head,nikname,sex,address,followtime,isfollow,name,telephone,schoolname,nowclass,ycclass from userinfo where 1=1
+	<!-- 加入带日志的ehcahe缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
 
- 
-		<if  test="start!=null">
-		limit #{start},#{pagesize}
+
+
+	<select id="findAllUserInfo" resultType="WeChatUser"
+		parameterType="map">
+		select
+		uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass
+		from userinfo where 1=1
+
+		<if test="start!=null">
+			limit #{start},#{pagesize}
 		</if>
-	
- 
 
- 
- </select>
- 
- 	<select id="findWeChatUserCount"   resultType="int">
-	select count(1) from userinfo where 1=1
 	</select>
- 
- </mapper>
+
+	<select id="findWeChatUserCount" resultType="int">
+		select count(1) from
+		userinfo where 1=1
+	</select>
+
+	<insert id="addUserInfoTogether" parameterType="java.util.ArrayList">
+
+		insert into
+		userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass)
+		values
+
+		<foreach collection="list" item="user" separator=",">
+			(#{user.openid},#{user.headimgurl},#{user.nickname},#{user.sex},#{user.address},#{user.subscribe_time},#{user.subscribe},'','','','','')
+		</foreach>
+
+
+	</insert>
+
+	<insert id="addUserInfo" parameterType="">
+		insert into
+		userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass)
+		values
+		(openid},#{headimgurl},#{nickname},#{sex},#{address},#{subscribe_time},#{subscribe},'','','','','')
+	</insert>
+
+</mapper>

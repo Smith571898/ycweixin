@@ -2,8 +2,10 @@ package com.yc.weixin.biz.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,10 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.dom4j.DocumentException;
 import org.springframework.stereotype.Service;
 
+import com.yc.weixin.bean.FollowPushMessage;
+import com.yc.weixin.bean.WeChatUser;
 import com.yc.weixin.biz.ChatBiz;
 import com.yc.weixin.biz.CoreBiz;
+import com.yc.weixin.biz.MessageBiz;
+import com.yc.weixin.biz.UserBiz;
+import com.yc.weixin.model.UserModel;
+import com.yc.weixin.resp.message.Article;
+import com.yc.weixin.resp.message.NewsMessage;
 import com.yc.weixin.resp.message.TextMessage;
+import com.yc.weixin.utils.AccessTokenUtil;
 import com.yc.weixin.utils.MessageUtil;
+import com.yc.weixin.utils.UserInfoUtil;
 
 @Service
 public class CoreBizImpl implements CoreBiz {
@@ -25,7 +36,13 @@ public class CoreBizImpl implements CoreBiz {
 	
 	@Resource(name="chatBizImpl")
 	private ChatBiz cb;
+	
+	@Resource(name="messageBizImpl")
+	private MessageBiz mb;
 
+	@Resource(name="userBizImpl")
+	private UserBiz ub;
+	
 	@Override
 	public String processXml(HttpServletRequest req) {
 		try {
@@ -34,153 +51,161 @@ public class CoreBizImpl implements CoreBiz {
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}
-		String respContent = "未知的消息类型";
-		String respXml = null;
-		String fromUserName = reqMap.get("FromUserName");
-		String toUserName = reqMap.get("ToUserName");
 
-		// TODO:封装要回送的消息,不只是文本消息
-		TextMessage textMessage = new TextMessage();
-		textMessage.setFromUserName(toUserName);
-		textMessage.setCreateTime(new Date().getTime());
-		textMessage.setToUserName(fromUserName);
-		textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-
-		respContent = getRespContent();
-
-		textMessage.setContent(respContent);
-		respXml = MessageUtil.messageToXml(textMessage);
-
+		getRespContent();
+		
 		return respXml;
 	}
 
 	// 获取回复信息
-	private String getRespContent() {
-		String respContent = "";
+	private void getRespContent() {
 		if (MessageUtil.REQ_MESSAGE_TYPE_EVENT.equals(msgType)) {
-			respContent = getRespContentWhenEvent();
+			getRespContentWhenEvent();
 		} else {
-			respContent = getRespContentWhenMessage();
+			getRespContentWhenMessage();
 		}
-		return respContent;
 	}
 
 	// 接收信息为消息时的回复
-	private String getRespContentWhenMessage() {
-		String respContent = "";
+	private void getRespContentWhenMessage() {
 		if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(msgType)) {
-			respContent = messageWhenText();
+			messageWhenText();
 		} else if (MessageUtil.REQ_MESSAGE_TYPE_IMAGE.equals(msgType)) {
-			respContent = messageWhenImage();
+			messageWhenImage();
 		} else if (MessageUtil.REQ_MESSAGE_TYPE_LINK.equals(msgType)) {
-			respContent = messageWhenLink();
+			messageWhenLink();
 		} else if (MessageUtil.REQ_MESSAGE_TYPE_LOCATION.equals(msgType)) {
-			respContent = messageWhenLocation();
+			messageWhenLocation();
 		} else if (MessageUtil.REQ_MESSAGE_TYPE_VIDEO.equals(msgType)) {
-			respContent = messageWhenVideo();
+			messageWhenVideo();
 		} else if (MessageUtil.REQ_MESSAGE_TYPE_VOICE.equals(msgType)) {
-			respContent = messageWhenVoice();
+			messageWhenVoice();
 		}
-		return respContent;
 	}
 
 	// 接收信息为事件时的回复
-	private String getRespContentWhenEvent() {
-		String respContent = "";
-		if (MessageUtil.REQ_EVENT_TYPE_CLICK.equals(msgType)) {
-			respContent = eventWhenClick();
-		} else if (MessageUtil.REQ_EVENT_TYPE_LOCATION.equals(msgType)) {
-			respContent = eventWhenLocation();
-		} else if (MessageUtil.REQ_EVENT_TYPE_SCAN.equals(msgType)) {
-			respContent = eventWhenScan();
-		} else if (MessageUtil.REQ_EVENT_TYPE_SUBSCRIBE.equals(msgType)) {
-			respContent = eventWhenSubscribe();
-		} else if (MessageUtil.REQ_EVENT_TYPE_UNSUBSCRIBE.equals(msgType)) {
-			respContent = eventWhenUnsubscribe();
+	private void getRespContentWhenEvent() {
+		String event = reqMap.get("Event");
+		if (MessageUtil.REQ_EVENT_TYPE_CLICK.equals(event)) {
+			eventWhenClick();
+		} else if (MessageUtil.REQ_EVENT_TYPE_LOCATION.equals(event)) {
+			eventWhenLocation();
+		} else if (MessageUtil.REQ_EVENT_TYPE_SCAN.equals(event)) {
+			eventWhenScan();
+		} else if (MessageUtil.REQ_EVENT_TYPE_SUBSCRIBE.equals(event)) {
+			eventWhenSubscribe();
+		} else if (MessageUtil.REQ_EVENT_TYPE_UNSUBSCRIBE.equals(event)) {
+			eventWhenUnsubscribe();
 		}
-		return respContent;
 	}
 
 	// 文本消息
-	private String messageWhenText() {
-		String response = "格格爱吃周黑鸭!!!";
+	private void messageWhenText() {
+		String toUserName = reqMap.get("ToUserName");
 		String fromUserName = reqMap.get("FromUserName");
+		String response = "格格爱吃周黑鸭!!!";
 		// 消息创建时间
 		String createTime = reqMap.get("CreateTime");
 
 		String content = reqMap.get("Content");
 		response = cb.chat(fromUserName, createTime, content);
-		return response;
+		
+		TextMessage textMessage = new TextMessage();
+		textMessage.setFromUserName(toUserName);
+		textMessage.setCreateTime(new Date().getTime());
+		textMessage.setToUserName(fromUserName);
+		textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+		textMessage.setContent(response);
+		
+		respXml = MessageUtil.messageToXml(textMessage);
 	}
 
 	// 图片消息
-	private String messageWhenImage() {
-		String response = "";
+	private void messageWhenImage() {
 
-		return response;
 	}
 
 	// 链接消息
-	private String messageWhenLink() {
-		String response = "";
+	private void messageWhenLink() {
 
-		return response;
 	}
 
 	// 定位消息
-	private String messageWhenLocation() {
-		String response = "";
+	private void messageWhenLocation() {
 
-		return response;
 	}
 
 	// 视频消息
-	private String messageWhenVideo() {
-		String response = "";
+	private void messageWhenVideo() {
 
-		return response;
 	}
 
 	// 语音消息
-	private String messageWhenVoice() {
-		String response = "";
+	private void messageWhenVoice() {
 
-		return response;
 	}
 
 	// 点击事件
-	private String eventWhenClick() {
-		String response = "";
+	private void eventWhenClick() {
 
-		return response;
 	}
 
 	// 定位事件
-	private String eventWhenLocation() {
-		String response = "";
+	private void eventWhenLocation() {
 
-		return response;
 	}
 
 	// 扫描带参二维码事件
-	private String eventWhenScan() {
-		String response = "";
+	private void eventWhenScan() {
 
-		return response;
 	}
 
 	// 关注事件
-	private String eventWhenSubscribe() {
-		String response = "";
+	//TODO:从数据库查询数据
+	private void eventWhenSubscribe() {
+		String toUserName = reqMap.get("ToUserName");
+		String fromUserName = reqMap.get("FromUserName");
+		
+		saveUser(fromUserName);
+		
+		List<FollowPushMessage> list = mb.findFollowPushMessage(null);
+		List<Article> articles = new ArrayList<Article>();
 
-		return response;
+		for(FollowPushMessage fpm:list){
+			Article article = new Article();
+			article.setDescription(fpm.getFcontent());
+			article.setPicUrl("http://119.23.39.190/pic/6.jpg");
+			article.setTitle(fpm.getFtitle());
+			article.setUrl("http://www.hyycinfo.com/");
+			
+			articles.add(article);
+		}
+		
+		NewsMessage nm = new NewsMessage();
+		nm.setToUserName(fromUserName);
+		nm.setFromUserName(toUserName);
+		nm.setCreateTime(new Date().getTime());
+		nm.setArticleCount(articles.size());
+		nm.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+		nm.setArticles(articles);
+		
+		respXml = MessageUtil.messageToXml(nm);
 	}
 
 	// 取消关注事件
-	private String eventWhenUnsubscribe() {
-		String response = "";
+	private void eventWhenUnsubscribe() {
 
-		return response;
 	}
 
+	//TODO:保存用户到数据库
+	private void saveUser(String openid){
+		try {
+			UserModel um = UserInfoUtil.getUserInfo(AccessTokenUtil.access_token, openid);
+			WeChatUser wcu = new WeChatUser();
+			wcu.setOpenid(um.getOpenid());
+			ub.AddUser(wcu);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

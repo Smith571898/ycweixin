@@ -2,29 +2,42 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.yc.weixin.bean.FollowPushMessageMapper">
- 
-  <!-- 加入带日志的ehcahe缓存 -->
- <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
- </cache>
- 
+<mapper namespace="com.yc.weixin.bean.FollowPushMessageMapper">
 
-	
- <select id="findAllFollowPush"  resultType="FollowPushMessage" parameterType="map">
- select  fid,ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush from followpush where 1=1
+	<!-- 加入带日志的ehcahe缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
 
- 
-		<if  test="start!=null">
-		limit #{start},#{pagesize}
+
+
+	<select id="findAllFollowPush" resultType="FollowPushMessage"
+		parameterType="map">
+		select fid,ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush
+		from followpush where 1=1
+		<if test="start!=null">
+			limit #{start},#{pagesize}
 		</if>
-	
- 
-
- 
- </select>
- 
- 	<select id="findFollowPushCount"   resultType="int">
-	select count(1) from followpush where 1=1
 	</select>
- 
- </mapper>
+
+
+
+	<select id="findFollowPushCount" resultType="int">
+		select count(1) from
+		followpush where 1=1
+	</select>
+
+	<update id="updateFollowPush" parameterType="FollowPushMessage">
+		update followpush
+		set
+		ftitle=#{ftitle},fpic=#{fpic},fcontent=#{fcontent},lastmodify=#{lastmodify},lastmodifytime=#{lastmodifytime},isfollowpush=#{isfollowpush}
+		where fid=#{fid}
+	</update>
+
+	<insert id="updateFollowPush" parameterType="FollowPushMessage">
+		update followpush
+		set
+		ftitle=#{ftitle},fpic=#{fpic},fcontent=#{fcontent},lastmodify=#{lastmodify},lastmodifytime=#{lastmodifytime},isfollowpush=#{isfollowpush}
+		where fid=#{fid}
+	</insert>
+
+</mapper>

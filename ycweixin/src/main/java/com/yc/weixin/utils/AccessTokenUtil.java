@@ -26,11 +26,11 @@ public class AccessTokenUtil {
 
 	public static final String APPSECRET = "696912240df8aa8577579e5391a26574";
 	
-	public static String access_token = "";
+	public static String access_token = getAccessToken();
 
 	//获取access_token，拿到token后可以访问微信提供的接口
-	@Scheduled(cron="0/7200 * * * * ? ")
-	private void getAccessToken() {
+	@Scheduled(cron="0 0 */2 * * ? ")
+	private static String getAccessToken() {
 		try {
 			String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret="
 					+ APPSECRET;
@@ -45,5 +45,7 @@ public class AccessTokenUtil {
 		} catch (JsonSyntaxException | IOException e) {
 			e.printStackTrace();
 		}
+		
+		return access_token;
 	}
 }

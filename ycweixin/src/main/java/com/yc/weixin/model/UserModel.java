@@ -8,7 +8,9 @@ public class UserModel {
 	private String nickname;
 	//性别 
 	private Integer sex;
-	//语言
+
+	private String city;
+
 	private String language;
 	//省
 	private String province;
@@ -28,6 +30,12 @@ public class UserModel {
 	private String[] tagid_list;
 	public Integer getSubscribe() {
 		return subscribe;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 	public void setSubscribe(Integer subscribe) {
 		this.subscribe = subscribe;
@@ -49,6 +57,12 @@ public class UserModel {
 	}
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+	public long getSubscribe_time() {
+		return subscribe_time;
+	}
+	public void setSubscribe_time(long subscribe_time) {
+		this.subscribe_time = subscribe_time;
 	}
 	public String getLanguage() {
 		return language;
@@ -74,12 +88,7 @@ public class UserModel {
 	public void setHeadimgurl(String headimgurl) {
 		this.headimgurl = headimgurl;
 	}
-	public long getSubscirbe_time() {
-		return subscribe_time;
-	}
-	public void setSubscirbe_time(long subscribe_time) {
-		this.subscribe_time = subscribe_time;
-	}
+
 	public String getUnionid() {
 		return unionid;
 	}
