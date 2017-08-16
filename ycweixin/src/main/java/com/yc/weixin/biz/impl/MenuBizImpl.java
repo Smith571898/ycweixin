@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.yc.weixin.bean.Menu;
+import com.yc.weixin.bean.TwoMenu;
 import com.yc.weixin.biz.MenuBiz;
 import com.yc.weixin.dao.BaseDao;
 
@@ -61,6 +62,16 @@ public class MenuBizImpl  implements MenuBiz{
 	public void updateOneMenu(Menu menu) {
 		this.baseDao.update(menu, "updateOneMenu");
 		
+	}
+/**
+ * 
+ * 查二级菜单
+ */
+	@Override
+	public List<Menu> findOrderMenu(Map map) {
+		List<Menu> list=this.baseDao.findAll(Menu.class, "findOrderMenu", map);
+		
+		return list;
 	}
 	
 	

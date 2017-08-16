@@ -6,17 +6,18 @@
 <script type="text/javascript">
 	$(function() {
 		
-		showmenu('findOneMenu.action', 'bid', 'bid', 'bid')
+		showmenu('findOneMenu.action', 'bid', 'bid', 'bid','name','sub_name')
 		$('#MenuTable').datagrid('hideColumn','sub_name');
+		$('#MenuTable').datagrid('hideColumn','grade');
 	});
-	function showmenu(url, idField, sortName, field) {
+	function showmenu(url, idField, sortName, field,name,subname) {
 		// 'findAllMenu.action'
 		$('#MenuTable')
 				.edatagrid(
 						{
 							url : url,
 							pagination : true,
-							pageSize : 5,
+							pageSize : 15,
 							pageList : [ 3, 5, 10, 15, 20, 25, 30, 35, 40, 45,
 									50, 100, 200, 500 ],
 
@@ -42,7 +43,7 @@
 										hidden : true
 									},
 									{
-										field : 'name',
+										field : name,
 										title : '菜单名称',
 										width : 250,
 										height : 150,
@@ -56,7 +57,7 @@
 										align : 'center',
 
 									},{
-										field : 'sub_name',
+										field : subname,//所属一级菜单
 										title : '所属一级菜单',
 										width : 250,
 										height : 150,
@@ -64,13 +65,19 @@
 									{
 										field : 'menukey',
 										title : '菜单key',
-										width : 400,
+										width : 300,
 										height : 150,
 										align : 'center'
 									},
 									{
 										field : 'url',
 										title : 'url',
+										width : 180,
+										height : 150,
+										align : 'center'
+									},{
+										field : 'grade',
+										title : '排序等级',
 										width : 180,
 										height : 150,
 										align : 'center'
@@ -98,19 +105,26 @@
 		$('#MenuTable').datagrid('selectRow', index);
 
 		var row = $('#MenuTable').datagrid('getSelected');
-
+				console.log(row)
 		$('#addbtn').css('display', 'none')
 		$('#btn').css('display', 'block')
 		var menugrade = $("#sel").val()
 		if (menugrade == "二级菜单") {
 			$('#seldiv').css('display', 'block')
+			$("#dialog").show();//必须先显示，再弹出    
+			$('#name').val(row.sub_name)
+			$('#onegradeselect').val(row.name)
+			$('#sbid').val(row.sbid)
 		} else if (menugrade == "一级菜单") {
 			$('#seldiv').css('display', 'none')
+			$("#dialog").show();//必须先显示，再弹出    
+			$('#name').val(row.name)
+			$('#bid').val(row.bid)
 		}
-		$("#dialog").show();//必须先显示，再弹出    
-		$('#bid').val(row.bid)
-		$('#sbid').val(row.sbid)
-		$('#name').val(row.name)
+		
+		
+		
+		
 		$('#menutype').val(row.menutype)
 		$('#menukey').val(row.menukey)
 		$('#url').val(row.url)
@@ -158,21 +172,20 @@
 
 	}
 
-	function onchangeMenu(obj) {
 
-		var menugrade = obj;//一级菜单||二级菜单changeMenu.action
-		flush()
-		
-	}
 
 	function  flush(){
 		var menugrade = $("#sel").val()
 		if (menugrade == "二级菜单") {			
-			showmenu('findAllMenu.action', 'sbid', 'sbid', 'sbid')
-			$('#MenuTable').datagrid('showColumn','sub_name');
+		
+			
+			showmenu('findAllMenu.action', 'sbid', 'sbid', 'sbid','sub_name','name')
+			$('#MenuTable').datagrid('showColumn','name');
+			$('#MenuTable').datagrid('showColumn','grade');
 		} else if (menugrade == "一级菜单") {		
-			showmenu('findOneMenu.action', 'bid', 'bid', 'bid')
+			showmenu('findOneMenu.action', 'bid', 'bid', 'bid','name','sub_name')
 			$('#MenuTable').datagrid('hideColumn','sub_name');
+			$('#MenuTable').datagrid('hideColumn','grade');
 		}
 	}
 	function AddMenuWindow() {
@@ -226,13 +239,22 @@
 		菜单名称： <input type="text" style="width: 200px;"
 			id="name" name="name" /><br /><br /><br />
 		<div id="seldiv">
-			所属一级菜单：<select id="onegradeselect" name="onegradeselect">
-				<c:forEach items="${OneGradeMenu}" var="menulist">
-					<option name="selected" value="${menulist.bid }">${menulist.name }</option>
-				</c:forEach>
-			</select>
+		
+			所属一级菜单：<input id="onegradeselect" type="text"  value="" readOnly="true"/>
+
 		</div>
-		菜单类型： <input type="text" style="width: 200px;" id="menutype" name="menutype" /><br /><br /><br /> 
+		菜单类型：<select id="menutype" name="menutype">
+				<option value="click" id="button">click</option>
+					<option value="view" id="button">view</option>
+						<option value="scancode_push" id="button">scancode_push</option>
+							<option value="scancode_waitmsg" id="button">scancode_waitmsg</option>
+								<option value="pic_sysphoto" id="button">pic_sysphoto</option>
+									<option value="pic_photo_or_album" id="button">pic_photo_or_album</option>
+										<option value="pic_weixin" id="button">pic_weixin</option>
+											<option value="location_select" id="button">location_select</option>
+												<option value="media_id" id="button">media_id</option>
+													<option value="view_limited" id="button">view_limited</option>
+		</select>
 		菜单Key： <input type="text" style="width: 200px;" id="menukey" name="menukey" /><br /><br /><br /> 
 		url：<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<textarea rows="3" cols="40" name="url" id="url" style="resize: none;"></textarea><br /><br />
@@ -245,7 +267,7 @@
 
 <table id="MenuTable" toolbar="#tb"></table>
 <div id="tb">
-	请选择菜单类型：&nbsp;&nbsp; <select id="sel" style="width: 150px;" onchange="onchangeMenu(this.value)">
+	请选择菜单类型：&nbsp;&nbsp; <select id="sel" style="width: 150px;" onchange="flush()">
 		<option value="一级菜单" id="button">一级菜单</option>
 		<option value="二级菜单" id="sub_button">二级菜单</option>
 		

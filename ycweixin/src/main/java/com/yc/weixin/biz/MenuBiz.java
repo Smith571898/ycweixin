@@ -53,4 +53,6 @@ public interface MenuBiz {
 	 * @param menu
 	 */
 	public void AddOnemenu(Menu menu);
+	
+	public List<Menu> findOrderMenu(Map  map);
 }

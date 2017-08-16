@@ -9,15 +9,20 @@
 	</cache>
 
 	<select id="findAllmenu" parameterType="Map" resultType="Menu">
-		select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name as
-		sub_name from sub_button a join button b on b.bid=a.sb_bid where 1=1
+		select sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
+		 from sub_button  sb 
+		 join button b 
+		 on 
+		 sb.sb_bid=b.bid
+
 		<if test="start!=null">
 			limit #{start},#{pagesize}
 		</if>
 	</select>
 
 	<select id="getMenuCount" resultType="int">
-		select count(1) from sub_button where 1=1
+		select count(1) from
+		sub_button where 1=1
 	</select>
 
 	<select id="findAllOnemenu" parameterType="Map" resultType="Menu">
@@ -28,28 +33,53 @@
 	</select>
 
 	<select id="getOneMenuCount" resultType="int">
-		select count(1) from button where 1=1
+		select count(1) from
+		button where 1=1
 	</select>
 	<update id="updateMenu" parameterType="Menu">
-		update sub_button set sb_bid=#{bid},
-		menutype=#{menutype},name=#{name},menukey=#{menukey},url=#{url} where
+		update sub_button set
+		menutype=#{menutype},subname=#{name},menukey=#{menukey},url=#{url} where
 		sbid=#{sbid}
 	</update>
 
 	<update id="updateOneMenu" parameterType="Menu">
-		update button set 
+		update button set
 		menutype=#{menutype},name=#{name},menukey=#{menukey},url=#{url} where
 		bid=#{bid}
 	</update>
 	<insert id="addOneGradeMenu" parameterType="Menu"
 		useGeneratedKeys="true" keyProperty="bid">
-		insert into button(menutype,name,menukey,url) values
+		insert into
+		button(menutype,name,menukey,url) values
 		(#{menutype},#{name},#{menukey},#{url})
 	</insert>
 
 	<insert id="addTwoGradeMenu" parameterType="Menu"
 		useGeneratedKeys="true" keyProperty="sbid">
-		insert into sub_button(sb_bid,menutype,name,menukey,url) values
-		(#{bid},#{menutype},#{name},#{menukey},#{url})
+		insert into
+		sub_button(sb_bid,menutype,name,menukey,url,grade) values
+		(#{bid},#{menutype},#{name},#{menukey},#{url},0)
 	</insert>
+
+
+	<select id="findOrderMenu" parameterType="Map" resultMap="OneMenuMap">
+		select bid,sbid,b.name bname,s.subname sname,s.grade from button b
+		inner join sub_button s
+		on b.bid=s.sb_bid order by s.grade desc
+
+
+		<if test="start!=null">
+			limit #{start},#{pagesize}
+		</if>
+	</select>
+	
+	<resultMap id="OneMenuMap" type="Menu">   
+        <id property="bid" column="bid" />  
+        <result property="name" column="bname" />  
+        <collection property="twoMenuList" ofType="TwoMenu">    
+            <id property="sbid" column="sbid"/>    
+            <result property="grade" column="grade" />    
+            <result property="name" column="sname" />    
+        </collection>    
+     </resultMap>
 </mapper>

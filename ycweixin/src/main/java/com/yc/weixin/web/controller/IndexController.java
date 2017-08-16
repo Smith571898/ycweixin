@@ -65,4 +65,10 @@ public class IndexController {
 		return "findmenu";
 		
 	}
+	@RequestMapping(value="goOrderMenu.action")
+	public String goOrderMenu(){
+			
+		return "ordermenu";
+		
+	}
 }

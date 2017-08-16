@@ -1,9 +1,13 @@
 package com.yc.weixin.web.controller;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yc.weixin.bean.ShowMenu;
 import com.yc.weixin.bean.Menu;
+import com.yc.weixin.bean.TwoMenu;
 import com.yc.weixin.biz.MenuBiz;
 import com.yc.weixin.model.JsonModel;
 
@@ -58,8 +64,6 @@ public class MenuController {
 	public  String  doupdatemenu(HttpServletRequest request,Menu menu){
 		
 		JsonModel jsonModel=new  JsonModel();
-		Integer sb_bid=Integer.valueOf(request.getParameter("onegradeselect"));
-		menu.setBid(sb_bid);
 		try {
 			menuBiz.updateMenu(menu);
 			jsonModel.setCode(1);
@@ -180,6 +184,47 @@ public class MenuController {
 		return map;
 		
 	}
+	
+	@RequestMapping(value="doordermenu.action",produces="text/html;charset=UTF-8")
+	public  String  ordermenu(HttpServletRequest request,Menu menu){		
+		JsonModel jsonModel=new  JsonModel();
+		Map map=this.paging(request);
+		List<Menu> list2=menuBiz.findOrderMenu(map);
+
+		List<ShowMenu> temp=new ArrayList<ShowMenu>();
+		Map<String,Map<String,String>>  t=new HashMap<String,Map<String,String>>();
+		
+		for (Menu menu2 : list2) {
+			ShowMenu a=new ShowMenu();
+			Map<String,String> map2 =new LinkedHashMap<String,String>();
+			int count=4;
+			for (TwoMenu tm : menu2.getTwoMenuList()) {
+				map2.put("one"+count, tm.getName());
+				count--;
+			}
+			t.put("menu", map2);
+			a.setName(menu2.getName());
+			a.setTwomenu(t);
+			temp.add(a);
+		}
+	
+		
+
+	
+		jsonModel.setRows(temp);
+		Gson gson=new Gson();
+		Type jsonType=new TypeToken<JsonModel>(){
+			
+		}.getType();
+		String jsonStr=gson.toJson(jsonModel,jsonType);
+		return jsonStr;
+		
+		}
+		
+		
+		
+	
+		
 	
 	
 

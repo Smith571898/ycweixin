@@ -7,7 +7,7 @@
 
 	$(function() {
 		$('#MenuTable').edatagrid({
-							url : 'findFollowPushMessage.action',
+							url : 'doordermenu.action',
 							pagination : true,
 							pageSize : 5,
 							pageList : [ 5, 10, 15, 20, 25, 30, 35, 40, 45, 50,
@@ -39,14 +39,21 @@
 										title : '一级菜单名称',
 										width : 250,
 										height : 150,
-										align : 'center'
+										align : 'center',
+										formatter:function(value,row,index){
+											return row.name
+										}
 									},
-									{
+									 {
 										field : 'firstname',
 										title : '子菜单1',
 										width : 300,
 										height : 150,
 										align : 'center',
+										formatter:function(value,row,index){
+											
+											return row.twomenu.menu.one0;
+										}
 									
 									},
 									{
@@ -54,29 +61,41 @@
 										title : '子菜单2',
 										width : 400,
 										height : 150,
-										align : 'center'
+										align : 'center',
+										formatter:function(value,row,index){
+											return row.twomenu.menu.one1;
+										}
 									},
 									{
 										field : 'thirdname',
 										title : '子菜单3',
 										width : 180,
 										height : 150,
-										align : 'center'
+										align : 'center',
+										formatter:function(value,row,index){
+											return row.twomenu.menu.one2;
+										}
 									},
 									{
 										field : 'fourthname',
 										title : '子菜单4',
 										width : 180,
 										height : 150,
-										align : 'center'
+										align : 'center',
+										formatter:function(value,row,index){
+											return row.twomenu.menu.one3;
+										}
 									},
 									{
 										field : 'fifthname',
 										title : '子菜单5',
 										width : 180,
 										height : 150,
-										align : 'center'
-									},
+										align : 'center',
+										formatter:function(value,row,index){
+											return row.twomenu.menu.one4;
+										}
+									}, 
 									{
 										field : 'tname',
 										title : '操作',
@@ -100,27 +119,14 @@
 
 							}
 						});
+		
+		
+	
+
+
 	});
 
 	function showMessage(index) {
-		$('#manNewsTable').datagrid('selectRow',index);
-		
-		var row = $('#manNewsTable').datagrid('getSelected');
-		alert(row)
-			$.ajax({
-				type:"POST",
-				url:"updatemenu.action",
-				data:"?",
-				dataType:"JSON",
-				success:function(data){
-					if(data.code==1){
-						alert('修改成功')
-					}else{
-						alert('修改失败')
-					}
-				}
-				
-			})
 
 		
    		

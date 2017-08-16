@@ -98,12 +98,38 @@
 					"id":12,
 					"text":"编辑菜单",
 					"attributes":{
-						"url" : "<iframe style='width:100%;height:80%' src='addmenu.action' />"
+						"url" : "<iframe style='width:100%;height:80%' src='goOrderMenu.action' />"
 					}
 			
 			},{
 				"id":13,
 				"text":"查看菜单",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='findmenu.action' />"
+				}
+		
+		}]
+		}];
+		var treeData_5 = [{
+			"id" : 1,
+			"text" : "娱乐中心",
+			"state" : "closed",
+			"children" : [{
+				"id":11,
+				"text":"聊天机器人管理",
+				"attributes":{
+					"url" : "<iframe style='width:100%;height:80%' src='ChatRobot.action' />"
+				}
+			},{
+					"id":12,
+					"text":"天气预报",
+					"attributes":{
+						"url" : "<iframe style='width:100%;height:80%' src='goOrderMenu.action' />"
+					}
+			
+			},{
+				"id":13,
+				"text":"快递查询",
 				"attributes":{
 					"url" : "<iframe style='width:100%;height:80%' src='findmenu.action' />"
 				}
@@ -202,12 +228,15 @@
 			<div title="菜单管理" style="overflow: auto; padding: 10px;">
 				<ul id="menutree"></ul>
 			</div>
+			<div title="微服务" style="overflow: auto; padding: 10px;">
+				<ul id="fun"></ul>
+			</div>
 		</div>
 	</div>
 	<div
 		data-options="region:'center',title:'操作',iconCls:'icon-ok',fit:true">
 		<div id="Maintt" class="easyui-tabs" data-options="fit:true,border:false">
-			<div title="待处理业务">欢迎您，源辰info</div>
+			<div title="待处理业务"><iframe src="www.hyycinfo.com"></iframe></div>
 		</div>
 	</div>
 </body>

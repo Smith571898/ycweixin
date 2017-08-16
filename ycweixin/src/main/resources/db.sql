@@ -39,26 +39,75 @@ create table  button(
 	url   varchar(1024)	
 	
 )
+alter table sub_button add 	grade varchar(10)
+select a.name ,b.name from (select button.bid ,button.name as name from button ) a join
+(select sub_button.sb_bid as ssbid,sub_button.sbid ,sub_button.name as name from sub_button) b  on a.bid=b.ssbid
+
+
+join sub_button
+
 select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name  as sub_name from sub_button a join button b on  b.bid=a.sb_bid where 1=1
+
+
+select name,grade from sub_button where sb_bid=1
+
+
+
+
+select 
 drop table button
 drop table sub_button
+
 create table sub_button(
 	sbid int primary key auto_increment,
 	sb_bid int,
 	menutype  varchar(100),
-	name varchar(100),
+	subname varchar(100),
 	menukey  varchar(100),
-	url   varchar(2000)
+	url   varchar(2000),
+	grade  int
 )
+alter table sub_button  modify column grade int ;	
+
+select b.name ,s.name,s.grade from button  b
+inner join sub_button s
+on b.bid=s.sb_bid  order by s.grade desc
+
+
 select * from sub_button
 update sub_button set sb_bid=1 where sbid=1
-insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(1,1,'click','源辰大事件','V1001_TODAY_THINK','www.baidu.com');
-insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(2,1,'click','每周之星','V1001_TODAY_THINK','www.baidu.com');
-insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(3,1,'click','心灵鸡汤','V1001_TODAY_THINK','www.baidu.com');
-insert into sub_button(sbid,sb_bid,menutype,name,menukey,url)  values(4,2,'click','班级绑定','V1001_TODAY_THINK','www.baidu.com');
+update sub_button set grade='fifthname' where sbid=4
+
+select sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade from sub_button  sb join button b on sb.sb_bid=b.bid
+
 insert into button(bid,menutype,name,menukey,url)  values(1,'click','源辰信息','V1001_TODAY_THINK','www.sina.com');
 insert into button(bid,menutype,name,menukey,url)  values(2,'click','学员天地','V1001_TODAY_THINK','www.aliyun.com');
 insert into button(bid,menutype,name,menukey,url)  values(3,'click','娱乐中心','V1001_TODAY_THINK','www.alibaba.com');
+
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(1,1,'click','公司简介','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(2,1,'click','业务范围','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(3,1,'click','课程体系','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(4,1,'click','项目展示','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(5,1,'click','宣传视频','V1001_TODAY_THINK','www.baidu.com',5);
+
+
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(6,2,'click','课表查询','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(7,2,'click','书籍借阅','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(8,2,'click','资源网站','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(9,2,'click','开班计划','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(10,2,'click','生活助手','V1001_TODAY_THINK','www.baidu.com',5);
+
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(11,3,'click','源辰大事件','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(12,3,'click','每周之星','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(13,3,'click','心灵鸡汤','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(14,3,'click','意见或建议','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(15,3,'click','班级绑定','V1001_TODAY_THINK','www.baidu.com',5);
+
+
+
+
+
+
 insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (1,'1.jpg','聂小小诚','男','湖南衡阳','2017-08-06','已关注','聂诚','18373471143','湖南工学院','软件1401班','源辰33班')
 insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (2,'2.jpg','汤汤汤格','女','湖南衡阳','2017-08-07','已关注','汤格','18473434532','湖南工学院','软件1401班','源辰27班');
 insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (3,'3.jpg','清晨','男','湖南衡阳','2017-08-07','已关注','杨鸿宇','15386014960','湖南工学院','软件1401班','源辰33班');
