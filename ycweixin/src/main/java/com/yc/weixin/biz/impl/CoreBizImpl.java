@@ -48,6 +48,7 @@ public class CoreBizImpl implements CoreBiz {
 		try {
 			reqMap = MessageUtil.parseXml(req);
 			msgType = reqMap.get("MsgType");
+			respXml = "";
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}
@@ -96,6 +97,8 @@ public class CoreBizImpl implements CoreBiz {
 			eventWhenSubscribe();
 		} else if (MessageUtil.REQ_EVENT_TYPE_UNSUBSCRIBE.equals(event)) {
 			eventWhenUnsubscribe();
+		} else if (MessageUtil.REQ_EVENT_TYPE_RESP.equals(event)) {
+			eventWhenResp();
 		}
 	}
 
@@ -158,6 +161,45 @@ public class CoreBizImpl implements CoreBiz {
 	// 扫描带参二维码事件
 	private void eventWhenScan() {
 
+	}
+
+	//图文发送响应
+	private void eventWhenResp() {
+		String status = reqMap.get("Status");
+		if(status.equals("send success")){
+			//发送成功
+			
+		} else if(status.equals("send fail")){
+			//发送失败
+			
+		} else if(status.equals("err(10001)")){
+			//审核失败  涉嫌广告
+			
+		} else if(status.equals("err(20001)")){
+			//审核失败  涉嫌政治
+			
+		} else if(status.equals("err(20004)")){
+			//审核失败  涉嫌社会
+			
+		} else if(status.equals("err(20002)")){
+			//审核失败  涉嫌色情 
+			
+		} else if(status.equals("err(20006)")){
+			//审核失败  涉嫌违法犯罪
+			
+		} else if(status.equals("err(20008)")){
+			//审核失败  涉嫌欺诈 
+			
+		} else if(status.equals("err(20013)")){
+			//审核失败  涉嫌版权 
+			
+		} else if(status.equals("err(22000)")){
+			//审核失败  涉嫌互推(互相宣传) 
+			
+		} else if(status.equals("err(21000)")){
+			//审核失败  涉嫌其他
+			
+		}
 	}
 
 	// 关注事件

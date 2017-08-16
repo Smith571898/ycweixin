@@ -102,13 +102,9 @@ public class CoreController {
 				wu.setSubscribe_time(um.getSubscribe_time());
 				
 				weChatUserList.add(wu);
-				
-				
 			}
 			userBiz.AddUserInfo(weChatUserList);
-		
 		} catch (KeyManagementException | NoSuchAlgorithmException | NoSuchProviderException | IOException e) {
-			
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -35,7 +35,7 @@ public class AccessTokenUtil {
 			String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID + "&secret="
 					+ APPSECRET;
 
-			String response = CommonUtil.getResources(uri);
+			String response = CommonUtil.getResources(uri,null);
 
 			AcessTokenModel atm = CommonUtil.gson.fromJson(response, AcessTokenModel.class);
 

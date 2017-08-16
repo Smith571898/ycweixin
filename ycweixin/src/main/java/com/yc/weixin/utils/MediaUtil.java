@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import com.google.gson.Gson;
 import com.yc.weixin.model.MediaModel;
+import com.yc.weixin.model.NewsMaterialModel;
 
 public class MediaUtil {
 	
@@ -22,6 +23,10 @@ public class MediaUtil {
 	//新增永久素材
 	private static String uploadMaterialUrl = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
 	
+	//新增永久图文素材
+	private static String uploadNewsMateriaUrl = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
+	
+	//上传临时素材
 	public static MediaModel uploadTempMedia(String type,String mediaFileUrl) {
 		MediaModel mediaModel = null;
 		uploadTempMediaUrl = uploadTempMediaUrl.replace("TYPE",type);
@@ -36,6 +41,7 @@ public class MediaUtil {
 		return mediaModel;
 	}
 	
+	//上传永久素材
 	public static MediaModel uploadMateria(String type,String mediaFileUrl){
 		MediaModel mediaModel = null;
 		uploadMaterialUrl = uploadMaterialUrl.replace("TYPE",type);
@@ -50,6 +56,24 @@ public class MediaUtil {
 		return mediaModel;
 	}
 	
+	//上传永久图文素材
+	public static MediaModel uploadNewsMateria(NewsMaterialModel nmm){
+		MediaModel mediaModel = null;
+		uploadNewsMateriaUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		
+		String jsonStr = CommonUtil.gson.toJson(nmm);
+		
+		try {
+			String response = CommonUtil.getResources(uploadNewsMateriaUrl, jsonStr);
+			mediaModel = CommonUtil.gson.fromJson(response, MediaModel.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return mediaModel;
+	}
+	
+	//上传
 	private static MediaModel getMediaModel(String uploadMediaUrl,String mediaFileUrl) throws IOException{
 		MediaModel mediaModel = null;
 		String boundary = "-----------------"+UUID.randomUUID().toString();

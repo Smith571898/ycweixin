@@ -2,11 +2,20 @@ package ycweixin;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
+
+import com.yc.weixin.model.ButtonModel;
+import com.yc.weixin.model.MenuModel;
+import com.yc.weixin.utils.AccessTokenUtil;
+import com.yc.weixin.utils.CommonUtil;
+import com.yc.weixin.utils.MenuUtil;
 
 public class Testone {
 
@@ -49,4 +58,33 @@ public class Testone {
 
 	}
 	
+	@Test
+	public void test3() throws IOException{
+		MenuModel mm = new MenuModel();
+		ButtonModel firstbutton1 = new ButtonModel();
+		firstbutton1.setName("源辰信息");
+		ButtonModel firstbutton2 = new ButtonModel();
+		firstbutton2.setName("学员中心");
+		firstbutton2.setKey("V1002_TODAY_MUSIC");
+		firstbutton2.setType("click");
+		ButtonModel secondbutton = new ButtonModel();
+		secondbutton.setName("源辰Info信息");
+		secondbutton.setType("click");
+		secondbutton.setKey("V1001_TODAY_MUSIC");
+		List<ButtonModel> list1 = new ArrayList<ButtonModel>();
+		List<ButtonModel> list2 = new ArrayList<ButtonModel>();
+		list1.add(firstbutton1);
+		list1.add(firstbutton2);
+		list2.add(secondbutton);
+		mm.setButton(list1);
+		firstbutton1.setSub_button(list2);
+		
+		System.out.println(CommonUtil.gson.toJson(mm));
+		System.out.println(AccessTokenUtil.access_token);
+//		MenuUtil.createMenu(mm, AccessTokenUtil.access_token);
+		
+	}
+	
+	public void test4(){
+	}
 }

@@ -77,3 +77,6 @@ select * from  followpush
 
 update userinfo set sex='Å®'  where  sex='ÄÐ'
 select * from userinfo
+
+
+select * from button left join sub_button on bid = sb_bid;

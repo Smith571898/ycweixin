@@ -32,7 +32,7 @@ public class UserInfoUtil {
 		for (String id : openid) {
 			userInfouri = userInfouri.replace("ACCESS_TOKEN", access_token);
 			userInfouri = userInfouri.replace("OPENID", id);
-			response = CommonUtil.getResources(userInfouri);
+			response = CommonUtil.getResources(userInfouri,null);
 			UserModel um = CommonUtil.gson.fromJson(response, UserModel.class);
 			System.out.println(um);
 			list.add(um);
@@ -46,7 +46,7 @@ public class UserInfoUtil {
 		UserModel um = new UserModel();
 		userInfouri = userInfouri.replace("ACCESS_TOKEN", access_token);
 		userInfouri = userInfouri.replace("OPENID", openid);
-		response = CommonUtil.getResources(userInfouri);
+		response = CommonUtil.getResources(userInfouri,null);
 		um = CommonUtil.gson.fromJson(response, UserModel.class);
 		return um;
 	}
@@ -82,7 +82,7 @@ public class UserInfoUtil {
 		// sslContext.init(null, tm, new java.security.SecureRandom());
 		// SSLSocketFactory ssf = sslContext.getSocketFactory();
 
-		String response = CommonUtil.getResources(openIduri);
+		String response = CommonUtil.getResources(openIduri,null);
 		UserGroupModel ugm = CommonUtil.gson.fromJson(response, UserGroupModel.class);
 
 		for (String openid : ugm.getData().getOpenid()) {

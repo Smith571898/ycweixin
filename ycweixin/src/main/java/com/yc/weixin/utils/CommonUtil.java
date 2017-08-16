@@ -2,6 +2,7 @@ package com.yc.weixin.utils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -12,11 +13,20 @@ public class CommonUtil {
 	public static Gson gson = new Gson();
 	
 	//通过url与微信端建立链接,得到微信端响应的信息
-	public static String getResources(String uri) throws IOException {
+	public static String getResources(String uri,String jsonStr) throws IOException {
 		URL url = new URL(uri);
 		URLConnection connUrl = url.openConnection();
-		InputStreamReader is = new InputStreamReader(connUrl.getInputStream(), "utf-8");
+		connUrl.setDoOutput(true);
+		
+		if(jsonStr!=null){
+			OutputStream out = connUrl.getOutputStream();
+			out.write(jsonStr.getBytes("utf-8"));
+			out.flush();
+			out.close();
+		}
 
+		InputStreamReader is = new InputStreamReader(connUrl.getInputStream(), "utf-8");
+		
 		char[] buf = new char[10 * 1024];
 		int length = 0;
 		String response = "";
