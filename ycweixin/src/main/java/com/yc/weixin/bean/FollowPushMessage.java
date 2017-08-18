@@ -12,25 +12,12 @@ public class FollowPushMessage implements  Serializable {
 	private String	lastmodify ;
 	private String	lastmodifytime ;
 	private String	isfollowpush ;
-	@Override
-	public String toString() {
-		return "FollowPushMessage [fid=" + fid + ", ftitle=" + ftitle + ", fpic=" + fpic + ", fcontent=" + fcontent
-				+ ", lastmodify=" + lastmodify + ", lastmodifytime=" + lastmodifytime + ", isfollowpush=" + isfollowpush
-				+ "]";
+	private String  media_id;
+	public String getMedia_id() {
+		return media_id;
 	}
-	public FollowPushMessage(Integer fid, String ftitle, String fpic, String fcontent, String lastmodify,
-			String lastmodifytime, String isfollowpush) {
-		super();
-		this.fid = fid;
-		this.ftitle = ftitle;
-		this.fpic = fpic;
-		this.fcontent = fcontent;
-		this.lastmodify = lastmodify;
-		this.lastmodifytime = lastmodifytime;
-		this.isfollowpush = isfollowpush;
-	}
-	public FollowPushMessage() {
-		super();
+	public void setMedia_id(String media_id) {
+		this.media_id = media_id;
 	}
 	public Integer getFid() {
 		return fid;

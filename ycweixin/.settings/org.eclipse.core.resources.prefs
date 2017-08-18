@@ -1,6 +1,6 @@
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
->>>>>>>=branch 'master' of https\://git@github.com/Smith571898/ycweixin.git
+>>>>>>>=refs/remotes/origin/nc
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/java/com/yc/weixin/dao/BaseDao.java=UTF-8
@@ -10,4 +10,5 @@ encoding//src/main/java/com/yc/weixin/web/listeners/InitListener.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/db.sql=gbk
 encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

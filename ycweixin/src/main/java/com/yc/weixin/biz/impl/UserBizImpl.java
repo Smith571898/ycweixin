@@ -35,7 +35,12 @@ public class UserBizImpl  implements UserBiz{
 		return false;
 	}
 
-
+	public boolean AddUser(WeChatUser wcu){
+		if(this.baseDao.save(wcu, "addUserInfo")){
+			return true;
+		}
+		return false;
+	}
 	
 	
 

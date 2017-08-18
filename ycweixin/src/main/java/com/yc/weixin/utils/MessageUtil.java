@@ -50,6 +50,8 @@ public class MessageUtil {
 	public static final String REQ_EVENT_TYPE_LOCATION = "location";
 	// 事件类型:click（自定义菜单）
 	public static final String REQ_EVENT_TYPE_CLICK = "click";
+	// 事件类型:MASSSENDJOBFINISH 群发信息的响应事件
+	public static final String REQ_EVENT_TYPE_RESP = "MASSSENDJOBFINISH";
 
 	// 响应消息类型:文本
 	public static final String RESP_MESSAGE_TYPE_TEXT = "text";
@@ -63,6 +65,7 @@ public class MessageUtil {
 	public static final String RESP_MESSAGE_TYPE_MUSIC = "music";
 	// 响应消息类型:图文
 	public static final String RESP_MESSAGE_TYPE_NEWS = "news";
+	
 
 	//解析发送过来的xml对象,并将其转存到一个map中
 	public static Map<String, String> parseXml(HttpServletRequest req) throws DocumentException, IOException {
@@ -107,6 +110,14 @@ public class MessageUtil {
 						cdata = false;
 					} else {
 						cdata = true;
+					}
+					if (name.equals("ArticleCount")) {
+						cdata = false;
+					} else {
+						cdata = true;
+					}
+					if (name.equals("com.yc.weixin.resp.message.Article")){
+						name = "item";
 					}
 					super.startNode(name, clazz);
 				}

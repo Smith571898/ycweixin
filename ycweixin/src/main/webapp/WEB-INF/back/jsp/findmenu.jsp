@@ -229,6 +229,23 @@
 
 		})
 	}
+	
+	
+	function ShowMenu(){
+		$.ajax({
+			url:"showMenuForeground.action",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.code==1){
+					alert('微信客户端更新菜单完成')
+				}else{
+					alert('微信客户端更新菜单失败')
+				}
+			}
+			
+		})
+	}
 </script>
 </head>
 
@@ -272,7 +289,7 @@
 		<option value="二级菜单" id="sub_button">二级菜单</option>
 		
 	</select> <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="AddMenuWindow()">添加菜单</a>
-
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-showmenu" plain="true" onclick="ShowMenu()" >显示菜单</a>
 </div>
 
 </html>

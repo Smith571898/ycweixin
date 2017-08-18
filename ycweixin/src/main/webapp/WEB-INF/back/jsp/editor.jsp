@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false"%>
-      <%@  taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@  taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>源辰微信后台管理</title>
 <%
-String path = request.getContextPath();   // /bbs
-//http ://                         localhost     :      8080                /bbs/
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath(); // /bbs
+	//http ://                         localhost     :      8080                /bbs/
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
-<base href="<%=basePath %>">
+<base href="<%=basePath%>">
 
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/JavaScript" src="js/jquery-form.js"></script>
@@ -22,37 +22,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 </head>
 <script type="text/javascript">
+	function xmTanUploadImg(obj) {
+		var file = obj.files[0];
 
+		console.log(obj);
+		console.log(file);
+		console.log("file.size = " + file.size); //file.size 单位为byte
 
+		var reader = new FileReader();
 
+		reader.onload = function(e) {
+			console.log("成功读取....");
 
-function xmTanUploadImg(obj) {
-    var file = obj.files[0];
-    
-    console.log(obj);console.log(file);
-    console.log("file.size = " + file.size);  //file.size 单位为byte
+			var img = document.getElementById("showpic");
+			img.src = e.target.result;
 
-    var reader = new FileReader();
+		}
+		reader.readAsDataURL(file)
+	}
 
+	function updateFollowPush() {
 
-    reader.onload = function (e) {
-        console.log("成功读取....");
-
-        var img = document.getElementById("showpic");
-        img.src = e.target.result;
-    
-    }
-    reader.readAsDataURL(file)
-}
-
-
-
-	function  updateFollowPush(){
-		
 		$("#addFollowPushForm").submit()
 		$.message.show()
 	}
-		
+
 	/* 
 	 var formData = new FormData(document.getElementById("addFollowPushForm"));
 			
@@ -71,31 +65,29 @@ function xmTanUploadImg(obj) {
 				}
 			}
 			
-		})	 */	
-	
-
-
+		})	 */
 </script>
 
-<form action="doupdateFollowPush.action"  id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
-		文章 标题<input type="text" name="ftitle" id="ftitle"  value="${ftitle}"/> <br/> <br/>  
-		
-		设为关注时推送:<input type="radio" id="isfollowyes" name="ss"value="是"> &nbsp;&nbsp;
-		
-					<input id="isfollowno" type="radio" name="ss" value="否">
-		<p> 
-		
-			图片上传前预览：<input type="file" name="fpic" id="xdaTanFileImg" onchange="xmTanUploadImg(this)" accept="image/*" />  
-			<input type="button" value="隐藏图片"
-				onclick="document.getElementById('showpic').style.display = 'none';" /> <input type="button" value="显示图片"
-				onclick="document.getElementById('showpic').style.display = 'block';" /><input type="button" value="移除图片"
-				onclick="document.getElementById('showpic').style.display = 'none';document.getElementById('xdaTanFileImg').value='';document.getElementById('showpic').src=''"  />
-		</p>
-		
-		<img id="showpic" src="../images/${fpic }"  width="200px" height="150px" style="display: block" /><br />
-	   
-		文章内容: 
-			<textarea class="ckeditor" name="fcontent">${fcontent }</textarea>
-		<div style="margin:0px auto;text-align:center;margin-top: 10px"><input type="button" id="btn" value="确认修改" onclick="updateFollowPush()"></div>
+<form action="doupdateFollowPush.action" id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
+	文章 标题<input type="text" name="ftitle" id="ftitle" value="${ftitle}" /> <br /> <br /> 设为关注时推送:<input type="radio" id="isfollowyes" name="ss" value="是">
+	&nbsp;&nbsp; <input id="isfollowno" type="radio" name="ss" value="否">
+	<p>
+
+		图片上传前预览：<input type="file" name="fpic" id="xdaTanFileImg" onchange="xmTanUploadImg(this)" accept="image/*" /> <input type="button" value="隐藏图片"
+			onclick="document.getElementById('showpic').style.display = 'none';" /> <input type="button" value="显示图片"
+			onclick="document.getElementById('showpic').style.display = 'block';" /><input type="button" value="移除图片"
+			onclick="document.getElementById('showpic').style.display = 'none';document.getElementById('xdaTanFileImg').value='';document.getElementById('showpic').src=''" />
+	</p>
+
+	<img id="showpic" src="../images/${fpic }" width="200px" height="150px" style="display: block" /><br /> 文章内容:
+	<textarea class="ckeditor" name="fcontent">${fcontent }</textarea>
+	<script type="text/javascript">
+		CKEDITOR.replace('fcontent', {
+			filebrowserImageUploadUrl : 'uploadImg.action',
+			language : 'zh-cn',
+		});
+	</script>
+	<div style="margin: 0px auto; text-align: center; margin-top: 10px">
+		<input type="button" id="btn" value="确认修改" onclick="updateFollowPush()">
+	</div>
 </form>
-    

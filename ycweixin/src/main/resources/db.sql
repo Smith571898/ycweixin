@@ -17,7 +17,7 @@ alter table userinfo  modify column uid varchar(100);
      schoolname varchar(100),
      nowclass varchar(100),
      ycclass varchar(100)
-    )
+);
 
 
 create table followpush(
@@ -27,17 +27,19 @@ create table followpush(
 	fcontent varchar(2000),
 	lastmodify varchar(50),
 	lastmodifytime varchar(200),
-	isfollowpush varchar(10)
-
+	isfollowpush varchar(10),
 )
+
+select * from followpush;
+
+drop table followpush;
 
 create table  button(
 	bid int primary key auto_increment,
 	menutype  varchar(100),
 	name varchar(100),
 	menukey  varchar(100),
-	url   varchar(1024)	
-	
+	url   varchar(1024)		
 )
 alter table sub_button add 	grade varchar(10)
 select a.name ,b.name from (select button.bid ,button.name as name from button ) a join
@@ -67,12 +69,21 @@ create table sub_button(
 	url   varchar(2000),
 	grade  int
 )
+<<<<<<< HEAD
 alter table sub_button  modify column grade int ;	
 
 select b.name ,s.name,s.grade from button  b
 inner join sub_button s
 on b.bid=s.sb_bid  order by s.grade desc
 
+=======
+
+create table materia(
+	mid int primary key auto_increment,
+	murl varchar(300),
+	media_id varchar(200),
+)
+>>>>>>> refs/remotes/origin/yhy
 
 select * from sub_button
 update sub_button set sb_bid=1 where sbid=1
@@ -120,3 +131,6 @@ select * from  followpush
 
 update userinfo set sex='Å®'  where  sex='ÄÐ'
 select * from userinfo
+
+
+select * from button left join sub_button on bid = sb_bid;

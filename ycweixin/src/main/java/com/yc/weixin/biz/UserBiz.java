@@ -14,4 +14,6 @@ public interface UserBiz {
 	public Integer findWeChatUserCount();
 	
 	public boolean AddUserInfo(List<WeChatUser> UserInfoList);
+	
+	public boolean AddUser(WeChatUser wcu);
 }

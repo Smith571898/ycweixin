@@ -7,7 +7,7 @@
 	<!-- 加入带日志的ehcahe缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
 	</cache>
-
+	<!-- 查询所有二级菜单  与所属的一级菜单 -->
 	<select id="findAllmenu" parameterType="Map" resultType="Menu">
 		select sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
 		 from sub_button  sb 
@@ -19,6 +19,13 @@
 			limit #{start},#{pagesize}
 		</if>
 	</select>
+	<!-- 根据查询到的一级菜单名编号 ，再去查询他的二级菜单名，用于生成菜单用 -->
+<select id="findTwoMenuByOneName" parameterType="Map" resultType="TwoMenu">
+select sb.subname as name ,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
+ from sub_button sb 
+ where sb.sb_bid=#{bid}
+
+</select>
 
 	<select id="getMenuCount" resultType="int">
 		select count(1) from

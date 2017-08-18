@@ -3,6 +3,8 @@ package com.yc.weixin.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yc.weixin.utils.AccessTokenUtil;
+
 @Controller
 public class IndexController {
 	
@@ -65,10 +67,19 @@ public class IndexController {
 		return "findmenu";
 		
 	}
+
 	@RequestMapping(value="goOrderMenu.action")
 	public String goOrderMenu(){
 			
 		return "ordermenu";
 		
 	}
+
+	
+	@RequestMapping(path="toAddFollowPush.action")
+	public String toAddFollowPush(){
+		System.out.println(AccessTokenUtil.access_token);
+		return "addFollowPush";
+	}
+
 }

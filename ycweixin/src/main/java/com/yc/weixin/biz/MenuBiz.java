@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yc.weixin.bean.Menu;
+import com.yc.weixin.bean.TwoMenu;
 
 public interface MenuBiz {
 	/**
@@ -55,4 +56,7 @@ public interface MenuBiz {
 	public void AddOnemenu(Menu menu);
 	
 	public List<Menu> findOrderMenu(Map  map);
+	
+	public List<TwoMenu> findTwoMenuByOneName(Map map);
+	
 }

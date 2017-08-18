@@ -18,14 +18,15 @@ public class MessageBizImpl implements MessageBiz {
 	
 	public List<FollowPushMessage> findFollowPushMessage(Map map) {
 		List<FollowPushMessage> list=this.baseDao.findAll(FollowPushMessage.class, "findAllFollowPush", map);
-	
 		return list;
 	}
+	
 	@Override
 	public Integer finFollowPushCount() {
 		Integer total=(int) this.baseDao.getFunc(FollowPushMessage.class, "findFollowPushCount");
 		return total;
 	}
+	
 	@Override
 	public boolean updateFollowPush(FollowPushMessage fpm) {
 		this.baseDao.save(fpm, "updateFollowPush");

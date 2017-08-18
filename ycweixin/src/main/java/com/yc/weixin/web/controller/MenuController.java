@@ -1,5 +1,6 @@
 package com.yc.weixin.web.controller;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,8 @@ import com.yc.weixin.bean.Menu;
 import com.yc.weixin.bean.TwoMenu;
 import com.yc.weixin.biz.MenuBiz;
 import com.yc.weixin.model.JsonModel;
+import com.yc.weixin.utils.AccessTokenUtil;
+import com.yc.weixin.utils.MenuUtil;
 
 @RestController
 public class MenuController {
@@ -184,7 +187,7 @@ public class MenuController {
 		return map;
 		
 	}
-	
+
 	@RequestMapping(value="doordermenu.action",produces="text/html;charset=UTF-8")
 	public  String  ordermenu(HttpServletRequest request,Menu menu){		
 		JsonModel jsonModel=new  JsonModel();
@@ -222,6 +225,28 @@ public class MenuController {
 		}
 		
 		
+	@RequestMapping(value="showMenuForeground.action",produces="text/html;charset=UTF-8")
+	public  String  ShowMenuForeground(HttpServletRequest request,Menu menu){		
+		JsonModel jsonModel=new  JsonModel();
+		
+		try {
+			MenuUtil.deleteMenu(AccessTokenUtil.access_token);
+			MenuUtil.createMenu(AccessTokenUtil.access_token);
+			jsonModel.setCode(1);
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			jsonModel.setCode(0);
+			jsonModel.setMsg(e.getMessage());
+		}
+		Gson gson=new Gson();
+		Type jsonType=new TypeToken<JsonModel>(){
+			
+		}.getType();
+		String jsonStr=gson.toJson(jsonModel,jsonType);
+		return jsonStr;
+		
+		}
 		
 	
 		

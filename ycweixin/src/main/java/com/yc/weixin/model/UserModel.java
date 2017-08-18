@@ -58,6 +58,12 @@ public class UserModel {
 	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
+	public long getSubscribe_time() {
+		return subscribe_time;
+	}
+	public void setSubscribe_time(long subscribe_time) {
+		this.subscribe_time = subscribe_time;
+	}
 	public String getLanguage() {
 		return language;
 	}
@@ -83,12 +89,6 @@ public class UserModel {
 		this.headimgurl = headimgurl;
 	}
 
-	public long getSubscribe_time() {
-		return subscribe_time;
-	}
-	public void setSubscribe_time(long subscribe_time) {
-		this.subscribe_time = subscribe_time;
-	}
 	public String getUnionid() {
 		return unionid;
 	}

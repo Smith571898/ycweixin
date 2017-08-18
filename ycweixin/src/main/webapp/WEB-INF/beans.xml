@@ -97,5 +97,8 @@
     <!-- 最大文件大小，-1为不限制大小 -->  
     <property name="maxUploadSize" value="-1"/>  
 	</bean> 
+	<bean id="zhuru" class="com.yc.weixin.utils.MenuUtil">
+    <property name="menuBiz" ref="menuBizImpl"/>
+	</bean>
 
 </beans>

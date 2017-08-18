@@ -73,6 +73,12 @@ public class MenuBizImpl  implements MenuBiz{
 		
 		return list;
 	}
+
+@Override
+public List<TwoMenu> findTwoMenuByOneName(Map map) {
+	List<TwoMenu> list=this.baseDao.findAll(Menu.class, "findTwoMenuByOneName", map);
+	return list;
+}
 	
 	
 	

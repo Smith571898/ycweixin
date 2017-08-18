@@ -3,7 +3,6 @@ package com.yc.weixin.utils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -18,8 +17,9 @@ import com.yc.weixin.biz.UserBiz;
 import com.yc.weixin.biz.impl.UserBizImpl;
 
 public class FileLoadUtil {
+	
+	public static String weburl = "";
 
-	private String weburl;
 
 	//通过时间生成文件名
 	public String genNewFilePrefixName() {
@@ -49,7 +49,6 @@ public class FileLoadUtil {
 	private String getFilepath(HttpServletRequest req){
 		String dir = genNewFileDir(req);
 		String name = genNewFilePrefixName();
-		
 		String fileExt = ".jpg";
 		weburl += name+ fileExt;
 		return dir+File.separator+name+fileExt;
@@ -60,9 +59,9 @@ public class FileLoadUtil {
 		
 			URL url = new URL(uri);
 			URLConnection urlconn = url.openConnection();
-
+			
 			InputStream is = urlconn.getInputStream();
-
+			
 			byte[] buf = new byte[10*1024];
 			int length = 0;
 			//生成图片路径

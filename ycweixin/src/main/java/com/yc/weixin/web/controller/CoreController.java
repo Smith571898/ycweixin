@@ -1,5 +1,6 @@
 package com.yc.weixin.web.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.KeyManagementException;
@@ -32,10 +33,13 @@ public class CoreController {
 
 	private UserInfoUtil  userInfoUtil =new UserInfoUtil();
 	private FileLoadUtil  fileLoadUtil=new FileLoadUtil();
+	
 	@Resource(name="userBizImpl")
 	private  UserBiz userBiz;
 	@Resource(name="coreBizImpl")
 	private CoreBiz cb;
+	
+	
 	
 	//get请求，验证请求来源是否为微信服务器
 	@RequestMapping(path = "hello", method=RequestMethod.GET)
@@ -44,6 +48,7 @@ public class CoreController {
 		if(SignUtil.checkSignature(core.getSignature(), core.getTimestamp(), core.getNonce())){
 			out.print(core.getEchostr());
 		}
+
 		
 		out.flush();
 		out.close();
@@ -69,12 +74,9 @@ public class CoreController {
 	//下载关注者头像到服务器
 	@RequestMapping(path = "file.action", method = RequestMethod.GET)
 	public void file(HttpServletRequest request){
-
-		
-	
 		try {
-			String access_token=AccessTokenUtil.getAccessToken();
-			List<UserModel> list=userInfoUtil.getUserInfo(access_token);
+			String access_token=AccessTokenUtil.access_token;
+			List<UserModel> list=userInfoUtil.getAllUserInfo(access_token);
 			List<WeChatUser> weChatUserList=new ArrayList<WeChatUser>();
 			for(UserModel um:list){
 				WeChatUser wu=new WeChatUser();
@@ -100,16 +102,11 @@ public class CoreController {
 				wu.setSubscribe_time(um.getSubscribe_time());
 				
 				weChatUserList.add(wu);
-				
-				
 			}
 			userBiz.AddUserInfo(weChatUserList);
-		
 		} catch (KeyManagementException | NoSuchAlgorithmException | NoSuchProviderException | IOException e) {
-			
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
