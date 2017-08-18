@@ -9,6 +9,14 @@ public class MediaModel {
 	public String media_id;
 	//创建时间
 	public long created_at;
+	//上传图片的url
+	public String url;
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	public String getType() {
 		return type;
 	}
