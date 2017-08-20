@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.google.gson.Gson;
 import com.yc.weixin.model.MediaModel;
 
@@ -27,6 +29,9 @@ public class MediaUtil {
 	//新增永久图文素材
 	private static String uploadNewsMateriaUrl = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
 	
+	//上传图文素材中的图片
+	private static String uploadPicFromNewsMaterialUrl = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
+	
 	//上传临时素材
 	public static MediaModel uploadTempMedia(String type,String mediaFileUrl) {
 		MediaModel mediaModel = null;
@@ -34,7 +39,7 @@ public class MediaUtil {
 		uploadTempMediaUrl = uploadTempMediaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			getMediaModel(uploadTempMediaUrl,mediaFileUrl);
+			mediaModel = getMediaModel(uploadTempMediaUrl,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,7 +54,7 @@ public class MediaUtil {
 		uploadMaterialUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			getMediaModel(uploadMaterialUrl,mediaFileUrl);
+			mediaModel = getMediaModel(uploadMaterialUrl,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,6 +72,23 @@ public class MediaUtil {
 		try {
 			String response = CommonUtil.getResources(uploadNewsMateriaUrl, jsonStr);
 			mediaModel = CommonUtil.gson.fromJson(response, MediaModel.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return mediaModel;
+	}
+	
+	//上传图文素材中的图片获取url
+	public static MediaModel uploadPicFromNewsMaterial(String picFromNewsUrl){
+		MediaModel mediaModel = null;
+		uploadPicFromNewsMaterialUrl = uploadPicFromNewsMaterialUrl.replace("TYPE","POST");
+		uploadPicFromNewsMaterialUrl = uploadPicFromNewsMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		
+		System.out.println(uploadPicFromNewsMaterialUrl);
+		
+		try {
+			mediaModel = getMediaModel(uploadPicFromNewsMaterialUrl,picFromNewsUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
