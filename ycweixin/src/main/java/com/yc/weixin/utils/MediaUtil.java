@@ -35,11 +35,11 @@ public class MediaUtil {
 	//上传临时素材
 	public static MediaModel uploadTempMedia(String type,String mediaFileUrl) {
 		MediaModel mediaModel = null;
-		uploadTempMediaUrl = uploadTempMediaUrl.replace("TYPE",type);
-		uploadTempMediaUrl = uploadTempMediaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		String uploadTempMediaUrl1 = uploadTempMediaUrl.replace("TYPE",type);
+		uploadTempMediaUrl1 = uploadTempMediaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			mediaModel = getMediaModel(uploadTempMediaUrl,mediaFileUrl);
+			mediaModel = getMediaModel(uploadTempMediaUrl1,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,11 +50,11 @@ public class MediaUtil {
 	//上传永久素材
 	public static MediaModel uploadMateria(String type,String mediaFileUrl){
 		MediaModel mediaModel = null;
-		uploadMaterialUrl = uploadMaterialUrl.replace("TYPE",type);
-		uploadMaterialUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		String uploadMaterialUrl1 = uploadMaterialUrl.replace("TYPE",type);
+		uploadMaterialUrl1 = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			mediaModel = getMediaModel(uploadMaterialUrl,mediaFileUrl);
+			mediaModel = getMediaModel(uploadMaterialUrl1,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,12 +65,14 @@ public class MediaUtil {
 	//上传永久图文素材
 	public static MediaModel uploadNewsMateria(NewsMaterialModel nmm){
 		MediaModel mediaModel = null;
-		uploadNewsMateriaUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		String uploadNewsMateriaUrl1 = uploadNewsMateriaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		String jsonStr = CommonUtil.gson.toJson(nmm);
 		
+		System.out.println(jsonStr);
+		
 		try {
-			String response = CommonUtil.getResources(uploadNewsMateriaUrl, jsonStr);
+			String response = CommonUtil.getResources(uploadNewsMateriaUrl1, jsonStr);
 			mediaModel = CommonUtil.gson.fromJson(response, MediaModel.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,13 +84,11 @@ public class MediaUtil {
 	//上传图文素材中的图片获取url
 	public static MediaModel uploadPicFromNewsMaterial(String picFromNewsUrl){
 		MediaModel mediaModel = null;
-		uploadPicFromNewsMaterialUrl = uploadPicFromNewsMaterialUrl.replace("TYPE","POST");
-		uploadPicFromNewsMaterialUrl = uploadPicFromNewsMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
-		
-		System.out.println(uploadPicFromNewsMaterialUrl);
+		String uploadPicFromNewsMaterialUrl1 = uploadPicFromNewsMaterialUrl.replace("TYPE","POST");
+		uploadPicFromNewsMaterialUrl1 = uploadPicFromNewsMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			mediaModel = getMediaModel(uploadPicFromNewsMaterialUrl,picFromNewsUrl);
+			mediaModel = getMediaModel(uploadPicFromNewsMaterialUrl1,picFromNewsUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,9 +115,8 @@ public class MediaUtil {
 		String fileExt = file.getAbsolutePath().substring(index);
 
 		out.write(("--"+boundary+"\r\n").getBytes());
-		out.write((String.format("Content-Disposition:form-data;name=\"media\";filename=\"file1%s\"\r\n", fileExt)).getBytes());
+		out.write((String.format("Content-Disposition:form-data;name=\"media\";filelength=\""+file.length()+"\";filename=\"file1%s\"\r\n", fileExt)).getBytes());
 		out.write((String.format("Content-Type: %s\r\n\r\n", FileSuffixUtil.getContentType(fileExt))).getBytes());
-		
 		byte[] buf = new byte[10*1024];
 		int length = 0;
 		while((length=fis.read(buf)) != -1){

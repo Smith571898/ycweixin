@@ -5,21 +5,29 @@ import java.io.InputStreamReader;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
-
-
-
+import com.yc.weixin.model.ArticleMaterialModel;
 
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
-import com.google.gson.Gson;
-
+/**
+ * 一个公共的工具类
+ * @author yhy
+ *
+ */
 public class CommonUtil {
 
 	public static Gson gson = new Gson();
+	
+	//相对路径与绝对路径
+	public static Map<String,String> picWithAbsolute = new HashMap<String,String>();
+	
+	public static List<ArticleMaterialModel> news = new ArrayList<ArticleMaterialModel>();
 	
 	//通过url与微信端建立链接,得到微信端响应的信息
 	public static String getResources(String uri,String jsonStr) throws IOException {
@@ -43,6 +51,8 @@ public class CommonUtil {
 			response = new String(buf, 0, length);
 		}
 		is.close();
+		
+		System.out.println(response);
 
 		return response;
 	}

@@ -46,6 +46,8 @@ select a.name ,b.name from (select button.bid ,button.name as name from button )
 (select sub_button.sb_bid as ssbid,sub_button.sbid ,sub_button.name as name from sub_button) b  on a.bid=b.ssbid
 
 
+desc button;
+
 join sub_button
 
 select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name  as sub_name from sub_button a join button b on  b.bid=a.sb_bid where 1=1
@@ -69,21 +71,19 @@ create table sub_button(
 	url   varchar(2000),
 	grade  int
 )
-<<<<<<< HEAD
+
 alter table sub_button  modify column grade int ;	
 
 select b.name ,s.name,s.grade from button  b
 inner join sub_button s
 on b.bid=s.sb_bid  order by s.grade desc
 
-=======
 
 create table materia(
 	mid int primary key auto_increment,
 	murl varchar(300),
 	media_id varchar(200),
 )
->>>>>>> refs/remotes/origin/yhy
 
 select * from sub_button
 update sub_button set sb_bid=1 where sbid=1
@@ -134,3 +134,33 @@ select * from userinfo
 
 
 select * from button left join sub_button on bid = sb_bid;
+
+
+
+
+
+
+create table newsMaterial(
+	media_id varchar(200) primary key,
+	status int,
+	create_at varchar(200),
+	type varchar(20)
+)
+
+create table articleMaterial(
+	media_id varchar(200) primary key,
+	title varchar(100) not null,
+	thumb_media_id varchar(200) not null,
+	author varchar(50),
+	digest varchar(200),
+	show_cover_pic int,
+	content varchar(2000) not null,
+	content_source_url varchar(200),
+	status int
+)
+
+select * from newsMaterial;
+
+select * from articleMaterial;
+
+drop table articleMaterial;

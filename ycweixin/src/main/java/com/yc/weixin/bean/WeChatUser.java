@@ -12,10 +12,6 @@ public class WeChatUser implements  Serializable {
 	private String subscribe;
 	private String address;
 	private String language;
-	
-
-	
-	
 	private String unionid;
 	private String remark;
 	private Integer groupid;

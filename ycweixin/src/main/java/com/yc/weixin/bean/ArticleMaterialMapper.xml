@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.weixin.bean.ArticleMaterialMapper">
+
+	<!-- 加入带日志的ehcahe缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+
+	<insert id="addArticles" parameterType="list">
+		insert into articleMaterial
+		(media_id,title,thumb_media_id,author,digest,show_cover_pic,content,content_source_url,status)
+		values
+		<foreach collection="list" item="article" separator=",">
+			(#{article.media_id},#{article.title},#{article.thumb_media_id},#{article.author},#{article.digest},#{article.show_cover_pic},#{article.content},#{article.content_source_url},#{article.status})
+		</foreach>
+	</insert>
+
+	<select id="findAllArticles" resultType="ArticleMaterial"
+		parameterType="Map">
+		select * from articleMaterial where media_id=#{media_id}
+		order by status asc
+	</select>
+
+</mapper>

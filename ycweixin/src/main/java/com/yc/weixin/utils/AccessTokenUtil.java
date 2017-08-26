@@ -19,12 +19,16 @@ import com.yc.weixin.model.AcessTokenModel;
 import com.yc.weixin.model.UserGroupModel;
 import com.yc.weixin.model.UserModel;
 
+/**
+ *	yhy
+ *	所有的access_token统一从这个类里面获取
+ */
 @Component
 public class AccessTokenUtil {
 
-	public static final String APPID = "wx72a20d360dea4bbb";
+	public static final String APPID = "wx7315cee02fb6dd0f";
 
-	public static final String APPSECRET = "696912240df8aa8577579e5391a26574";
+	public static final String APPSECRET = "40b4558fd28a0070fb4ce9f8491daa2a";
 	
 	public static String access_token = getAccessToken();
 
