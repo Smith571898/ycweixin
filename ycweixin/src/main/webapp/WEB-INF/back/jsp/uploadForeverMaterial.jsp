@@ -10,7 +10,6 @@ String path = request.getContextPath();   // /bbs
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <base href="<%=basePath %>">
-<script src="js/jquery-1.11.0.min.js"></script>
 
 <link href="css/lanrenzhijia.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="diyUpload/css/webuploader.css">
@@ -32,20 +31,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div id="content">
 		<div id="tab1">
-				<iframe src="touploadTemppicbat.action" style="overflow:hidden;height:600px;width:1680px"></iframe>
+				<iframe src="touploadforeverpic.action" style="overflow:hidden;height:600px;width:1680px"></iframe>
 				
 				
 		</div>
 		<div id="tab2">
-			<iframe src="touploadTempvideobat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
+			<iframe src="touploadForevervideo.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
 		</div>
 		<div id="tab3">
-				<iframe src="touploadTempaudiobat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
+				<iframe src="touploadForeveraudio.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
 
 		</div>
 	</div>
 	<br>
 	<br>
+
+<script src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#content div").hide(); // Initially hide all content
@@ -63,7 +64,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#content div").hide(); // Initially hide all content
+		$("#tabs li:first").attr("id", "current"); // Activate first tab
+		$("#content div:first").fadeIn(); // Show first tab content
 
+		$('#tabs a').click(function(e) {
+			e.preventDefault();
+			$("#content div").hide(); //Hide all content
+			$("#tabs li").attr("id", ""); //Reset id's
+			$(this).parent().attr("id", "current"); // Activate this
+			$('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
+		});
+
+	});
+
+</script>
 
 </body>
 </html>

@@ -16,4 +16,10 @@ public interface UserBiz {
 	public boolean AddUserInfo(List<WeChatUser> UserInfoList);
 	
 	public boolean AddUser(WeChatUser wcu);
+	
+	public WeChatUser CheckUserisExist(WeChatUser weChatUser);
+	
+	public void  updateUserSubscribe(WeChatUser weCharUser);
+	
+	public void updateUserisFollow(WeChatUser weCharUser);
 }

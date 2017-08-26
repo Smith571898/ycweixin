@@ -17,55 +17,57 @@ import com.yc.weixin.model.MediaModel;
 import com.yc.weixin.model.NewsMaterialModel;
 
 public class MediaUtil {
-	
 	//新增临时素材
-	private static String uploadTempMediaUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
+	private static final String uploadTempMediaUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
 	
 	//新增永久素材
-	private static String uploadMaterialUrl = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
+	private static final String uploadMaterialUrl = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
 	
 	//新增永久图文素材
-	private static String uploadNewsMateriaUrl = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
+	private static final String uploadNewsMateriaUrl = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
 	
 	//上传临时素材
 	public static MediaModel uploadTempMedia(String type,String mediaFileUrl) {
 		MediaModel mediaModel = null;
-		uploadTempMediaUrl = uploadTempMediaUrl.replace("TYPE",type);
-		uploadTempMediaUrl = uploadTempMediaUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		System.out.println(type);
+		String uploadTempMediaUrl1=uploadMaterialUrl;
+		 uploadTempMediaUrl1 = uploadTempMediaUrl1.replace("TYPE",type);
+		 uploadTempMediaUrl1 = uploadTempMediaUrl1.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		try {
-			getMediaModel(uploadTempMediaUrl,mediaFileUrl);
+			getMediaModel(uploadTempMediaUrl1,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(mediaModel+"temp");
 		return mediaModel;
 	}
 	
 	//上传永久素材
 	public static MediaModel uploadMateria(String type,String mediaFileUrl){
 		MediaModel mediaModel = null;
-		uploadMaterialUrl = uploadMaterialUrl.replace("TYPE",type);
-		uploadMaterialUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
-		
+		String uploadTempMediaUrl1=uploadMaterialUrl;
+		 uploadTempMediaUrl1 = uploadTempMediaUrl1.replace("TYPE",type);
+		 uploadTempMediaUrl1 = uploadTempMediaUrl1.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		try {
-			getMediaModel(uploadMaterialUrl,mediaFileUrl);
+			getMediaModel(uploadTempMediaUrl1,mediaFileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(mediaModel);
 		return mediaModel;
 	}
 	
 	//上传永久图文素材
 	public static MediaModel uploadNewsMateria(NewsMaterialModel nmm){
 		MediaModel mediaModel = null;
-		uploadNewsMateriaUrl = uploadMaterialUrl.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
+		String uploadTempMediaUrl1=uploadNewsMateriaUrl;
+		uploadTempMediaUrl1 = uploadTempMediaUrl1.replace("ACCESS_TOKEN", AccessTokenUtil.access_token);
 		
 		String jsonStr = CommonUtil.gson.toJson(nmm);
 		
 		try {
-			String response = CommonUtil.getResources(uploadNewsMateriaUrl, jsonStr);
+			String response = CommonUtil.getResources(uploadTempMediaUrl1, jsonStr);
 			mediaModel = CommonUtil.gson.fromJson(response, MediaModel.class);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,10 +95,10 @@ public class MediaUtil {
 		String fileExt = file.getAbsolutePath().substring(index);
 
 		out.write(("--"+boundary+"\r\n").getBytes());
-		out.write((String.format("Content-Disposition:form-data;name=\"media\";filename=\"file1%s\"\r\n", fileExt)).getBytes());
+		out.write((String.format("Content-Disposition:form-data;name=\"media\";filelength=\""+file.length()+"\";filename=\"file1%s\"\r\n", fileExt)).getBytes());
 		out.write((String.format("Content-Type: %s\r\n\r\n", FileSuffixUtil.getContentType(fileExt))).getBytes());
 		
-		byte[] buf = new byte[10*1024];
+		byte[] buf = new byte[10*1024*10];
 		int length = 0;
 		while((length=fis.read(buf)) != -1){
 			out.write(buf, 0, length);

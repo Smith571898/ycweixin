@@ -22,9 +22,9 @@ import com.yc.weixin.model.UserModel;
 @Component
 public class AccessTokenUtil {
 
-	public static final String APPID = "wx72a20d360dea4bbb";
+	public static final String APPID = "wxe193c3a51e0481e7";
 
-	public static final String APPSECRET = "696912240df8aa8577579e5391a26574";
+	public static final String APPSECRET = "42ca5b1df322bcb96515ff364826bbd8";
 	
 	public static String access_token = getAccessToken();
 

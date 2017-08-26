@@ -3,6 +3,7 @@ package com.yc.weixin.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -65,6 +66,7 @@ public class CoreController {
 			String respXml = cb.processXml(req);
 			out.print(respXml);
 		}
+
 		
 		out.flush();
 		out.close();

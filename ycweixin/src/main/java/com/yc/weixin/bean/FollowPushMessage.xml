@@ -20,6 +20,7 @@
 	</select>
 
 
+	
 
 	<select id="findFollowPushCount" resultType="int">
 		select count(1) from
@@ -33,6 +34,10 @@
 		where fid=#{fid}
 	</update>
 
+	<insert id="AddFollowPush" parameterType="FollowPushMessage">
+	insert into followpush(ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush) 
+	values(#{ftitle},#{fpic},#{fcontent},#{lastmodify},#{lastmodifytime},#{isfollowpush})
 
+	</insert>
 
 </mapper>

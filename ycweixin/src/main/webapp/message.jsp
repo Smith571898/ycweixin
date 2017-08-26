@@ -8,8 +8,8 @@
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 	function sendxml() {
-		var xmlData = "<xml><ToUserName><![CDATA[gh_94450eaf9cc0]]></ToUserName><FromUserName><![CDATA[ofsPstzX58O31f6ChX7VS82UvZfk]]></FromUserName><CreateTime>1501818562</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[笑话]]></Content><MsgId>6450261608761361890</MsgId></xml>";
-		var xmlDataSubscribe = "<xml><ToUserName><![CDATA[gh_94450eaf9cc0]]></ToUserName><FromUserName><![CDATA[ofsPstzX58O31f6ChX7VS82UvZfk]]></FromUserName><CreateTime>1501818562</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event></xml>";
+		var xmlData = "<xml><ToUserName><![CDATA[oHfPg0dVZhWbsL3sMbCt0gMfrtwY]]></ToUserName><FromUserName><![CDATA[ofsPstzX58O31f6ChX7VS82UvZfk]]></FromUserName><CreateTime>1501818562</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[笑话]]></Content><MsgId>6450261608761361890</MsgId></xml>";
+		var xmlDataSubscribe = "<xml><ToUserName><![CDATA[oHfPg0dVZhWbsL3sMbCt0gMfrtwY]]></ToUserName><FromUserName><![CDATA[oHfPg0YDhJO9m27t5wTPcrTUyPGo]]></FromUserName><CreateTime>1501818562</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event></xml>";
 		$.ajax("${pageContext.request.contextPath}/hello",// 发送请求的URL字符串。  
 		{
 			type : "POST", //  请求方式 POST或GET  

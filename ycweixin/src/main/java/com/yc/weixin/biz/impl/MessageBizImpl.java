@@ -29,9 +29,20 @@ public class MessageBizImpl implements MessageBiz {
 	
 	@Override
 	public boolean updateFollowPush(FollowPushMessage fpm) {
-		this.baseDao.save(fpm, "updateFollowPush");
+		this.baseDao.update(fpm, "updateFollowPush");
 		return true;
 	}
 
+	@Override
+	public FollowPushMessage PushMessage(Map<String, Object> map) {
+		FollowPushMessage fpm=	(FollowPushMessage) this.baseDao.findOne(FollowPushMessage.class, "PushMessage", map);
+		return fpm;
+	}
+
+	@Override
+	public boolean AddFollowPush(FollowPushMessage fpm) {
+		this.baseDao.save(fpm, "AddFollowPush");
+		return true;
+	}
 
 }
