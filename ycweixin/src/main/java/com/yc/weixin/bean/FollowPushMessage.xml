@@ -5,8 +5,8 @@
 <mapper namespace="com.yc.weixin.bean.FollowPushMessageMapper">
 
 	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
+<!-- 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache> -->
 
 
 

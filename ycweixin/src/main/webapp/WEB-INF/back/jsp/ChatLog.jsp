@@ -26,7 +26,7 @@
 					rownumbers : true,
 					nowrap : false,
 					sortName : 'create_time',
-					sortOrder : 'desc',
+					sortOrder : 'asc',
 					singleSelect : true,
 
 					onError : function(a, b) {

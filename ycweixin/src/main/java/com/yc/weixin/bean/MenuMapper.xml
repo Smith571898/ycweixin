@@ -4,9 +4,9 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.MenuMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
+	<!-- 加入带日志的ehcahe缓存 
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
+	</cache>-->
 	<!-- 查询所有二级菜单  与所属的一级菜单 -->
 	<select id="findAllmenu" parameterType="Map" resultType="Menu">
 		select sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade

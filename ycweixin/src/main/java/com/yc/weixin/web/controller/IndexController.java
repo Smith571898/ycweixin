@@ -157,7 +157,11 @@ public class IndexController {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * 跳转到机器人问题回复设置界面
+	 * @return
+	 */
 	@RequestMapping(value="toRobotReplyManager.action")
 	public String toRobotReplyManager(){
 		

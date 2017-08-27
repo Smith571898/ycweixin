@@ -4,13 +4,36 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.KnowledgeMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
+	<!--  加入带日志的ehcahe缓存
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
+	</cache> -->
 	
 	<select id="FindAllKnowledge" resultType="Knowledge">
 		select * from knowledge
+		<if test="start!=null">
+			limit #{start},#{pagesize}
+		</if>
+	</select>
+	
+	<select id="getKnowledgeCount" resultType="Integer">
+	select count(1) from knowledge where 1=1
+	
 	</select>
 
-
+	<update id="updateKnowledge" parameterType="Knowledge">
+	update knowledge set question=#{question},answer=#{answer},category=#{category}  where  id=#{id}
+	
+	</update>
+	
+	<insert id="addKnowledge" parameterType="Knowledge" useGeneratedKeys="true" keyProperty="id">
+	insert into knowledge(question,answer,category) values(#{question},#{answer},#{category})
+	
+	</insert>
+	<insert id="addumknowKnowledge" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+	insert into knowledge(question,answer,category) values(#{question},#{answer},#{category})
+	</insert>
+	
+	<delete id="delKnowById"  parameterType="Knowledge">
+	delete from knowledge where id=#{id}
+	</delete>
 </mapper>

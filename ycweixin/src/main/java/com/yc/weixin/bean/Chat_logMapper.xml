@@ -5,8 +5,8 @@
 <mapper namespace="com.yc.weixin.bean.Chat_logMapper">
 
 	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
+<!-- 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache> -->
 	<!-- -查询所有的聊天记录  或者指定时间的聊天记录 -->
 	<select id="findAllChatLog" parameterType="Map"  resultType="Chat_log">
 		select u.nickname as nickname ,cl.create_time as create_time

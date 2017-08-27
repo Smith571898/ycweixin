@@ -15,7 +15,15 @@ public class Knowledge_sub implements Serializable {
 	//与knowledge表中的id相对应
 	private Integer pid;
 	//答案
+	private String subquestion;
 	private String answer;
+	
+	public String getSubquestion() {
+		return subquestion;
+	}
+	public void setSubquestion(String subquestion) {
+		this.subquestion = subquestion;
+	}
 	public Integer getId() {
 		return id;
 	}

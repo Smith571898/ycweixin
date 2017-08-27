@@ -14,19 +14,21 @@ public class Knowledge implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5719556478410614939L;
-	private int id;
+	private Integer id;
 	//问题
 	private String question;
 	//答案
 	private String answer;
 	//知识的类别（1:普通对话 2:笑话 3:上下文）
-	private int category;
+	private Integer category;
 
-	public int getId() {
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -46,11 +48,29 @@ public class Knowledge implements Serializable {
 		this.answer = answer;
 	}
 
-	public int getCategory() {
+	public Integer getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(Integer category) {
 		this.category = category;
 	}
+
+	@Override
+	public String toString() {
+		return "Knowledge [id=" + id + ", question=" + question + ", answer=" + answer + ", category=" + category + "]";
+	}
+
+	public Knowledge(Integer id, String question, String answer, Integer category) {
+		super();
+		this.id = id;
+		this.question = question;
+		this.answer = answer;
+		this.category = category;
+	}
+
+	public Knowledge() {
+		super();
+	}
+	
 }

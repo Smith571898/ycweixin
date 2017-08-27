@@ -72,7 +72,14 @@
 										title : '上次修改时间',
 										width : 180,
 										height : 150,
-										align : 'center'
+										align : 'center',
+											formatter:function(lastmodifytime){
+												
+												 var tt=new Date(parseInt(lastmodifytime) * 1000).toLocaleString().substr(0,17)
+													// new Date(subscribe_time).toLocaleString(); 
+												   
+												    return  tt; 
+												}
 									},
 									{
 										field : 'IsEnable',
@@ -97,6 +104,7 @@
 											if (radio != true) {
 												//让点击的行单选按钮选中
 												$("input[type='radio']")[rowIndex].checked = true;
+											
 											} else {
 												$("input[type='radio']")[rowIndex].checked = false;
 											}
