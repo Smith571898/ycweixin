@@ -4,10 +4,6 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.KnowledgeMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
-	
 	<select id="FindAllKnowledge" resultType="Knowledge">
 		select * from knowledge
 	</select>

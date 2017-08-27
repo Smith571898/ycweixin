@@ -1,23 +1,12 @@
 package com.yc.weixin.utils;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.yc.weixin.model.AcessTokenModel;
-import com.yc.weixin.model.UserGroupModel;
-import com.yc.weixin.model.UserModel;
 
 @Component
 public class AccessTokenUtil {

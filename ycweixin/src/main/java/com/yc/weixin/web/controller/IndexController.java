@@ -144,6 +144,10 @@ public class IndexController {
 		
 	}
 
+	@RequestMapping(path="toAddNewsMateria.action")
+	public String toAddNewsMateria(){
+		return "addNewsMateria";
+	}
 	
 	@RequestMapping(path="toAddFollowPush.action")
 	public String toAddFollowPush(){
@@ -162,5 +166,10 @@ public class IndexController {
 	public String toRobotReplyManager(){
 		
 		return "RobotReplyManager";
+	}
+	
+	@RequestMapping(path="toFindMaterial.action")
+	public String toFindMaterial(){
+		return "findMaterial";
 	}
 }

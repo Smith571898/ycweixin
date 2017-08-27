@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="easyui15/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="easyui15/themes/icon.css">
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
 </head>
 <script type="text/javascript">
 	function xmTanUploadImg(obj) {
@@ -67,7 +68,7 @@
 </script>
 <form action="doAddFollowPush.action" id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
 	文章 标题
-	<input type="text" name="ftitle" id="ftitle"/>
+	<input type="text" name="ftitle" id="ftitle" />
 	<br /> <br /> 设为关注时推送:
 	<input type="radio" id="isfollowyes" name="ss" value="是">
 	&nbsp;&nbsp;
