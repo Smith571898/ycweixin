@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.weixin.bean.MaterialMapper">
+
+	<select id="findAllMaterial" resultType="Material"
+		parameterType="Map">
+		select * from material
+		<include refid="orderSql"></include>
+		<include refid="pageSql"></include>
+	</select>
+
+	<insert id="addMaterial" parameterType="Material">
+		insert into material
+		(media_id,mpurl,url,type,create_at) values
+		(#{media_id},#{mpurl},#{url},#{type},#{create_at})
+	</insert>
+
+	<select id="findMaterialCount" resultType="int">
+		select count(1) from
+		material where 1=1
+	</select>
+
+	<delete id="delMaterial" parameterType="Material">
+		delete from material
+		where media_id = #{media_id}
+	</delete>
+
+	<sql id="orderSql">
+		<if test="orderby != null and orderby != ''">
+			order by #{orderby}
+			<if test="orderway != null and orderway != ''">
+				#{orderway}
+			</if>
+		</if>
+	</sql>
+
+	<sql id="pageSql">
+		<if test="start != null and start != ''">
+			limit #{start},#{pagesize}
+		</if>
+	</sql>
+
+
+</mapper>
