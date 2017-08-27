@@ -4,10 +4,6 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.NewsMaterialMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
-	
 	<insert id="addNews" parameterType="NewsMaterial">
 		insert into newsMaterial (media_id,status,create_at,type) values (#{media_id},#{status},#{create_at},#{type})
 	</insert>

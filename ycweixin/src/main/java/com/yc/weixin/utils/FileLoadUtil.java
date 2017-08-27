@@ -6,19 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.yc.weixin.biz.UserBiz;
-import com.yc.weixin.biz.impl.UserBizImpl;
 
 /**
  * 
@@ -87,7 +82,7 @@ public class FileLoadUtil {
 
 		out.flush();
 		out.close();
-		return filepath.substring(filepath.lastIndexOf("\\") + 1);
+		return filepath.substring(filepath.lastIndexOf(File.separator) + 1);
 	}
 
 	/**
@@ -97,32 +92,42 @@ public class FileLoadUtil {
 	 *            上传的文件
 	 * @param request
 	 * @param dirname
-	 *            放在哪个文件夹  比如 head 或者 image
+	 *            放在哪个文件 比如 head 或者 image
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
 	public static String upload(MultipartFile file, HttpServletRequest request, String dirname)
 			throws IllegalStateException, IOException {
+		String path = "";
+		String filename = "";
+		if (!file.isEmpty()) {
 
-		String tomcatwebroot = request.getServletContext().getRealPath("/");// ycweixin路径E:\apache-tomcat-8.0.44\webapps\ycweixin\
-		File tomcat = new File(tomcatwebroot);// E:\apache-tomcat-8.0.44\webapps\ycweixin
-		File real = tomcat.getParentFile();// E:\apache-tomcat-8.0.44\webapps
+			String tomcatwebroot = request.getServletContext().getRealPath("/");// ycweixin路径E:\apache-tomcat-8.0.44\webapps\ycweixin\
+			File tomcat = new File(tomcatwebroot);// E:\apache-tomcat-8.0.44\webapps\ycweixin
+			File real = tomcat.getParentFile();// E:\apache-tomcat-8.0.44\webapps
 
-		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmsss");
-		String prefix = df.format(new Date());// 201708101526049
-		String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));// .jpg
-		String filename = prefix + fileType;// E:\apache-tomcat-8.0.44\webapps
-		String path = real + File.separator + dirname + File.separator;
+			/*
+			 * DateFormat df = new SimpleDateFormat("yyyyMMddHHmmSSS"); String
+			 * prefix = df.format(new Date());// 201708101526049
+			 */
+			String prefix = UUID.randomUUID().toString().replaceAll("-", "");
+			String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));// .jpg
+			filename = prefix + fileType;// E:\apache-tomcat-8.0.44\webapps
+			path = real + File.separator + dirname + File.separator;
 
-		File newFile = new File(path);
-		if (!newFile.exists()) {
-			newFile.mkdir();
+			File newFile = new File(path);
+			if (!newFile.exists()) {
+				newFile.mkdir();
+			}
+			// 通过CommonsMultipartFile的方法直接写文件（注意这个时候）
+			path += filename;
+			File newFile1 = new File(path);
+			file.transferTo(newFile1);
+
 		}
-		// 通过CommonsMultipartFile的方法直接写文件（注意这个时候）
-		path += filename;
-		File newFile1 = new File(path);
-		file.transferTo(newFile1);
-		
+		// dirname+File.separator+filename
 		return path;
+
 	}
+
 }

@@ -14,6 +14,16 @@ create table knowledge(
 	category int not null comment '知识的类别（1:普通对话 2:笑话 3:上下文）'
 ) comment='问答知识表';
 select * from knowledge
+
+create table knowledge_type(
+kt_id int ,
+typename varchar(20)
+)
+insert into knowledge_type(kt_id,typename)  values(0,'未知')
+insert into knowledge_type(kt_id,typename)  values(1,'普通对话');
+insert into knowledge_type(kt_id,typename)  values(2,'笑话');
+insert into knowledge_type(kt_id,typename)  values(3,'上下文');
+
 insert into knowledge values(1 , '我不开心,好难受,心里烦', '', 1);
 insert into knowledge values(2 , '哈哈,嘻嘻,嘿嘿,呵呵', '', 1);
 insert into knowledge values(3 , '你知道的真多，好聪明', '', 1);
@@ -65,16 +75,26 @@ insert into joke(joke_content) values('公共汽车上老太太怕坐过站，�
 insert into joke(joke_content) values('课堂上老师点名：“刘华!” 结果下面一孩子大声回到：“yeah!” 老师很生气：“为什么不说‘到’？” 孩子说：“那个字念‘烨’……”。');
 insert into joke(joke_content) values('昨天被公司美女同事莫名的亲了一口，心里各种的爽。后来才知道人家玩真心话大冒险，是叫亲一个公司最丑的，最丑的！');
 insert into joke(joke_content) values('有个人第一次在集市上卖冰棍，不好意思叫卖，旁边有一个人正高声喊：“卖冰棍”，他只好喊道：“我也是”。');
-
+insert into joke(joke_content) values('记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......');
 create table  chat_log (
 	 id  int not null auto_increment primary key comment '主键标识',
 	 open_id  varchar(30) not null comment '用户的OpenID',
-	 create_time  varchar(20) not null comment '消息创建时间',
+	 create_time  long not null comment '消息创建时间',
 	 req_msg  varchar(2000) not null comment '用户上行的消息',
 	 resp_msg  varchar(2000) not null comment '公众账号回复的消息',
-	 chat_category  int comment '聊天的类别（0:未知 1:普通对话 2:笑话 3:上下文）'
+	 chat_category  int comment '聊天的类别（ 1:普通对话 2:笑话 3:上下文）'
 ) comment='聊天记录表';
+drop table chat_log;
+ oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg 聂诚诚诚诚诚诚诚~ 女   安哥拉北隆达  1502007890     已关注                                          
+
+insert into  chat_log(id,open_id,create_time,req_msg,resp_msg,chat_category) values(1,'oHfPg0f0S8LTNwOIgCkrPzBKHCuQ',1502007890,'来个笑话','记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......',2)
+select u.nickname as nickname ,cl.create_time  as  create_time ,cl.req_msg as req_msg,cl.resp_msg   as resp_msg from
+chat_log cl join userinfo  u on u.uid=cl.open_id ;
+
+
+
+
 
 commit
-
+select * from  userinfo
 select answer from knowledge_sub where pid=1 order by rand() limit 0,1

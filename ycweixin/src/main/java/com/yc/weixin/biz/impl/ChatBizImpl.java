@@ -2,6 +2,7 @@ package com.yc.weixin.biz.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -194,5 +195,32 @@ public class ChatBizImpl implements ChatBiz {
 	private int getRandomNumber(int length) {
 		Random random = new Random();
 		return random.nextInt(length);
+	}
+	
+	/**
+	 * 从数据库里面读取指定日期的聊天记录 或者所有的聊天记录
+	 */
+	@Override
+	public List<Chat_log> findAllChat_Log(Map map) {
+		List<Chat_log> list =this.baseDao.findAll(Chat_log.class, "findAllChatLog", map);
+		return list;
+	}
+
+	@Override
+	public Integer getChatLogCount() {
+		Integer total=this.baseDao.getFunc(Chat_log.class, "getAllChatLogCount");
+		return total;
+	}
+
+	@Override
+	public List<Chat_log> findChatLogByDate(Map map) {
+		List<Chat_log> list =this.baseDao.findAll(Chat_log.class, "findAllChatLog", map);
+		return list;
+	}
+
+	@Override
+	public Integer getChatLogCountByDate(Map map) {
+		Integer total=this.baseDao.getFunc(Chat_log.class, "getAllChatLogCountByDate", map);
+		return total;
 	}
 }

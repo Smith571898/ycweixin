@@ -81,7 +81,14 @@
 										align : 'center',
 										//调用formater函数对列进行格式化，使其显示单选按钮（所有单选按钮name属性设为统一，这样就只能有一个处于选中状态）  
 										formatter : function(value, row, index) {
-											return '<input name="isShow" type="radio" /> ';
+											if(value=='是'){
+												var status='true';
+											
+											}else{
+												var status='false'
+											}
+											return '是<input name="isfollowpush"  type="radio" checked='+status+' /> ';
+											
 										},
 										onClickRow : function(rowIndex, rowData) {
 											//加载完毕后获取所有的checkbox遍历
@@ -119,24 +126,22 @@
 						});
 	});
 
+	 $(function(){
+		  $(":radio").click(function(){
+		   alert("您是..." + $(this).val());
+		  });
+		 });
+	 
 	function showMessage() {
 		//document.getElementById("win").append('')
 		var row = $('#manNewsTable').datagrid('getSelected');
-
+		document.getElementById('win').innerHTML = "";
+     var fcontent=row.fcontent.replace(/\"/g,"'")
+     alert(fcontent)
 		$('#win')
 				.append(
-						' <iframe src="toeditor.action?ftitle='
-								+ row.ftitle
-								+ '&fcontent='
-								+ row.fcontent
-								+ '&fpic='
-								+ row.fpic
-								+ '&isfollowpush='
-								+ row.isfollowpush
-								+ '&fid='
-								+ row.fid
-								+ '" style="overflow:hidden;height:630px;width:1200px" ></iframe> ');
-		alert(row.ftitle)
+						' <iframe src="toeditor.action?ftitle='+ row.ftitle+ '&fcontent='+ fcontent+ '&fpic='+ row.fpic+ '&isfollowpush='+ row.isfollowpush+ '&fid='+ row.fid+ '" style="overflow:hidden;height:630px;width:1200px" ></iframe> ');
+	
 		document.getElementById("win").style.display = "";
 
 		$('#win').window({
@@ -151,7 +156,6 @@
 	}
 
 	function addMenuWindow() {
-		//document.getElementById("win").append('')
 		$('#win')
 				.append(
 						' <iframe src="toAddFollowPush.action" style="overflow:hidden;height:630px;width:1200px" ></iframe> ');

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class NewsMaterialModel {
 
-	//单挑图文消息的集合
+	//单条图文消息的集合
 	private List<ArticleMaterialModel> articles;
 
 	public List<ArticleMaterialModel> getArticles() {

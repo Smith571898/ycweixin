@@ -45,7 +45,7 @@ import com.yc.weixin.utils.UpdatePicToQPic;
 public class MessageController {
 	@Resource(name = "messageBizImpl")
 	private MessageBiz messageBiz;
-	
+
 	@Resource(name = "newsBizImpl")
 	private NewsBiz newsBiz;
 
@@ -195,8 +195,8 @@ public class MessageController {
 
 		return mav;
 	}
-	
-	//多图文消息的处理
+
+	// 多图文消息的处理
 	@RequestMapping(path="addArticle.action")
 	public void addArticle(@RequestParam(name = "file", required = false) MultipartFile file,ArticleMaterialModel article,HttpServletRequest req){
 		if(req.getParameter("head")!=null){
@@ -254,6 +254,56 @@ public class MessageController {
 			
 			SendMateriaMessage.sendMateriaMessageByTag(mediaModel);
 		}
+	}
+
+	@RequestMapping(value = "doAddFollowPush.action", method = RequestMethod.POST)
+	private ModelAndView doAddFollowPush(@RequestParam(value = "fpic", required = false) MultipartFile file,
+			HttpServletRequest request, HttpSession session) throws Exception {
+		FollowPushMessage fpm = new FollowPushMessage();
+		if (!file.isEmpty()) {
+
+			String tomcatwebroot = request.getServletContext().getRealPath("/");// ycweixin路径E:\apache-tomcat-8.0.44\webapps\ycweixin\
+			File tomcat = new File(tomcatwebroot);// E:\apache-tomcat-8.0.44\webapps\ycweixin
+			File real = tomcat.getParentFile();// E:\apache-tomcat-8.0.44\webapps
+
+			DateFormat df = new SimpleDateFormat("yyyyMMddHHmmsss");
+			String prefix = df.format(new Date());// 201708101526049
+			String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));// .jpg
+			String filename = prefix + fileType;// E:\apache-tomcat-8.0.44\webapps
+			String path = real + "\\images/";
+
+			File newFile = new File(path);
+			if (!newFile.exists()) {
+				newFile.mkdir();
+			}
+			// 通过CommonsMultipartFile的方法直接写文件（注意这个时候）
+			path += filename;
+			File newFile1 = new File(path);
+			file.transferTo(newFile1);
+			fpm.setFpic(filename);
+		} else {
+			fpm.setFpic("");
+		}
+
+		// 基本表单
+
+		if (session.getAttribute("fid") != null) {
+			fpm.setFid(Integer.valueOf(session.getAttribute("fid").toString()));
+		}
+		fpm.setFtitle(request.getParameter("ftitle"));
+		fpm.setFcontent(request.getParameter("fcontent"));
+		fpm.setIsfollowpush(request.getParameter("ss"));
+		fpm.setLastmodifytime(String.valueOf(System.currentTimeMillis()));
+		fpm.setLastmodify("admin");
+		System.out.println(request.getParameter("ftitle"));
+		ModelAndView mav = new ModelAndView();
+		if (messageBiz.AddFollowPush(fpm)) {
+			mav.setViewName("success");
+		} else {
+			mav.setViewName("faile");
+		}
+
+		return mav;
 	}
 
 }

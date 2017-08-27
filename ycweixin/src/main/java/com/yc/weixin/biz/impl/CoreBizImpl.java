@@ -2,6 +2,9 @@ package com.yc.weixin.biz.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import com.yc.weixin.resp.message.Article;
 import com.yc.weixin.resp.message.NewsMessage;
 import com.yc.weixin.resp.message.TextMessage;
 import com.yc.weixin.utils.AccessTokenUtil;
+import com.yc.weixin.utils.FileLoadUtil;
 import com.yc.weixin.utils.MessageUtil;
 import com.yc.weixin.utils.UserInfoUtil;
 
@@ -33,7 +37,9 @@ public class CoreBizImpl implements CoreBiz {
 	private Map<String, String> reqMap = new HashMap<String, String>();
 	private String msgType = "";
 	private String respXml = "";
-	
+	private FileLoadUtil  fileLoadUtil=new FileLoadUtil();
+	private UserInfoUtil  userInfoUtil =new UserInfoUtil();
+
 	@Resource(name="chatBizImpl")
 	private ChatBiz cb;
 	
@@ -42,13 +48,14 @@ public class CoreBizImpl implements CoreBiz {
 
 	@Resource(name="userBizImpl")
 	private UserBiz ub;
-	
+	private HttpServletRequest req;
 	@Override
 	public String processXml(HttpServletRequest req) {
 		try {
 			reqMap = MessageUtil.parseXml(req);
 			msgType = reqMap.get("MsgType");
 			respXml = "";
+			this.req = req;
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}
@@ -203,24 +210,31 @@ public class CoreBizImpl implements CoreBiz {
 	}
 
 	// 关注事件
-	//TODO:从数据库查询数据
+
 	private void eventWhenSubscribe() {
 		String toUserName = reqMap.get("ToUserName");
 		String fromUserName = reqMap.get("FromUserName");
 		
-		saveUser(fromUserName);
+		try {
+			saveUser(fromUserName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		List<FollowPushMessage> list = mb.findFollowPushMessage(null);
 		List<Article> articles = new ArrayList<Article>();
 
 		for(FollowPushMessage fpm:list){
+			if(fpm.getIsfollowpush().equals("是")){
 			Article article = new Article();
 			article.setDescription(fpm.getFcontent());
-			article.setPicUrl("http://119.23.39.190/pic/6.jpg");
+			article.setPicUrl("http://dnfyia.natappfree.cc/pic/6.jpg");
 			article.setTitle(fpm.getFtitle());
 			article.setUrl("http://www.hyycinfo.com/");
 			
 			articles.add(article);
+			}
 		}
 		
 		NewsMessage nm = new NewsMessage();
@@ -236,18 +250,101 @@ public class CoreBizImpl implements CoreBiz {
 
 	// 取消关注事件
 	private void eventWhenUnsubscribe() {
+		String openid = reqMap.get("FromUserName");
+		WeChatUser wcu = new WeChatUser();
+		wcu.setOpenid(openid);
+		wcu.setSubscribe("未关注");
+		ub.updateUserisFollow(wcu);
 
 	}
 
 	//TODO:保存用户到数据库
-	private void saveUser(String openid){
+	/**
+	 * 
+	 * 新用户关注 存数据到数据库  回归用户重新关注   更新最新的微信信息
+	 * @param openid
+	 * @throws Exception
+	 */
+	private void saveUser(String openid) throws Exception{
 		try {
 			UserModel um = UserInfoUtil.getUserInfo(AccessTokenUtil.access_token, openid);
+			System.out.println(AccessTokenUtil.access_token);
 			WeChatUser wcu = new WeChatUser();
 			wcu.setOpenid(um.getOpenid());
-			ub.AddUser(wcu);
+			System.out.println(openid);
+			wcu.setNickname(um.getNickname());
+			System.out.println(wcu);
+			String headImgUrl=fileLoadUtil.fileupload(req, um.getHeadimgurl());
+			wcu.setHeadimgurl(headImgUrl.substring(headImgUrl.lastIndexOf("\\")+1));
+			
+			wcu.setAddress(um.getCountry()+um.getProvince()+um.getCity());
+			if(um.getSex()==1){
+				wcu.setSex("男");
+			}else if(um.getSex()==2){
+				wcu.setSex("女");
+			}
+			wcu.setSubscribe("已关注");
+			wcu.setSubscribe_time(um.getSubscribe_time());
+			WeChatUser weChatUser =ub.CheckUserisExist(wcu);
+			
+			if(weChatUser==null){			
+				ub.AddUser(wcu);		
+			}else if(weChatUser!=null){			
+					ub.updateUserSubscribe(wcu);//如果该用户以前关注过，重新关注 就更新最新的信息					
+		
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 将5
+	 * 1
+	 * 
+	 */
+	/***
+	 * 一键获取所有的用户名  并存入数据库
+	 */
+	private void weChatHeaddownload(){
+
+		try {
+			String access_token=AccessTokenUtil.access_token;
+			List<UserModel> list=userInfoUtil.getAllUserInfo(access_token);
+			List<WeChatUser> weChatUserList=new ArrayList<WeChatUser>();
+			for(UserModel um:list){
+				WeChatUser wu=new WeChatUser();
+				wu.setOpenid(um.getOpenid());
+				wu.setNickname(um.getNickname());
+
+				String headImgUrl=fileLoadUtil.fileupload(req, um.getHeadimgurl());
+				wu.setHeadimgurl(headImgUrl);
+				wu.setAddress(um.getCountry()+um.getProvince()+um.getCity());
+				if(um.getSex()==1){
+					wu.setSex("男");
+				}else if(um.getSex()==2){
+					wu.setSex("女");
+				}else{
+					wu.setSex("未知");
+				}
+				if(um.getSubscribe()==1){
+					wu.setSubscribe("已关注");
+				}else{
+					wu.setSubscribe("未关注");
+				}
+				wu.setSubscribe_time(um.getSubscribe_time());
+				
+				weChatUserList.add(wu);
+			}
+		ub.AddUserInfo(weChatUserList);
+		} catch (KeyManagementException | NoSuchAlgorithmException | NoSuchProviderException | IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	
+	
 	}
 }

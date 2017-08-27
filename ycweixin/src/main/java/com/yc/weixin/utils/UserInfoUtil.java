@@ -13,9 +13,9 @@ import com.yc.weixin.model.UserModel;
 public class UserInfoUtil {
 
 	
-	private static String userInfouri = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+	private static final String userInfouri = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 
-	private static String openIduri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN";
+	private static final String openIduri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN";
 	/**
 	 * 获取用户信息
 	 * @param openid	
@@ -31,9 +31,10 @@ public class UserInfoUtil {
 		String response = "";
 		List<UserModel> list = new ArrayList<UserModel>();
 		for (String id : openid) {
-			userInfouri = userInfouri.replace("ACCESS_TOKEN", access_token);
-			userInfouri = userInfouri.replace("OPENID", id);
-			response = CommonUtil.getResources(userInfouri,null);
+			String userInfouri1=userInfouri;
+			userInfouri1 = userInfouri1.replace("ACCESS_TOKEN", access_token);
+			userInfouri1 = userInfouri1.replace("OPENID", id);
+			response = CommonUtil.getResources(userInfouri1,null);
 			UserModel um = CommonUtil.gson.fromJson(response, UserModel.class);
 			System.out.println(um);
 			list.add(um);
@@ -45,9 +46,10 @@ public class UserInfoUtil {
 	public static UserModel getUserInfo(String access_token,String openid) throws IOException{
 		String response = "";
 		UserModel um = new UserModel();
-		userInfouri = userInfouri.replace("ACCESS_TOKEN", access_token);
-		userInfouri = userInfouri.replace("OPENID", openid);
-		response = CommonUtil.getResources(userInfouri,null);
+		String userInfouri1=userInfouri;
+		userInfouri1 = userInfouri1.replace("ACCESS_TOKEN", access_token);
+		userInfouri1 = userInfouri1.replace("OPENID", openid);
+		response = CommonUtil.getResources(userInfouri1,null);
 		um = CommonUtil.gson.fromJson(response, UserModel.class);
 		return um;
 	}
@@ -76,14 +78,15 @@ public class UserInfoUtil {
 	//通过返回的next_openid可以继续往下获取
 	private static List<String> getAllOpenId(String accessToken)
 			throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
-		openIduri = openIduri.replace("ACCESS_TOKEN", accessToken);
+		String openIduri1=openIduri;
+		openIduri1 = openIduri1.replace("ACCESS_TOKEN", accessToken);
 		//自定义信任管理器，完成https链接
 		// TrustManager[] tm = {new My509TrustManager()};
 		// SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
 		// sslContext.init(null, tm, new java.security.SecureRandom());
 		// SSLSocketFactory ssf = sslContext.getSocketFactory();
 
-		String response = CommonUtil.getResources(openIduri,null);
+		String response = CommonUtil.getResources(openIduri1,null);
 		UserGroupModel ugm = CommonUtil.gson.fromJson(response, UserGroupModel.class);
 
 		for (String openid : ugm.getData().getOpenid()) {

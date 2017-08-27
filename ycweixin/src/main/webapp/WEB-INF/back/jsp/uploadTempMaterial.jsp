@@ -10,6 +10,7 @@ String path = request.getContextPath();   // /bbs
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <base href="<%=basePath %>">
+<script src="js/jquery-1.11.0.min.js"></script>
 
 <link href="css/lanrenzhijia.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="diyUpload/css/webuploader.css">
@@ -31,25 +32,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div id="content">
 		<div id="tab1">
-				<iframe src="touploadpicbat.action" style="overflow:hidden;height:600px;width:1680px"></iframe>
+				<iframe src="touploadTemppicbat.action" style="overflow:hidden;height:600px;width:1680px"></iframe>
 				
 				
 		</div>
 		<div id="tab2">
-			<iframe src="touploadfilebat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
+			<iframe src="touploadTempvideobat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
 		</div>
 		<div id="tab3">
-				<iframe src="touploadfilebat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
+				<iframe src="touploadTempaudiobat.action" style="overflow:hidden;height:600px;width:1550px"></iframe>
 
 		</div>
 	</div>
 	<br>
 	<br>
-
-<script src="js/jquery-1.11.0.min.js"></script>
-
-<script type="text/javascript" src="diyUpload/js/webuploader.html5only.min.js"></script>
-<script type="text/javascript" src="diyUpload/js/diyUpload.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#content div").hide(); // Initially hide all content
@@ -65,34 +61,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 
 	});
-	$('#test').diyUpload({
-		url:'doupload.action',
-		success:function( data ) {
-			console.info( data );
-		},
-		error:function( err ) {
-			console.info( err );	
-		}
-	});
 
-	$('#as').diyUpload({
-		url:'doupload.action',
-		success:function( data ) {
-			console.info( data );
-		},
-		error:function( err ) {
-			console.info( err );	
-		},
-		buttonText : '选择文件',
-		chunked:true,
-		// 分片大小
-		chunkSize:512 * 1024,
-		//最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
-		fileNumLimit:50,
-		fileSizeLimit:500000 * 1024,
-		fileSingleSizeLimit:50000 * 1024,
-		accept: {}
-	});
 </script>
+
+
 </body>
 </html>

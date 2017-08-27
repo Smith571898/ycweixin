@@ -1,34 +1,19 @@
 package com.yc.weixin.utils;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.yc.weixin.model.AcessTokenModel;
-import com.yc.weixin.model.UserGroupModel;
-import com.yc.weixin.model.UserModel;
 
-/**
- *	yhy
- *	所有的access_token统一从这个类里面获取
- */
 @Component
 public class AccessTokenUtil {
 
-	public static final String APPID = "wx7315cee02fb6dd0f";
+	public static final String APPID = "wxe193c3a51e0481e7";
 
-	public static final String APPSECRET = "40b4558fd28a0070fb4ce9f8491daa2a";
+	public static final String APPSECRET = "42ca5b1df322bcb96515ff364826bbd8";
 	
 	public static String access_token = getAccessToken();
 

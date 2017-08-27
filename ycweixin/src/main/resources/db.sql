@@ -1,11 +1,21 @@
 create database wechat
 use wechat
 
+create table admin(
+adminname varchar(10),
+adminpwd varchar(50)
+)
+insert admin(adminname,adminpwd)  values('a','a')
+delete  from userinfo
 drop table userinfo
 alter table userinfo  modify column uid varchar(100);
+0329
+ oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg 聂诚诚诚诚诚诚诚~ 女   安哥拉北隆达  1502007890     已关注                                          
 
+userinfo
+select * from userinfo
  create table userinfo(
-     uid int,
+     uid varchar(100),
      headimgurl varchar(500),
      nickname varchar(200),
      sex varchar(20),
@@ -18,16 +28,18 @@ alter table userinfo  modify column uid varchar(100);
      nowclass varchar(100),
      ycclass varchar(100)
 );
+<p>源辰微信科技有限公司是一家定位于大学生软件开发,实战培训等一系列软件服务的综合性软件公司，为解决大学生高起点就业和为企业提供解决方案为目标。公司是以软件教育及行业软件开发工作为主，兼顾企业IT技术咨询服务及软件开发，企业员工技术培训。<img alt="" src="../tuwen/201708181419056.PNG" style="height:60px; width:46px" /></p>
 
-
+select  * from followpush
+update followpush set isfollowpush='否' where fid =1
 create table followpush(
-	fid int,
+	fid int primary key auto_increment,
 	ftitle varchar(200),
 	fpic  varchar(200),
 	fcontent varchar(2000),
 	lastmodify varchar(50),
 	lastmodifytime varchar(200),
-	isfollowpush varchar(10),
+	isfollowpush varchar(10)
 )
 
 select * from followpush;
@@ -61,7 +73,7 @@ select name,grade from sub_button where sb_bid=1
 select 
 drop table button
 drop table sub_button
-
+delete from followpush
 create table sub_button(
 	sbid int primary key auto_increment,
 	sb_bid int,
@@ -164,3 +176,17 @@ select * from newsMaterial;
 select * from articleMaterial;
 
 drop table articleMaterial;
+
+create table material(
+	media_id varchar(200) primary key,
+	mpurl varchar(200),
+	url varchar(200),
+	type varchar(20),
+	create_at varchar(20)
+)
+
+alter table material add create_at varchar(20)
+
+delete from material;
+
+select * from material;

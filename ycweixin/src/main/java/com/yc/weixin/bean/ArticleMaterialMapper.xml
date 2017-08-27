@@ -4,10 +4,6 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.ArticleMaterialMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
-
 	<insert id="addArticles" parameterType="list">
 		insert into articleMaterial
 		(media_id,title,thumb_media_id,author,digest,show_cover_pic,content,content_source_url,status)

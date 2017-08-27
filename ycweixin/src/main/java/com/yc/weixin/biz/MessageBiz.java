@@ -13,6 +13,10 @@ public interface MessageBiz {
 	public Integer finFollowPushCount();
 
 	public boolean updateFollowPush(FollowPushMessage fpm);
+
+	public FollowPushMessage PushMessage(Map<String, Object> map);
+
+	public boolean AddFollowPush(FollowPushMessage fpm);
 	
 	
 

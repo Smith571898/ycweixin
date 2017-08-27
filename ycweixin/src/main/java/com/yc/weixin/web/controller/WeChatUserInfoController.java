@@ -45,7 +45,7 @@ public class WeChatUserInfoController {
 		int pages = Integer.parseInt(request.getParameter("page").toString());
 		int pagesize = Integer.parseInt(request.getParameter("rows").toString());
 		int start=(pages-1)*pagesize;
-		Map<String,Integer> map=new HashMap<String,Integer>();
+		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("pagesize", pagesize);
 		List<WeChatUser> list = userBiz.findAllUser(map);

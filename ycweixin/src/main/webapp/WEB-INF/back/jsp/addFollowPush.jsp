@@ -40,7 +40,7 @@
 		reader.readAsDataURL(file)
 	}
 
-	function updateFollowPush() {
+	function AddFollowPush() {
 
 		$("#addFollowPushForm").submit()
 		$.message.show()
@@ -66,7 +66,7 @@
 			
 		})	 */
 </script>
-<form action="doupdateFollowPush.action" id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
+<form action="doAddFollowPush.action" id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
 	文章 标题
 	<input type="text" name="ftitle" id="ftitle" />
 	<br /> <br /> 设为关注时推送:
@@ -85,13 +85,13 @@
 	<img id="showpic" src="" width="200px" height="150px" style="display: block" />
 	<br /> 文章内容:
 	<textarea class="ckeditor" name="fcontent"></textarea>
-<script type="text/javascript">
-	CKEDITOR.replace('fcontent', {
-		filebrowserImageUploadUrl : 'uploadImg.action',
-		language : 'zh-cn',
-	});
-</script>
+		<script type="text/javascript">
+		CKEDITOR.replace('fcontent', {
+			filebrowserImageUploadUrl : 'uploadImg.action',
+			language : 'zh-cn',
+		});
+	</script>
 	<div style="margin: 0px auto; text-align: center; margin-top: 10px">
-		<input type="button" id="btn" value="确认修改" onclick="updateFollowPush()">
+		<input type="button" id="btn" value="确认添加" onclick="AddFollowPush()">
 	</div>
 </form>
