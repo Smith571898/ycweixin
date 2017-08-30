@@ -2,35 +2,35 @@ package com.yc.weixin.resp.message;
 
 public class Article {
 	//图文消息名称
-	private String title;
+	private String Title;
 	//图文消息描述
-	private String description;
+	private String Description;
 	//图片链接,支持jpg、png格式，较好的效果为大图640px X 320px ，小图80px X 80px
-	private String picUrl;
+	private String PicUrl;
 	//点击图文消息跳转链接
-	private String url;
+	private String Url;
 	public String getTitle() {
-		return title;
+		return Title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String Title) {
+		this.Title = Title;
 	}
 	public String getDescription() {
-		return description;
+		return Description;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription(String Description) {
+		this.Description = Description;
 	}
 	public String getPicUrl() {
-		return picUrl;
+		return PicUrl;
 	}
-	public void setPicUrl(String picUrl) {
-		this.picUrl = picUrl;
+	public void setPicUrl(String PicUrl) {
+		this.PicUrl = PicUrl;
 	}
 	public String getUrl() {
-		return url;
+		return Url;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setUrl(String Url) {
+		this.Url = Url;
 	}
 }

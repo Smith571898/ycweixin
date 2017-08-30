@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.weixin.bean.Chat_logMapper">
+
+	<!-- 加入带日志的ehcahe缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"> </cache> -->
+	<!-- -查询所有的聊天记录 或者指定时间的聊天记录 -->
+	<select id="findAllChatLog" parameterType="Map" resultType="Chat_log">
+		select u.nickname as nickname ,cl.create_time as create_time
+		,cl.req_msg as req_msg,cl.resp_msg as resp_msg from
+		chat_log cl join
+		userinfo u on u.uid=cl.open_id where 1=1
+
+		<if test="starttime !=null and starttime!=null">
+			and create_time between #{starttime} and #{endtime}
+		</if>
+
+		<if test="orderby != null  and orderby != '' ">
+			order by #{orderby}
+			<if test="orderway != null and  orderway != ''">
+				#{orderway}
+			</if>
+		</if>
+		<if test="start!=null">
+			limit #{start},#{pagesize}
+		</if>
+
+	</select>
+
+	<select id="getAllChatLogCount" resultType="Integer">
+		select count(1) from
+		chat_log where 1=1
+	</select>
+
+	<select id="getAllChatLogCountByDate" resultType="Integer"
+		parameterType="Map">
+		select count(1) from chat_log where 1=1 and create_time
+		between #{starttime}
+		and #{endtime}
+
+	</select>
+
+	<select id="Findchat_categoryByOpenid" resultType="Chat_log"
+		parameterType="Chat_log">
+		select chat_category from chat_log where
+		open_id=#{open_id} order by id desc limit 0,1
+	</select>
+
+
+	<insert id="addChat_log" parameterType="Chat_log"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into chat_log(open_id,
+		create_time, req_msg, resp_msg, chat_category)
+		values(#{open_id},#{create_time},#{req_msg},#{resp_msg},#{chat_category})
+	</insert>
+
+</mapper>

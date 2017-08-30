@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.weixin.bean.Knowledge_subMapper">
+
+	<select id="findAnswerBypid" parameterType="Knowledge_sub" resultType="Knowledge_sub">
+		select answer from knowledge_sub where pid=#{pid} order by rand() limit 0,1
+	</select>
+
+	<select id="findAllTwoKnowledge" parameterType="Map" resultType="Knowledge_sub">
+	select ks.id as id,k.question as subquestion,ks.answer as answer   ,ks.pid as pid
+	from knowledge_sub  ks join knowledge k on ks.pid=k.id
+	
+		<if test="start!=null">
+				limit #{start},#{pagesize}
+			</if>
+	</select>
+	
+	<select id="getTwoKnowledgeCount" resultType="Integer">
+	
+	select count(*)  from knowledge_sub where 1=1
+	</select>
+	
+	<update id="updateTwoKnow" parameterType="Knowledge_sub">
+	update knowledge_sub set answer=#{answer} where id=#{id}
+	
+	</update>
+	<insert id="addTwoKnow" parameterType="Knowledge_sub" useGeneratedKeys="true" keyProperty="id">
+	insert into knowledge_sub(pid,answer) values(#{pid},#{answer})
+	</insert>
+	
+	<delete id="delTwoKnowById" parameterType="Knowledge_sub">
+	delete from knowledge_sub where id=#{id}
+	</delete>
+</mapper>

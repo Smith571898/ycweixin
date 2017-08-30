@@ -3,35 +3,48 @@ drop table knowledge_sub;
 drop table joke;
 drop table chat_log;
 
-create database weixin;
-
-use weixin;
-
+create database wechat;
+	select u.nickname as nickname ,cl.create_time as create_time
+		,cl.req_msg as req_msg,cl.resp_msg as resp_msg from
+		chat_log cl join userinfo u on u.uid=cl.open_id where 1=1
+		
+use wechat;
+select * from userinfo
 create table knowledge(
-	id int not null primary key comment '主键标识',
+	id int not null auto_increment primary key comment '主键标识',
 	question varchar(2000) not null comment '问题',
 	answer text(8000) not null comment '答案',
 	category int not null comment '知识的类别（1:普通对话 2:笑话 3:上下文）'
 ) comment='问答知识表';
+drop table knowledge
 select * from knowledge
+                                        
+
+
+
+
 insert into knowledge values(1 , '我不开心,好难受,心里烦', '', 1);
 insert into knowledge values(2 , '哈哈,嘻嘻,嘿嘿,呵呵', '', 1);
 insert into knowledge values(3 , '你知道的真多，好聪明', '', 1);
-insert into knowledge values(4, '给我讲个笑话', '', 2);
+insert into knowledge values(4 , '给我讲个笑话', '', 2);
 insert into knowledge values(5 , '继续', '我们聊到哪了？', 3);
 insert into knowledge values(6 , '再来一个', '那你再给点掌声吧', 3);
-insert into knowledge values(7, '还有吗', '你是指什么呢？', 3);
+insert into knowledge values(7 , '还有吗', '你是指什么呢？', 3);
 insert into knowledge values(8 , 'Hi,Hello,嗨,你好', '你好，很高兴认识你。', 1);
-insert into knowledge values(9 , '你的主人/老板/发明者是谁', '我老板是柳峰', 1);
+insert into knowledge values(9 , '你的主人/老板/发明者是谁', '我就是我，是颜色不一样的烟火', 1);
 insert into knowledge values(10 , '你觉得我帅吗', '还行吧，比我还差那么一点点。', 1);
 insert into knowledge values(11 , '你在干什么呢', '我在专心和你聊天啊', 1);
-insert into knowledge values(12 , '你喜欢我吗', '中国的首都是北京。', 1);
+insert into knowledge values(12 , '你喜欢我吗', '就差和你表白了', 1);
 insert into knowledge values(13 , '中国的首都是哪', '中国的首都是北京。', 1);
 insert into knowledge values(14 , '明天又要上班了', '好好工作哦~', 1);
 insert into knowledge values(15 , '我好饿', '那快吃饭去啊', 1);
 insert into knowledge values(16 , '什么是幸福', '幸福是一种感觉。', 1);
 insert into knowledge values(17 , '你是机器人吗', '是啊，很智能的那种哦~', 1);
 insert into knowledge values(18 , '唉,哎', '怎么了，叹什么气呢？', 1);
+
+update knowledge set answer = '就差和你表白了' where id = 12
+select ks.id as id,k.question as question,ks.answer as answer  from knowledge_sub  ks join knowledge k on ks.pid=k.id
+select * from knowledge;
 
 create table  knowledge_sub (
 	 id  int not null auto_increment primary key comment '主键标识',
@@ -61,14 +74,24 @@ insert into joke(joke_content) values('公共汽车上老太太怕坐过站，�
 insert into joke(joke_content) values('课堂上老师点名：“刘华!” 结果下面一孩子大声回到：“yeah!” 老师很生气：“为什么不说‘到’？” 孩子说：“那个字念‘烨’……”。');
 insert into joke(joke_content) values('昨天被公司美女同事莫名的亲了一口，心里各种的爽。后来才知道人家玩真心话大冒险，是叫亲一个公司最丑的，最丑的！');
 insert into joke(joke_content) values('有个人第一次在集市上卖冰棍，不好意思叫卖，旁边有一个人正高声喊：“卖冰棍”，他只好喊道：“我也是”。');
-
+insert into joke(joke_content) values('记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......');
 create table  chat_log (
 	 id  int not null auto_increment primary key comment '主键标识',
 	 open_id  varchar(30) not null comment '用户的OpenID',
-	 create_time  varchar(20) not null comment '消息创建时间',
+	 create_time  long not null comment '消息创建时间',
 	 req_msg  varchar(2000) not null comment '用户上行的消息',
 	 resp_msg  varchar(2000) not null comment '公众账号回复的消息',
-	 chat_category  int comment '聊天的类别（0:未知 1:普通对话 2:笑话 3:上下文）'
+	 chat_category  int comment '聊天的类别（ 0:位置1:普通对话 2:笑话 3:上下文）'
 ) comment='聊天记录表';
+drop table chat_log;
+ oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg 聂诚诚诚诚诚诚诚~ 女   安哥拉北隆达  1502007890     已关注                                          
+select * from chat_log
+insert into  chat_log(id,open_id,create_time,req_msg,resp_msg,chat_category) values(1,'ojs33w2xhz-BRqBfoPgV-RvdvT70',1502007890,'来个笑话','记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......',2)
+select u.nickname as nickname ,cl.create_time  as  create_time ,cl.req_msg as req_msg,cl.resp_msg   as resp_msg from
+chat_log cl join userinfo  u on u.uid=cl.open_id ;
+
+
 
 commit
+select * from  userinfo
+select * from knowledge_sub where pid=1 order by rand() limit 0,1
