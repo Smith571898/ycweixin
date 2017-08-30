@@ -1,7 +1,9 @@
 package com.yc.weixin.biz.impl;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -163,6 +165,12 @@ public class ChatBizImpl implements ChatBiz {
 		else {
 			answer = getDefaultAnswer();
 			chatCategory = 0;
+			//将用户的对话存问答一表,设置为O  然后去后台设置回复信息
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("category", 0);
+			map.put("question", question);
+			map.put("answer", "");
+			this.baseDao.save(Knowledge.class, "addumknowKnowledge", map);
 		}
 		// 保存聊天记录
 		chat_log.setOpen_id(openId);
@@ -195,4 +203,122 @@ public class ChatBizImpl implements ChatBiz {
 		Random random = new Random();
 		return random.nextInt(length);
 	}
+	
+	/**
+	 * 从数据库里面读取指定日期的聊天记录 或者所有的聊天记录
+	 */
+	@Override
+	public List<Chat_log> findAllChat_Log(Map map) {
+		List<Chat_log> list =this.baseDao.findAll(Chat_log.class, "findAllChatLog", map);
+		return list;
+	}
+
+	@Override
+	public Integer getChatLogCount() {
+		Integer total=this.baseDao.getFunc(Chat_log.class, "getAllChatLogCount");
+		return total;
+	}
+
+	@Override
+	public List<Chat_log> findChatLogByDate(Map map) {
+		List<Chat_log> list =this.baseDao.findAll(Chat_log.class, "findAllChatLog", map);
+		return list;
+	}
+
+	@Override
+	public Integer getChatLogCountByDate(Map map) {
+		Integer total=this.baseDao.getFunc(Chat_log.class, "getAllChatLogCountByDate", map);
+		return total;
+	}
+
+	@Override
+	public List<Knowledge> findAllKnowLedge(Map map) {
+		List<Knowledge> list=	this.baseDao.findAll(Knowledge.class, "FindAllKnowledge", map);
+		return list;
+	}
+
+	@Override
+	public Integer getKnowLedgeCount() {
+		Integer total=this.baseDao.getFunc(Knowledge.class, "getKnowledgeCount");
+		
+		return total;
+	}
+
+	@Override
+	public void updateknowledge(Knowledge knowledge) {
+		this.baseDao.update(knowledge, "updateKnowledge");
+	}
+	
+	@Override
+	public void addknowledge(Knowledge knowledge) {
+		this.baseDao.save(knowledge, "addKnowledge");
+		
+	}
+
+	@Override
+	public List<Joke> findAllJoke(Map map) {
+		List<Joke> list=this.baseDao.findAll(Joke.class, "findAllJoke", map);
+		return list;
+	}
+
+	@Override
+	public Integer getJokeCount() {
+		Integer total=this.baseDao.getFunc(Joke.class, "findJokeCount");
+		return total;
+	}
+
+	@Override
+	public List<Knowledge_sub> findAllTwoKnowLedge(Map map) {
+		
+		List<Knowledge_sub> list=this.baseDao.findAll(Knowledge_sub.class, "findAllTwoKnowledge", map);
+				return list;
+	}
+
+	@Override
+	public Integer getTwoKnowledgeCount() {
+		Integer total =this.baseDao.getFunc(Knowledge_sub.class, "getTwoKnowledgeCount");
+		return total;
+	}
+
+	@Override
+	public void updatetwoknow(Knowledge_sub knowledge_sub) {
+		this.baseDao.update(knowledge_sub, "updateTwoKnow");
+		
+	}
+
+	@Override
+	public void addtwoknow(Knowledge_sub knowledge_sub) {
+		this.baseDao.save(knowledge_sub, "addTwoKnow");
+		
+	}
+
+	@Override
+	public void updatejoke(Joke joke) {
+		
+		this.baseDao.update(joke, "updatejoke");
+		
+	}
+	public void addjoke(Joke joke){
+		this.baseDao.save(joke, "addjoke");
+	}
+
+	@Override
+	public void delknow(Knowledge knowledge) {
+		this.baseDao.del(knowledge, "delKnowById");
+		
+	}
+
+	@Override
+	public void deljoke(Joke joke) {
+		this.baseDao.del(joke, "delJokeByjokeid");
+		
+	}
+
+	@Override
+	public void deltwoKnow(Knowledge_sub knowledge_sub) {
+		this.baseDao.del(knowledge_sub, "delTwoKnowById");
+		
+	}
+
+	
 }

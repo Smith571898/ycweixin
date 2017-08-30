@@ -8,9 +8,9 @@ public class UserModel {
 	private String nickname;
 	//性别 
 	private Integer sex;
-
+	//城市
 	private String city;
-
+	//语言
 	private String language;
 	//省
 	private String province;

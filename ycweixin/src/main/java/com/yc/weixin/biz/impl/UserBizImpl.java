@@ -41,7 +41,24 @@ public class UserBizImpl  implements UserBiz{
 		}
 		return false;
 	}
-	
-	
+
+	@Override
+	public WeChatUser CheckUserisExist(WeChatUser weChatUser) {
+		WeChatUser wcu=(WeChatUser) this.baseDao.findOne(weChatUser, "checkUserIsExist");
+		return wcu;
+		
+	}
+
+	@Override
+	public void updateUserSubscribe(WeChatUser weCharUser) {
+	this.baseDao.update(weCharUser, "updateUserSubscribe");
+		
+	}
+
+	@Override
+	public void updateUserisFollow(WeChatUser weCharUser) {
+		this.baseDao.update(weCharUser, "updateUserIsFollow");
+		
+	}
 
 }

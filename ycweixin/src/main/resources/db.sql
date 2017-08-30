@@ -1,11 +1,21 @@
 create database wechat
 use wechat
 
+create table admin(
+adminname varchar(10),
+adminpwd varchar(50)
+)
+insert admin(adminname,adminpwd)  values('a','a')
+delete  from userinfo
 drop table userinfo
 alter table userinfo  modify column uid varchar(100);
+0329
+ oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg Äô³Ï³Ï³Ï³Ï³Ï³Ï³Ï~ Å®   °²¸çÀ­±±Â¡´ï  1502007890     ÒÑ¹Ø×¢                                          
 
+userinfo
+select * from userinfo
  create table userinfo(
-     uid int,
+     uid varchar(100),
      headimgurl varchar(500),
      nickname varchar(200),
      sex varchar(20),
@@ -19,15 +29,16 @@ alter table userinfo  modify column uid varchar(100);
      ycclass varchar(100)
 );
 
-
+select  * from followpush
+update followpush set isfollowpush='·ñ' where fid =1
 create table followpush(
-	fid int,
+	fid int primary key auto_increment,
 	ftitle varchar(200),
 	fpic  varchar(200),
 	fcontent varchar(2000),
 	lastmodify varchar(50),
 	lastmodifytime varchar(200),
-	isfollowpush varchar(10),
+	isfollowpush varchar(10)
 )
 
 select * from followpush;
@@ -46,6 +57,8 @@ select a.name ,b.name from (select button.bid ,button.name as name from button )
 (select sub_button.sb_bid as ssbid,sub_button.sbid ,sub_button.name as name from sub_button) b  on a.bid=b.ssbid
 
 
+desc button;
+
 join sub_button
 
 select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name  as sub_name from sub_button a join button b on  b.bid=a.sb_bid where 1=1
@@ -59,7 +72,7 @@ select name,grade from sub_button where sb_bid=1
 select 
 drop table button
 drop table sub_button
-
+delete from followpush
 create table sub_button(
 	sbid int primary key auto_increment,
 	sb_bid int,
@@ -69,21 +82,19 @@ create table sub_button(
 	url   varchar(2000),
 	grade  int
 )
-<<<<<<< HEAD
+
 alter table sub_button  modify column grade int ;	
 
 select b.name ,s.name,s.grade from button  b
 inner join sub_button s
 on b.bid=s.sb_bid  order by s.grade desc
 
-=======
 
 create table materia(
 	mid int primary key auto_increment,
 	murl varchar(300),
 	media_id varchar(200),
 )
->>>>>>> refs/remotes/origin/yhy
 
 select * from sub_button
 update sub_button set sb_bid=1 where sbid=1
@@ -134,3 +145,47 @@ select * from userinfo
 
 
 select * from button left join sub_button on bid = sb_bid;
+
+
+
+
+
+
+create table newsMaterial(
+	media_id varchar(200) primary key,
+	status int,
+	create_at varchar(200),
+	type varchar(20)
+)
+
+create table articleMaterial(
+	media_id varchar(200) primary key,
+	title varchar(100) not null,
+	thumb_media_id varchar(200) not null,
+	author varchar(50),
+	digest varchar(200),
+	show_cover_pic int,
+	content varchar(2000) not null,
+	content_source_url varchar(200),
+	status int
+)
+
+select * from newsMaterial;
+
+select * from articleMaterial;
+
+drop table articleMaterial;
+
+create table material(
+	media_id varchar(200) primary key,
+	mpurl varchar(200),
+	url varchar(200),
+	type varchar(20),
+	create_at varchar(20)
+)
+
+alter table material add create_at varchar(20)
+
+delete from material;
+
+select * from material;

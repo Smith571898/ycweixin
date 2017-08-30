@@ -30,6 +30,8 @@ import com.yc.weixin.model.MenuModel;
 import com.yc.weixin.utils.AccessTokenUtil;
 import com.yc.weixin.utils.CommonUtil;
 import com.yc.weixin.utils.MenuUtil;
+import com.yc.weixin.utils.SendMateriaMessage;
+import com.yc.weixin.utils.UpdatePicToQPic;
 
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration("classpath*:beans.xml")
@@ -150,4 +152,15 @@ public class Testone {
 		System.out.println(mm);
 	}
 	
+	@Test
+	public void test5(){
+		String content = "<p>源辰微信科技有限公司是一家定位于大学生软件开发,实战培训等一系列软件服务的综合性软件公司，为解决大学生高起点就业和为企业提供解决方案为目标。公司是以软件教育及行业软件开发工作为主，兼顾企业IT技术咨询服务及软件开发，企业员工技术培训。<img alt='' src='d:\\k.jpg' style='height:60px; width:46px' /></p>";
+		System.out.println(UpdatePicToQPic.update(content));
+	}
+	
+	@Test
+	public void test6(){
+		SendMateriaMessage.sendMateriaMessageByTag(null);
+		//error:ErrorModel [errcode=45028, errmsg=has no masssend quota hint: [4ZSMRA0665ge25], type=null, msg_id=null, msg_data_id=null]
+	}
 }

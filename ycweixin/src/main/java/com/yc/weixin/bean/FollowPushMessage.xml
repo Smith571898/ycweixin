@@ -5,8 +5,7 @@
 <mapper namespace="com.yc.weixin.bean.FollowPushMessageMapper">
 
 	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"> </cache> -->
 
 
 
@@ -18,7 +17,6 @@
 			limit #{start},#{pagesize}
 		</if>
 	</select>
-
 
 
 	<select id="findFollowPushCount" resultType="int">
@@ -33,6 +31,11 @@
 		where fid=#{fid}
 	</update>
 
+	<insert id="AddFollowPush" parameterType="FollowPushMessage">
+		insert into
+		followpush(ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush)
+		values(#{ftitle},#{fpic},#{fcontent},#{lastmodify},#{lastmodifytime},#{isfollowpush})
 
+	</insert>
 
 </mapper>

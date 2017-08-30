@@ -16,6 +16,6 @@
             <resources location="/css/" mapping="/css/**"/>  
             <resources location="/ckeditor/" mapping="/ckeditor/**"/>
            <resources location="/easyui15/" mapping="/easyui15/**"/>
-           <resources location="/diyUpload/" mapping="/diyUpload/**"/>
+        
       
 </beans:beans>

@@ -4,11 +4,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.WeChatUserMapper">
 
-	<!-- 加入带日志的ehcahe缓存 -->
-	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
-	</cache>
-
-
+	<!-- 加入带日志的ehcahe缓存 <cache type="org.mybatis.caches.ehcache.LoggingEhcache"> 
+		</cache> -->
 
 	<select id="findAllUserInfo" resultType="WeChatUser"
 		parameterType="map">
@@ -35,7 +32,29 @@
 			(#{user.openid},#{user.headimgurl},#{user.nickname},#{user.sex},#{user.address},#{user.subscribe_time},#{user.subscribe},'','','','','')
 		</foreach>
 	</insert>
+	<insert id="addUserInfo" parameterType="WeChatUser">
+		insert into
+		userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass)
+		values
+		(#{openid},#{headimgurl},#{nickname},#{sex},#{address},#{subscribe_time},#{subscribe},'','','','','')
 
+	</insert>
 
+	<select id="checkUserIsExist" parameterType="WeChatUser"
+		resultType="WeChatUser">
+		select * from userinfo where uid=#{openid}
+	</select>
 
+	<update id="updateUserSubscribe" parameterType="WeChatUser">
+		update userinfo
+		set
+		headimgurl=#{headimgurl},nickname=#{nickname},sex=#{sex},address=#{address}
+		, subscribe=#{subscribe},subscribe_time=#{subscribe_time} where
+		uid=#{openid}
+	</update>
+
+	<update id="updateUserIsFollow" parameterType="WeChatUser">
+		update userinfo
+		set subscribe=#{subscribe} where uid=#{openid}
+	</update>
 </mapper>
