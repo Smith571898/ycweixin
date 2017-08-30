@@ -30,10 +30,8 @@ public class TempSourceController {
 			MediaModel mediaModel=new MediaModel();
 			mediaModel=mediaUtil.uploadTempMedia("image", fileurl);
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -52,10 +50,8 @@ public class TempSourceController {
 			MediaModel mediaModel=new MediaModel();
 			mediaModel=mediaUtil.uploadTempMedia("video", fileurl);
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -76,10 +72,8 @@ public class TempSourceController {
 			MediaModel mediaModel=new MediaModel();
 			mediaModel=mediaUtil.uploadTempMedia("voice", fileurl);
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

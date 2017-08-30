@@ -13,8 +13,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.http.HttpUtils;
 
 import org.apache.catalina.ha.backend.Sender;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ import com.yc.weixin.model.ButtonModel;
 import com.yc.weixin.model.MenuModel;
 import com.yc.weixin.utils.AccessTokenUtil;
 import com.yc.weixin.utils.CommonUtil;
+import com.yc.weixin.utils.HttpUtil;
 import com.yc.weixin.utils.MenuUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)  
@@ -148,6 +152,115 @@ public class Testone {
 		}
 			mm.setButton(list1);
 		System.out.println(mm);
+	}
+	//股票查询
+	@Test
+	public void test5(){
+		  String host = "https://ali-stock.showapi.com";
+		    String path = "/everytrade";
+		    String method = "GET";
+		    String appcode = "b90973c99d2643d081b28c6fe6646368";//设置成静态变量
+		    Map<String, String> headers = new HashMap<String, String>();
+		    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+		    headers.put("Authorization", "APPCODE " + appcode);
+		    Map<String, String> querys = new HashMap<String, String>();
+		    querys.put("code", "399001");//600887为股票代码参数  //匹配到"上证指数"  用000001替换   匹配到"深证成指" 用399001替换
+
+
+		    try {
+		    	/**
+		    	* 重要提示如下:
+		    	* HttpUtils请从
+		    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+		    	* 下载
+		    	*
+		    	* 相应的依赖请参照
+		    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+		    	*/
+		    	HttpResponse response = HttpUtil.doGet(host, path, method, headers, querys);
+		    	System.out.println(response.toString());
+		    	//获取response的body
+		    	System.out.println(EntityUtils.toString(response.getEntity()));
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		
+		
+	}
+	/**快递查询
+	 * 	@Test
+	 */
+	public void test6(){
+		   String host = "http://jisutqybmf.market.alicloudapi.com";
+		    String path = "/weather/query";
+		    String method = "GET";
+		    String appcode = "b90973c99d2643d081b28c6fe6646368";//设置成静态变量
+		    Map<String, String> headers = new HashMap<String, String>();
+		    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+		    headers.put("Authorization", "APPCODE " + appcode);
+		    Map<String, String> querys = new HashMap<String, String>();
+		    querys.put("city", "衡阳");//衡阳为参数
+		    querys.put("citycode", "citycode");
+		    querys.put("cityid", "cityid");
+		    querys.put("ip", "ip");
+		    querys.put("location", "location");
+
+
+		    try {
+		    	/**
+		    	* 重要提示如下:
+		    	* HttpUtils请从
+		    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+		    	* 下载
+		    	*
+		    	* 相应的依赖请参照
+		    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+		    	*/
+		    	HttpResponse response = HttpUtil.doGet(host, path, method, headers, querys);
+		    	System.out.println(response.toString());
+		    	//获取response的body
+		    	System.out.println(EntityUtils.toString(response.getEntity()));
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+	}
+	/**
+	 * 快递查询
+	 */
+	@Test
+	public void test7(){
+		String host = "https://ali-deliver.showapi.com";
+	    String path = "/showapi_expInfo";
+	    String method = "GET";
+	    String appcode = "b90973c99d2643d081b28c6fe6646368";//静态变量
+	    Map<String, String> headers = new HashMap<String, String>();
+	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+	    headers.put("Authorization", "APPCODE " + appcode);
+	    Map<String, String> querys = new HashMap<String, String>();
+	    querys.put("com", "auto");//不知道快递名就用  auto代替
+	    querys.put("nu", "DD1589615654");//快递单号为参数
+
+
+	    try {
+	    	/**
+	    	* 重要提示如下:
+	    	* HttpUtils请从
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+	    	* 下载
+	    	*
+	    	* 相应的依赖请参照
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+	    	*/
+	    	HttpResponse response = HttpUtil.doGet(host, path, method, headers, querys);
+	    	System.out.println(response.toString());
+	    	//获取response的body
+	    	System.out.println(EntityUtils.toString(response.getEntity()));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+		
+		
+		
 	}
 	
 }

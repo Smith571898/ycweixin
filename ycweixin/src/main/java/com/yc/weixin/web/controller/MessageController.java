@@ -77,11 +77,7 @@ public class MessageController {
 		session.setAttribute("isfollowpush", isfollowpush);
 		session.setAttribute("fpic", fpic);
 		session.setAttribute("fid", fid);
-		System.out.println(ftitle);
-		System.out.println(fcontent);
-		System.out.println(isfollowpush);
-		System.out.println(fpic);
-		System.out.println(fid);
+
 		mav.setViewName("editor");
 		return mav;
 	}
@@ -135,7 +131,7 @@ public class MessageController {
 	}
 
 	@RequestMapping(value = "doupdateFollowPush.action", method = RequestMethod.POST)
-	private ModelAndView fildUpload(@RequestParam(value = "fpic", required = false) MultipartFile file,
+	private ModelAndView fildUpload(@RequestParam(value = "fpicfile", required = false) MultipartFile file,
 			HttpServletRequest request, HttpSession session) throws Exception {
 		FollowPushMessage fpm = new FollowPushMessage();
 		if (!file.isEmpty()) {
@@ -160,7 +156,7 @@ public class MessageController {
 			file.transferTo(newFile1);
 			fpm.setFpic(filename);
 		} else {
-			fpm.setFpic("");
+			fpm.setFpic(request.getParameter("fpic"));
 		}
 
 		// 基本表单

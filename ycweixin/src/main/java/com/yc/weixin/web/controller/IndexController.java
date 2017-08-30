@@ -1,16 +1,24 @@
 package com.yc.weixin.web.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yc.weixin.bean.Menu;
+import com.yc.weixin.biz.MenuBiz;
 import com.yc.weixin.utils.AccessTokenUtil;
 
 @Controller
 public class IndexController {
 	
-	
+	@Resource(name="menuBizImpl")
+	private MenuBiz menuBiz;
 
 	@RequestMapping(value="ToAdminLogin.action")
 	public String ToAdminLogin(){
@@ -131,8 +139,9 @@ public class IndexController {
 		
 	}
 	@RequestMapping(value="findmenu.action")
-	public String findmenu(){
+	public String findmenu(HttpSession session){
 			
+	
 		return "findmenu";
 		
 	}

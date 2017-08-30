@@ -59,4 +59,9 @@ public interface MenuBiz {
 	
 	public List<TwoMenu> findTwoMenuByOneName(Map map);
 	
+	public void deleteOneMenu(Menu menu);
+	
+	public void  deleteTwoMenu(Menu menu);
+	
+	
 }

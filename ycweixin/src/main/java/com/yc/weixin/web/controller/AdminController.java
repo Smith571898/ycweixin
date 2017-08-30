@@ -44,4 +44,11 @@ public class AdminController {
 		}*/
 		return jsonModel;
 		}
+	
+	@RequestMapping(value="xiaochengxu.action")
+	public void toMain11(HttpServletRequest request,HttpSession session){
+		
+
+		System.out.println(1);
+		}
 }

@@ -75,18 +75,18 @@
 										align : 'center',
 											formatter:function(lastmodifytime){
 												
-												 var tt=new Date(parseInt(lastmodifytime) * 1000).toLocaleString().substr(0,17)
+												 var tt=new Date(parseInt(lastmodifytime)).toLocaleString().substr(0,19)
 													// new Date(subscribe_time).toLocaleString(); 
 												   
 												    return  tt; 
 												}
 									},
 									{
-										field : 'IsEnable',
+										field : 'isfollowpush',
 										title : '是否推送',
 										width : 60,
 										align : 'center',
-										//调用formater函数对列进行格式化，使其显示单选按钮（所有单选按钮name属性设为统一，这样就只能有一个处于选中状态）  
+										/* //调用formater函数对列进行格式化，使其显示单选按钮（所有单选按钮name属性设为统一，这样就只能有一个处于选中状态）  
 										formatter : function(value, row, index) {
 											if(value=='是'){
 												var status='true';
@@ -108,7 +108,7 @@
 											} else {
 												$("input[type='radio']")[rowIndex].checked = false;
 											}
-										}
+										} */
 									},
 									{
 										field : 'tname',
@@ -134,11 +134,6 @@
 						});
 	});
 
-	 $(function(){
-		  $(":radio").click(function(){
-		   alert("您是..." + $(this).val());
-		  });
-		 });
 	 
 	function showMessage() {
 		//document.getElementById("win").append('')

@@ -9,12 +9,12 @@
 	</cache>-->
 	<!-- 查询所有二级菜单  与所属的一级菜单 -->
 	<select id="findAllmenu" parameterType="Map" resultType="Menu">
-		select sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
+		select  sb.sb_bid as bid ,sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
 		 from sub_button  sb 
 		 join button b 
 		 on 
-		 sb.sb_bid=b.bid
-
+		 sb.sb_bid=b.bid order by bid asc ,grade asc 
+		
 		<if test="start!=null">
 			limit #{start},#{pagesize}
 		</if>
@@ -33,7 +33,7 @@ select sb.subname as name ,sb.menutype as menutype,sb.menukey as menukey,sb.url 
 	</select>
 
 	<select id="findAllOnemenu" parameterType="Map" resultType="Menu">
-		select * from button where 1=1
+		select * from button where 1=1 
 		<if test="start!=null">
 			limit #{start},#{pagesize}
 		</if>
@@ -64,7 +64,7 @@ select sb.subname as name ,sb.menutype as menutype,sb.menukey as menukey,sb.url 
 	<insert id="addTwoGradeMenu" parameterType="Menu"
 		useGeneratedKeys="true" keyProperty="sbid">
 		insert into
-		sub_button(sb_bid,menutype,name,menukey,url,grade) values
+		sub_button(sb_bid,menutype,subname,menukey,url,grade) values
 		(#{bid},#{menutype},#{name},#{menukey},#{url},0)
 	</insert>
 
@@ -89,4 +89,12 @@ select sb.subname as name ,sb.menutype as menutype,sb.menukey as menukey,sb.url 
             <result property="name" column="sname" />    
         </collection>    
      </resultMap>
+     
+     <delete id="deleteTwoMenu" parameterType="Menu">
+     delete  from sub_button where sbid=#{sbid}
+     </delete>
+     
+      <delete id="deleteOneMenu" parameterType="Menu">
+     delete  from button where bid=#{bid}
+     </delete>
 </mapper>

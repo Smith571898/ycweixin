@@ -79,8 +79,20 @@ public List<TwoMenu> findTwoMenuByOneName(Map map) {
 	List<TwoMenu> list=this.baseDao.findAll(Menu.class, "findTwoMenuByOneName", map);
 	return list;
 }
+
+@Override
+public void deleteOneMenu(Menu menu) {
+	this.baseDao.del(menu, "deleteOneMenu");
 	
+}
+
+@Override
+public void deleteTwoMenu(Menu menu) {
+	this.baseDao.del(menu, "deleteTwoMenu");
+	// TODO Auto-generated method stub
 	
+}
+
 	
 	
 }

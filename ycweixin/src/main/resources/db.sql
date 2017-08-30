@@ -1,6 +1,6 @@
 create database wechat
 use wechat
-
+delete from sub_button
 create table admin(
 adminname varchar(10),
 adminpwd varchar(50)
@@ -10,8 +10,8 @@ delete  from userinfo
 drop table userinfo
 alter table userinfo  modify column uid varchar(100);
 0329
- oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg Äô³Ï³Ï³Ï³Ï³Ï³Ï³Ï~ Å®   °²¸çÀ­±±Â¡´ï  1502007890     ÒÑ¹Ø×¢                                          
-
+ oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg è‚è¯šè¯šè¯šè¯šè¯šè¯šè¯š~ å¥³   å®‰å“¥æ‹‰åŒ—éš†è¾¾  1502007890     å·²å…³æ³¨                                          
+select * from button where 1=1 
 userinfo
 select * from userinfo
  create table userinfo(
@@ -28,10 +28,12 @@ select * from userinfo
      nowclass varchar(100),
      ycclass varchar(100)
 );
-<p>Ô´³½Î¢ĞÅ¿Æ¼¼ÓĞÏŞ¹«Ë¾ÊÇÒ»¼Ò¶¨Î»ÓÚ´óÑ§ÉúÈí¼ş¿ª·¢,ÊµÕ½ÅàÑµµÈÒ»ÏµÁĞÈí¼ş·şÎñµÄ×ÛºÏĞÔÈí¼ş¹«Ë¾£¬Îª½â¾ö´óÑ§Éú¸ßÆğµã¾ÍÒµºÍÎªÆóÒµÌá¹©½â¾ö·½°¸ÎªÄ¿±ê¡£¹«Ë¾ÊÇÒÔÈí¼ş½ÌÓı¼°ĞĞÒµÈí¼ş¿ª·¢¹¤×÷ÎªÖ÷£¬¼æ¹ËÆóÒµIT¼¼Êõ×ÉÑ¯·şÎñ¼°Èí¼ş¿ª·¢£¬ÆóÒµÔ±¹¤¼¼ÊõÅàÑµ¡£<img alt="" src="../tuwen/201708181419056.PNG" style="height:60px; width:46px" /></p>
+<p>æºè¾°å¾®ä¿¡ç§‘æŠ€æœ‰é™å…¬å¸æ˜¯ä¸€å®¶å®šä½äºå¤§å­¦ç”Ÿè½¯ä»¶å¼€å‘,å®æˆ˜åŸ¹è®­ç­‰ä¸€ç³»åˆ—è½¯ä»¶æœåŠ¡çš„ç»¼åˆæ€§è½¯ä»¶å…¬å¸ï¼Œä¸ºè§£å†³å¤§å­¦ç”Ÿé«˜èµ·ç‚¹å°±ä¸šå’Œä¸ºä¼ä¸šæä¾›è§£å†³æ–¹æ¡ˆä¸ºç›®æ ‡ã€‚å…¬å¸æ˜¯ä»¥è½¯ä»¶æ•™è‚²åŠè¡Œä¸šè½¯ä»¶å¼€å‘å·¥ä½œä¸ºä¸»ï¼Œå…¼é¡¾ä¼ä¸šITæŠ€æœ¯å’¨è¯¢æœåŠ¡åŠè½¯ä»¶å¼€å‘ï¼Œä¼ä¸šå‘˜å·¥æŠ€æœ¯åŸ¹è®­ã€‚<img alt="" src="../tuwen/201708181419056.PNG" style="height:60px; width:46px" /></p>
 
-select  * from followpush
-update followpush set isfollowpush='·ñ' where fid =1
+select  * from button
+update followpush set fpic='6.jpg' where fid =1
+update followpush set isfollowpush='æ˜¯' where fid =1
+delete  from button where bid between 4 and 8
 create table followpush(
 	fid int primary key auto_increment,
 	ftitle varchar(200),
@@ -64,14 +66,18 @@ select a.sbid,a.sb_bid,a.menutype,a.name,a.menukey,a.url , b.name  as sub_name f
 
 
 select name,grade from sub_button where sb_bid=1
-
+	select  sb.sb_bid as bid ,sb.sbid as sbid,sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade
+		 from sub_button  sb 
+		 join button b 
+		 on 
+		 sb.sb_bid=b.bid order by bid asc ,grade asc 
 
 
 
 select 
 drop table button
 drop table sub_button
-delete from followpush
+delete from followpush 
 create table sub_button(
 	sbid int primary key auto_increment,
 	sb_bid int,
@@ -83,65 +89,66 @@ create table sub_button(
 )
 <<<<<<< HEAD
 alter table sub_button  modify column grade int ;	
-
+delete  from  sub_button  where sbid=4
 select b.name ,s.name,s.grade from button  b
 inner join sub_button s
 on b.bid=s.sb_bid  order by s.grade desc
 
 =======
-
+select * from button
+delete  from button
 create table materia(
 	mid int primary key auto_increment,
 	murl varchar(300),
-	media_id varchar(200),
+	media_id varchar(200)
 )
 >>>>>>> refs/remotes/origin/yhy
-
+select * from button
 select * from sub_button
 update sub_button set sb_bid=1 where sbid=1
 update sub_button set grade='fifthname' where sbid=4
 
 select sb.subname as sub_name,b.name as name,sb.menutype as menutype,sb.menukey as menukey,sb.url as url,sb.grade as grade from sub_button  sb join button b on sb.sb_bid=b.bid
 
-insert into button(bid,menutype,name,menukey,url)  values(1,'click','Ô´³½ĞÅÏ¢','V1001_TODAY_THINK','www.sina.com');
-insert into button(bid,menutype,name,menukey,url)  values(2,'click','Ñ§Ô±ÌìµØ','V1001_TODAY_THINK','www.aliyun.com');
-insert into button(bid,menutype,name,menukey,url)  values(3,'click','ÓéÀÖÖĞĞÄ','V1001_TODAY_THINK','www.alibaba.com');
+insert into button(bid,menutype,name,menukey,url)  values(1,'click','æºè¾°ä¿¡æ¯','V1001_TODAY_THINK','www.sina.com');
+insert into button(bid,menutype,name,menukey,url)  values(2,'click','å­¦å‘˜å¤©åœ°','V1001_TODAY_THINK','www.aliyun.com');
+insert into button(bid,menutype,name,menukey,url)  values(3,'click','å¨±ä¹ä¸­å¿ƒ','V1001_TODAY_THINK','www.alibaba.com');
 
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(1,1,'click','¹«Ë¾¼ò½é','V1001_TODAY_THINK','www.baidu.com',1);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(2,1,'click','ÒµÎñ·¶Î§','V1001_TODAY_THINK','www.baidu.com',2);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(3,1,'click','¿Î³ÌÌåÏµ','V1001_TODAY_THINK','www.baidu.com',3);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(4,1,'click','ÏîÄ¿Õ¹Ê¾','V1001_TODAY_THINK','www.baidu.com',4);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(5,1,'click','Ğû´«ÊÓÆµ','V1001_TODAY_THINK','www.baidu.com',5);
-
-
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(6,2,'click','¿Î±í²éÑ¯','V1001_TODAY_THINK','www.baidu.com',1);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(7,2,'click','Êé¼®½èÔÄ','V1001_TODAY_THINK','www.baidu.com',2);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(8,2,'click','×ÊÔ´ÍøÕ¾','V1001_TODAY_THINK','www.baidu.com',3);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(9,2,'click','¿ª°à¼Æ»®','V1001_TODAY_THINK','www.baidu.com',4);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(10,2,'click','Éú»îÖúÊÖ','V1001_TODAY_THINK','www.baidu.com',5);
-
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(11,3,'click','Ô´³½´óÊÂ¼ş','V1001_TODAY_THINK','www.baidu.com',1);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(12,3,'click','Ã¿ÖÜÖ®ĞÇ','V1001_TODAY_THINK','www.baidu.com',2);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(13,3,'click','ĞÄÁé¼¦ÌÀ','V1001_TODAY_THINK','www.baidu.com',3);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(14,3,'click','Òâ¼û»ò½¨Òé','V1001_TODAY_THINK','www.baidu.com',4);
-insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(15,3,'click','°à¼¶°ó¶¨','V1001_TODAY_THINK','www.baidu.com',5);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(1,1,'click','å…¬å¸ç®€ä»‹','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(2,1,'click','ä¸šåŠ¡èŒƒå›´','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(3,1,'click','è¯¾ç¨‹ä½“ç³»','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(4,1,'click','é¡¹ç›®å±•ç¤º','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(5,1,'click','å®£ä¼ è§†é¢‘','V1001_TODAY_THINK','www.baidu.com',5);
 
 
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(6,2,'click','è¯¾è¡¨æŸ¥è¯¢','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(7,2,'click','ä¹¦ç±å€Ÿé˜…','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(8,2,'click','èµ„æºç½‘ç«™','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(9,2,'click','å¼€ç­è®¡åˆ’','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(10,2,'click','ç”Ÿæ´»åŠ©æ‰‹','V1001_TODAY_THINK','www.baidu.com',5);
+
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(11,3,'click','æºè¾°å¤§äº‹ä»¶','V1001_TODAY_THINK','www.baidu.com',1);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(12,3,'click','æ¯å‘¨ä¹‹æ˜Ÿ','V1001_TODAY_THINK','www.baidu.com',2);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(13,3,'click','å¿ƒçµé¸¡æ±¤','V1001_TODAY_THINK','www.baidu.com',3);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(14,3,'click','æ„è§æˆ–å»ºè®®','V1001_TODAY_THINK','www.baidu.com',4);
+insert into sub_button(sbid,sb_bid,menutype,subname,menukey,url,grade)  values(15,3,'click','ç­çº§ç»‘å®š','V1001_TODAY_THINK','www.baidu.com',5);
 
 
 
 
-insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (1,'1.jpg','ÄôĞ¡Ğ¡³Ï','ÄĞ','ºşÄÏºâÑô','2017-08-06','ÒÑ¹Ø×¢','Äô³Ï','18373471143','ºşÄÏ¹¤Ñ§Ôº','Èí¼ş1401°à','Ô´³½33°à')
-insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (2,'2.jpg','ÌÀÌÀÌÀ¸ñ','Å®','ºşÄÏºâÑô','2017-08-07','ÒÑ¹Ø×¢','ÌÀ¸ñ','18473434532','ºşÄÏ¹¤Ñ§Ôº','Èí¼ş1401°à','Ô´³½27°à');
-insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (3,'3.jpg','Çå³¿','ÄĞ','ºşÄÏºâÑô','2017-08-07','ÒÑ¹Ø×¢','ÑîºèÓî','15386014960','ºşÄÏ¹¤Ñ§Ôº','Èí¼ş1401°à','Ô´³½33°à');
-insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (4,'4.jpg','ÃÎ»Ø¹ÂÁã','ÄĞ','ºşÄÏºâÑô','2017-08-07','ÒÑ¹Ø×¢','ºúÎ°ºÀ','17674707473','ºşÄÏ¹¤Ñ§Ôº','Èí¼ş1401°à','Ô´³½27°à');
-insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (5,'5.jpg','´ó°×²Ë','Å®','ºşÄÏºâÑô','2017-08-07','ÒÑ¹Ø×¢','²Ü»Û','18374747343','ºşÄÏ¹¤Ñ§Ôº','Èí¼ş1401°à','Ô´³½27°à');
-insert into followpush(fid,ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush) values (1,'»¶Ó­¹Ø×¢Ô´³½Î¢ĞÅ','6.jpg','Ô´³½Î¢ĞÅ¿Æ¼¼ÓĞÏŞ¹«Ë¾ÊÇÒ»¼Ò¶¨Î»ÓÚ´óÑ§ÉúÈí¼ş¿ª·¢,ÊµÕ½ÅàÑµµÈÒ»ÏµÁĞÈí¼ş·şÎñµÄ×ÛºÏĞÔÈí¼ş¹«Ë¾£¬Îª½â¾ö´óÑ§Éú¸ßÆğµã¾ÍÒµºÍÎªÆóÒµÌá¹©½â¾ö·½°¸ÎªÄ¿±ê¡£¹«Ë¾ÊÇÒÔÈí¼ş½ÌÓı¼°ĞĞÒµÈí¼ş¿ª·¢¹¤×÷ÎªÖ÷£¬¼æ¹ËÆóÒµIT¼¼Êõ×ÉÑ¯·şÎñ¼°Èí¼ş¿ª·¢£¬ÆóÒµÔ±¹¤¼¼ÊõÅàÑµ¡£','admin','2017-08-07','ÊÇ');
+
+
+insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (1,'1.jpg','è‚å°å°è¯š','ç”·','æ¹–å—è¡¡é˜³','2017-08-06','å·²å…³æ³¨','è‚è¯š','18373471143','æ¹–å—å·¥å­¦é™¢','è½¯ä»¶1401ç­','æºè¾°33ç­')
+insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (2,'2.jpg','æ±¤æ±¤æ±¤æ ¼','å¥³','æ¹–å—è¡¡é˜³','2017-08-07','å·²å…³æ³¨','æ±¤æ ¼','18473434532','æ¹–å—å·¥å­¦é™¢','è½¯ä»¶1401ç­','æºè¾°27ç­');
+insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (3,'3.jpg','æ¸…æ™¨','ç”·','æ¹–å—è¡¡é˜³','2017-08-07','å·²å…³æ³¨','æ¨é¸¿å®‡','15386014960','æ¹–å—å·¥å­¦é™¢','è½¯ä»¶1401ç­','æºè¾°33ç­');
+insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (4,'4.jpg','æ¢¦å›å­¤é›¶','ç”·','æ¹–å—è¡¡é˜³','2017-08-07','å·²å…³æ³¨','èƒ¡ä¼Ÿè±ª','17674707473','æ¹–å—å·¥å­¦é™¢','è½¯ä»¶1401ç­','æºè¾°27ç­');
+insert into userinfo(uid,headimgurl,nickname,sex,address,subscribe_time,subscribe,name,telephone,schoolname,nowclass,ycclass) values (5,'5.jpg','å¤§ç™½èœ','å¥³','æ¹–å—è¡¡é˜³','2017-08-07','å·²å…³æ³¨','æ›¹æ…§','18374747343','æ¹–å—å·¥å­¦é™¢','è½¯ä»¶1401ç­','æºè¾°27ç­');
+insert into followpush(fid,ftitle,fpic,fcontent,lastmodify,lastmodifytime,isfollowpush) values (1,'æ¬¢è¿å…³æ³¨æºè¾°å¾®ä¿¡','6.jpg','æºè¾°å¾®ä¿¡ç§‘æŠ€æœ‰é™å…¬å¸æ˜¯ä¸€å®¶å®šä½äºå¤§å­¦ç”Ÿè½¯ä»¶å¼€å‘,å®æˆ˜åŸ¹è®­ç­‰ä¸€ç³»åˆ—è½¯ä»¶æœåŠ¡çš„ç»¼åˆæ€§è½¯ä»¶å…¬å¸ï¼Œä¸ºè§£å†³å¤§å­¦ç”Ÿé«˜èµ·ç‚¹å°±ä¸šå’Œä¸ºä¼ä¸šæä¾›è§£å†³æ–¹æ¡ˆä¸ºç›®æ ‡ã€‚å…¬å¸æ˜¯ä»¥è½¯ä»¶æ•™è‚²åŠè¡Œä¸šè½¯ä»¶å¼€å‘å·¥ä½œä¸ºä¸»ï¼Œå…¼é¡¾ä¼ä¸šITæŠ€æœ¯å’¨è¯¢æœåŠ¡åŠè½¯ä»¶å¼€å‘ï¼Œä¼ä¸šå‘˜å·¥æŠ€æœ¯åŸ¹è®­ã€‚','admin','2017-08-07','æ˜¯');
 delete  from userinfo
 select  uid,head,nikname,sex,address,followtime,isfollow,name,telephone,schoolname,nowclass,ycclass from userinfo where 1=1       limit 0,0
 select * from  followpush 
 
-update userinfo set sex='Å®'  where  sex='ÄĞ'
+update userinfo set sex='å¥³'  where  sex='ç”·'
 select * from userinfo
 
 

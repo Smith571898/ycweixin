@@ -17,7 +17,7 @@
 						{
 							url : url,
 							pagination : true,
-							pageSize : 15,
+							pageSize : 20,
 							pageList : [ 3, 5, 10, 15, 20, 25, 30, 35, 40, 45,
 									50, 100, 200, 500 ],
 
@@ -110,7 +110,9 @@
 		$('#btn').css('display', 'block')
 		var menugrade = $("#sel").val()
 		if (menugrade == "二级菜单") {
-			$('#seldiv').css('display', 'block')
+			
+			$('#seldiv').css('display', 'none')					
+			$('#updatediv').css('display', 'block')		
 			$("#dialog").show();//必须先显示，再弹出    
 			$('#name').val(row.sub_name)
 			$('#onegradeselect').val(row.name)
@@ -179,37 +181,74 @@
 		if (menugrade == "二级菜单") {			
 		
 			
-			showmenu('findAllMenu.action', 'sbid', 'sbid', 'sbid','sub_name','name')
+			showmenu('findAllMenu.action', 'bid', 'bid', 'sbid','sub_name','name')
 			$('#MenuTable').datagrid('showColumn','name');
 			$('#MenuTable').datagrid('showColumn','grade');
+			
 		} else if (menugrade == "一级菜单") {		
 			showmenu('findOneMenu.action', 'bid', 'bid', 'bid','name','sub_name')
 			$('#MenuTable').datagrid('hideColumn','sub_name');
 			$('#MenuTable').datagrid('hideColumn','grade');
 		}
 	}
+	
 	function AddMenuWindow() {
 		clearwindow();//清除残余的缓存信息
 		var menugrade = $("#sel").val()
 		if (menugrade == "二级菜单") {
 			$('#seldiv').css('display', 'block')
-		} else if (menugrade == "一级菜单") {
-			$('#seldiv').css('display', 'none')
-		}
-		document.getElementById('btn').style.display = 'none'
-		document.getElementById('addbtn').style.display = 'block'
+			onchangeDistrict()
+			$('#updatediv').css('display', 'none')
+			$('#selectdiv').css('display', 'block')
+			document.getElementById('btn').style.display = 'none'
+				document.getElementById('addbtn').style.display = 'block'
 
-		$("#dialog").show();
-		$("#dialog").dialog({
-			title : "添加菜单信息",
-			width : 600,
-			height : 400
-		});
+					$("#dialog").show();
+					$("#dialog").dialog({
+						title : "添加菜单信息",
+						width : 600,
+						height : 400
+					});
+		
+		} else if (menugrade == "一级菜单") {
+			$.ajax({
+				url:'getonecount.action',
+				type:'post',
+				dataType : "JSON",
+				success:function(data){
+					if(data.code == 1){
+						if(data.total>=3){
+							alert('一级菜单已经达到三个啦,请删除其他菜单或在原菜单上修改')
+						}else{
+						
+							$('#seldiv').css('display', 'none')
+							document.getElementById('btn').style.display = 'none'
+							document.getElementById('addbtn').style.display = 'block'
+
+								$("#dialog").show();
+								$("#dialog").dialog({
+									title : "添加菜单信息",
+									width : 600,
+									height : 400
+								});
+						}
+					}else{
+						alert(data.msg)
+					}
+				}
+			})
+		
+		}
+		
+
 	}
 
 	function doAddMenu() {
+		
 		var menugrade = $("#sel").val()
 		$('#menugrade').val(menugrade)
+		
+		
 		var data = $("#menuform").serialize()
 		$.ajax({
 			url : "doAddMenu.action",
@@ -220,6 +259,8 @@
 				if (data.code == 1) {
 					alert('添加成功')
 					flush();
+				}else if(data.code == 2){
+					alert(data.msg)
 				} else {
 					alert('添加失败' + data.msg)
 
@@ -246,6 +287,125 @@
 			
 		})
 	}
+	function  onchangeDistrict(){
+		
+		$.ajax({
+			url:"ofonemenu.action",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				var  str="";
+				var length=data.rows.length;
+				for(var i=0;i<length;i++){
+					var menu=data.rows[i];
+					str+='	<option value="'+menu.bid+'">'+menu.name+'</option>'
+					
+				}
+				$("#onegradeselect1").html(str);
+				
+			}
+			
+		})
+		
+	}
+	
+	function UnderMenu(){
+		$.ajax({
+			url : "doundermenu.action",
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				if (data.code == 1) {
+					alert('下架成功')
+				} else {
+					alert('下架失败' + data.msg)
+
+				}
+
+			}
+
+		})
+	}
+	
+	function DeleteTwoMenu(){
+		var menugrade = $("#sel").val()
+		var row = $('#MenuTable').datagrid('getSelected');		
+		$.ajax({
+			url : "dodeletemenu.action?sbid="+row.sbid+"&menugrade="+menugrade,
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				if (data.code == 1) {
+					alert('删除成功')
+					flush();
+				} else {
+					alert('删除失败' + data.msg)
+				}
+			}
+
+		})
+	}
+	function DeleteOneMenu(){
+		var menugrade = $("#sel").val()
+		var row = $('#MenuTable').datagrid('getSelected');		
+		$.ajax({
+			url : "dodeletemenu.action?bid="+row.bid+"&menugrade="+menugrade,
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				if (data.code == 1) {
+					alert('删除成功')
+					flush();
+				} else if(data.code == 2){
+					alert(data.msg)
+				}else {
+					alert('删除失败' + data.msg)
+				}
+			}
+
+		})
+	}
+
+	function DeleteMenu(){
+		var menugrade = $("#sel").val()
+		var row = $('#MenuTable').datagrid('getSelected');		
+		if(menugrade=="二级菜单"){
+				var content=row.sub_name
+			if (confirm('您确定要菜单名叫为'+content+'的这条记录吗')==true){
+				DeleteTwoMenu()
+				flush();
+				}else{
+				return false;
+				}
+		}else if(menugrade=="一级菜单"){
+			
+				var content=row.name
+			
+			if (confirm('您确定要删除内容为'+content+'的这条记录吗')==true){
+				DeleteOneMenu();
+				flush();
+				}else{
+				return false;
+				}
+		
+		}
+		
+	}
+	//如果选择了click 则url  不可选  
+	function changestatus(){
+		var menutype=$("#menutype").val()
+		alert(menutype)
+
+		if(menutype=="click"){
+			$('#menukey').attr("disabled",false);
+			
+			$("#url").attr("disabled",true);
+		}else if(menutype=="view"){
+			$('#menukey').attr("disabled",true);
+			$("#url").attr("disabled",false);
+		}
+	}
+
 </script>
 </head>
 
@@ -255,22 +415,21 @@
 		<input type="hidden" id="sbid" name="sbid" /> <input type="hidden" id="menugrade" name="menugrade" /> 
 		菜单名称： <input type="text" style="width: 200px;"
 			id="name" name="name" /><br /><br /><br />
+			
 		<div id="seldiv">
+			<div id="updatediv">所属一级菜单：<input id="onegradeselect" type="text"  value="" readOnly="true"/></div>
+			<div id="selectdiv">
+			请选择所属一级菜单<select id="onegradeselect1" name="onegradeselect1">
 		
-			所属一级菜单：<input id="onegradeselect" type="text"  value="" readOnly="true"/>
-
+			
+		
+			</select>
+			</div>
 		</div>
-		菜单类型：<select id="menutype" name="menutype">
+		菜单类型：<select id="menutype" name="menutype"  onchange="changestatus()">
 				<option value="click" id="button">click</option>
 					<option value="view" id="button">view</option>
-						<option value="scancode_push" id="button">scancode_push</option>
-							<option value="scancode_waitmsg" id="button">scancode_waitmsg</option>
-								<option value="pic_sysphoto" id="button">pic_sysphoto</option>
-									<option value="pic_photo_or_album" id="button">pic_photo_or_album</option>
-										<option value="pic_weixin" id="button">pic_weixin</option>
-											<option value="location_select" id="button">location_select</option>
-												<option value="media_id" id="button">media_id</option>
-													<option value="view_limited" id="button">view_limited</option>
+
 		</select>
 		菜单Key： <input type="text" style="width: 200px;" id="menukey" name="menukey" /><br /><br /><br /> 
 		url：<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -289,7 +448,9 @@
 		<option value="二级菜单" id="sub_button">二级菜单</option>
 		
 	</select> <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="AddMenuWindow()">添加菜单</a>
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-showmenu" plain="true" onclick="ShowMenu()" >显示菜单</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-showmenu" plain="true" onclick="ShowMenu()" >发布菜单</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-showmenu" plain="true" onclick="UnderMenu()" >下架菜单</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-showmenu" plain="true" onclick="DeleteMenu()" >删除菜单</a>
 </div>
 
 </html>

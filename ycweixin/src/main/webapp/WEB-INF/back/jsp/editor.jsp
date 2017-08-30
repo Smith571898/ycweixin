@@ -22,6 +22,15 @@
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 </head>
 <script type="text/javascript">
+$(document).ready(function() {
+	var isfollowpush = '${isfollowpush}';
+	
+	if(isfollowpush == '是') {
+	$("#isfollowyes").attr("checked", true);
+	} else {
+	$("#isfollowno").attr("checked", true);
+	}
+	});
 	function xmTanUploadImg(obj) {
 		var file = obj.files[0];
 
@@ -47,6 +56,7 @@
 		$.message.show()
 	}
 
+	
 	/* 
 	 var formData = new FormData(document.getElementById("addFollowPushForm"));
 			
@@ -69,11 +79,15 @@
 </script>
 
 <form action="doupdateFollowPush.action" id="addFollowPushForm" name="addFollowPushForm" method="post" enctype="multipart/form-data">
-	文章 标题<input type="text" name="ftitle" id="ftitle" value="${ftitle}" /> <br /> <br /> 设为关注时推送:<input type="radio" id="isfollowyes" name="ss" value="是">
-	&nbsp;&nbsp; <input id="isfollowno" type="radio" name="ss" value="否">
-	<p>
+	文章 标题<input type="text" name="ftitle" id="ftitle" value="${ftitle}" /> <br /> <br /> 
+	设为关注时推送:
+				是	<input type="radio" id="isfollowyes" name="ss" value="是" >
+	&nbsp;&nbsp;否      <input id="isfollowno" type="radio" name="ss" value="否"   >
 
-		图片上传前预览：<input type="file" name="fpic" id="xdaTanFileImg" onchange="xmTanUploadImg(this)" accept="image/*" /> <input type="button" value="隐藏图片"
+
+	<p>
+				<input  type="hidden"  name="fpic" value="${fpic }">
+		图片上传前预览：<input type="file"  name="fpicfile" id="xdaTanFileImg" onchange="xmTanUploadImg(this)" accept="image/*" /> <input type="button" value="隐藏图片"
 			onclick="document.getElementById('showpic').style.display = 'none';" /> <input type="button" value="显示图片"
 			onclick="document.getElementById('showpic').style.display = 'block';" /><input type="button" value="移除图片"
 			onclick="document.getElementById('showpic').style.display = 'none';document.getElementById('xdaTanFileImg').value='';document.getElementById('showpic').src=''" />

@@ -16,12 +16,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yc.weixin.bean.ShowMenu;
+
 import com.yc.weixin.bean.Menu;
 import com.yc.weixin.bean.TwoMenu;
 import com.yc.weixin.biz.MenuBiz;
@@ -40,6 +42,17 @@ public class MenuController {
 	 * @return
 	 */
 	
+	@RequestMapping("ofonemenu.action")
+	public  JsonModel Street_list(){
+		List<Menu>  list =menuBiz.findAllOneMenu(null);
+		JsonModel jm=new  JsonModel();
+		jm.setRows(list);
+		System.out.println(list);
+		return jm;
+		
+		
+	}
+		
 	@RequestMapping(value="findAllMenu.action",produces="text/html;charset=UTF-8")
 	public  String  findTwoMenu(HttpServletRequest request){
 	JsonModel jsonModel=new JsonModel();
@@ -96,8 +109,6 @@ public class MenuController {
 	JsonModel jsonModel=new JsonModel();
 	Map map=this.paging(request);
 	List<Menu> list=menuBiz.findAllOneMenu(map);
-	System.out.println(list);
-	session.setAttribute("OneGradeMenu", list);
 	
 	int total=menuBiz.getMenuOneCount();
 	jsonModel.setRows(list);
@@ -116,19 +127,30 @@ public class MenuController {
  * @return
  */
 	@RequestMapping(value="doAddMenu.action",produces="text/html;charset=UTF-8")
-	public  String doAddMenu(HttpServletRequest request,Menu menu){
+	public  String doAddMenu(@RequestParam(name="onegradeselect1",required=false) Integer sb_bid,HttpServletRequest request,Menu menu){
 		JsonModel jm=new JsonModel();
 		String menugrade=request.getParameter("menugrade").trim();
 		System.out.println(menugrade);
-		Integer sb_bid=Integer.valueOf(request.getParameter("onegradeselect"));
 		menu.setBid(sb_bid);
 		try {
 			if(menugrade.equals("一级菜单")){
+				
 				menuBiz.AddOnemenu(menu);
+				jm.setCode(1);
 			}else if(menugrade.equals("二级菜单")){
-			 menuBiz.AddTwomenu(menu);
+				Map<String,Object>  map=new HashMap<String,Object>();
+				map.put("bid", sb_bid);
+			List<TwoMenu> list=	menuBiz.findTwoMenuByOneName(map);
+				if(list.size()>=5){
+					jm.setCode(2);
+					jm.setMsg("该一级菜单的二级菜单已经达到5个上限,请删除或者修改菜单");
+				}else{
+				menuBiz.AddTwomenu(menu);
+				jm.setCode(1);
+				}
+			 
 			 }
-			jm.setCode(1);
+		
 		} catch (Exception e) {			
 			e.printStackTrace();
 			jm.setCode(0);
@@ -141,10 +163,47 @@ public class MenuController {
 		String jsonStr=gson.toJson(jm,jsonType);
 			return jsonStr;
 		}
-		
-		
 	
+	//TODO:	删除一级 二级菜单
 	
+	@RequestMapping(value="dodeletemenu.action",produces="text/html;charset=UTF-8")
+	public  String doDeleteMenu(@RequestParam(name="sbid",required=false) Integer sbid,@RequestParam(name="bid",required=false) Integer bid,HttpServletRequest request){
+		JsonModel jm=new JsonModel();
+		String menugrade=request.getParameter("menugrade").trim();
+		Menu menu =new Menu();
+		try {
+			if(menugrade.equals("一级菜单")){
+				Map<String,Object>  map=new HashMap<String,Object>();
+				map.put("bid", bid);
+				List<TwoMenu> list=	menuBiz.findTwoMenuByOneName(map);
+				if(list.size()>0){
+					jm.setCode(2);
+					jm.setMsg("该一级菜单里面包含二级菜单，请先删除二级菜单");
+					}else{
+						menu.setBid(bid);
+						menuBiz.deleteOneMenu(menu);
+						jm.setCode(1);
+					}
+				
+			}else if(menugrade.equals("二级菜单")){	
+				
+				menu.setSbid(sbid);
+				menuBiz.deleteTwoMenu(menu);
+				jm.setCode(1);
+			 }
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+			jm.setCode(0);
+			jm.setMsg(e.getMessage());
+		}
+		Gson gson=new Gson();
+		Type jsonType=new TypeToken<JsonModel>(){
+			
+		}.getType();
+		String jsonStr=gson.toJson(jm,jsonType);
+			return jsonStr;
+		}
 	/**
 	 * 
 	 * 更新一级菜单
@@ -188,33 +247,19 @@ public class MenuController {
 		
 	}
 
-	@RequestMapping(value="doordermenu.action",produces="text/html;charset=UTF-8")
-	public  String  ordermenu(HttpServletRequest request,Menu menu){		
+	
+	@RequestMapping(value="getonecount.action",produces="text/html;charset=UTF-8")
+		public String  getoneCount(){
 		JsonModel jsonModel=new  JsonModel();
-		Map map=this.paging(request);
-		List<Menu> list2=menuBiz.findOrderMenu(map);
-
-		List<ShowMenu> temp=new ArrayList<ShowMenu>();
-		Map<String,Map<String,String>>  t=new HashMap<String,Map<String,String>>();
-		
-		for (Menu menu2 : list2) {
-			ShowMenu a=new ShowMenu();
-			Map<String,String> map2 =new LinkedHashMap<String,String>();
-			int count=4;
-			for (TwoMenu tm : menu2.getTwoMenuList()) {
-				map2.put("one"+count, tm.getName());
-				count--;
-			}
-			t.put("menu", map2);
-			a.setName(menu2.getName());
-			a.setTwomenu(t);
-			temp.add(a);
+		try {
+			int total=menuBiz.getMenuOneCount();
+			jsonModel.setCode(1);
+			jsonModel.setTotal(total);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonModel.setCode(0);
+			jsonModel.setMsg(e.getMessage());
 		}
-	
-		
-
-	
-		jsonModel.setRows(temp);
 		Gson gson=new Gson();
 		Type jsonType=new TypeToken<JsonModel>(){
 			
@@ -222,8 +267,8 @@ public class MenuController {
 		String jsonStr=gson.toJson(jsonModel,jsonType);
 		return jsonStr;
 		
-		}
 		
+	}
 		
 	@RequestMapping(value="showMenuForeground.action",produces="text/html;charset=UTF-8")
 	public  String  ShowMenuForeground(HttpServletRequest request,Menu menu){		
@@ -249,8 +294,29 @@ public class MenuController {
 		}
 		
 	
+	
+	
+	@RequestMapping(value="doundermenu.action",produces="text/html;charset=UTF-8")
+	public  String  UnderMenuForeground(HttpServletRequest request,Menu menu){		
+		JsonModel jsonModel=new  JsonModel();
 		
+		try {
+			MenuUtil.deleteMenu(AccessTokenUtil.access_token);
+			jsonModel.setCode(1);
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			jsonModel.setCode(0);
+			jsonModel.setMsg(e.getMessage());
+		}
+		Gson gson=new Gson();
+		Type jsonType=new TypeToken<JsonModel>(){
+			
+		}.getType();
+		String jsonStr=gson.toJson(jsonModel,jsonType);
+		return jsonStr;
+		
+		}
 	
 	
-
 }

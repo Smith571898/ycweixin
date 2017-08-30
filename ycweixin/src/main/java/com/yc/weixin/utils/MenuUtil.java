@@ -140,17 +140,19 @@ System.out.println(jsonObject);
 			ButtonModel firstbutton = new ButtonModel();//一级菜单model
 			
 			firstbutton.setName(me.getName());
-			if(me.getMenutype().equals("click")){//遍历一个一级菜单出来就把他存ButtonModel
+			if(null!=me.getMenutype()&&me.getMenutype().equals("click")){//遍历一个一级菜单出来就把他存ButtonModel
 				firstbutton.setType(me.getMenutype());
 				firstbutton.setKey(me.getMenukey());
-			}else if(me.getMenutype().equals("view")){
+			}else if(null!=me.getMenutype()&&me.getMenutype().equals("view")){
 				firstbutton.setType(me.getMenutype());
 				firstbutton.setUrl(me.getUrl());
 			}
 			
 			Map<String,Integer> OneBidmap=new HashMap<String,Integer>();
 			OneBidmap.put("bid",me.getBid());
+			
 			List<TwoMenu> TwoList=menuBiz.findTwoMenuByOneName(OneBidmap);
+			if(TwoList.size()>0){
 			for(TwoMenu tm:TwoList){
 				ButtonModel secondbutton = new ButtonModel();
 				secondbutton.setName(tm.getName());
@@ -167,6 +169,7 @@ System.out.println(jsonObject);
 			}
 			
 			firstbutton.setSub_button(list2);//把一个一级子菜单里面的5个二级菜单存进去
+			}
 			list1.add(firstbutton);//  5   10   15
 			
 		}
