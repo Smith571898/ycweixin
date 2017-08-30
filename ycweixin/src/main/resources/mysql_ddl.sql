@@ -4,25 +4,24 @@ drop table joke;
 drop table chat_log;
 
 create database wechat;
-
+	select u.nickname as nickname ,cl.create_time as create_time
+		,cl.req_msg as req_msg,cl.resp_msg as resp_msg from
+		chat_log cl join userinfo u on u.uid=cl.open_id where 1=1
+		
 use wechat;
-
+select * from userinfo
 create table knowledge(
-	id int not null primary key comment '主键标识',
+	id int not null auto_increment primary key comment '主键标识',
 	question varchar(2000) not null comment '问题',
 	answer text(8000) not null comment '答案',
 	category int not null comment '知识的类别（1:普通对话 2:笑话 3:上下文）'
 ) comment='问答知识表';
+drop table knowledge
 select * from knowledge
+                                        
 
-create table knowledge_type(
-kt_id int ,
-typename varchar(20)
-)
-insert into knowledge_type(kt_id,typename)  values(0,'未知')
-insert into knowledge_type(kt_id,typename)  values(1,'普通对话');
-insert into knowledge_type(kt_id,typename)  values(2,'笑话');
-insert into knowledge_type(kt_id,typename)  values(3,'上下文');
+
+
 
 insert into knowledge values(1 , '我不开心,好难受,心里烦', '', 1);
 insert into knowledge values(2 , '哈哈,嘻嘻,嘿嘿,呵呵', '', 1);
@@ -44,7 +43,7 @@ insert into knowledge values(17 , '你是机器人吗', '是啊，很智能的�
 insert into knowledge values(18 , '唉,哎', '怎么了，叹什么气呢？', 1);
 
 update knowledge set answer = '就差和你表白了' where id = 12
-
+select ks.id as id,k.question as question,ks.answer as answer  from knowledge_sub  ks join knowledge k on ks.pid=k.id
 select * from knowledge;
 
 create table  knowledge_sub (
@@ -82,19 +81,17 @@ create table  chat_log (
 	 create_time  long not null comment '消息创建时间',
 	 req_msg  varchar(2000) not null comment '用户上行的消息',
 	 resp_msg  varchar(2000) not null comment '公众账号回复的消息',
-	 chat_category  int comment '聊天的类别（ 1:普通对话 2:笑话 3:上下文）'
+	 chat_category  int comment '聊天的类别（ 0:位置1:普通对话 2:笑话 3:上下文）'
 ) comment='聊天记录表';
 drop table chat_log;
  oHfPg0f0S8LTNwOIgCkrPzBKHCuQ 22220175012105001.jpg 聂诚诚诚诚诚诚诚~ 女   安哥拉北隆达  1502007890     已关注                                          
-
-insert into  chat_log(id,open_id,create_time,req_msg,resp_msg,chat_category) values(1,'oHfPg0f0S8LTNwOIgCkrPzBKHCuQ',1502007890,'来个笑话','记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......',2)
+select * from chat_log
+insert into  chat_log(id,open_id,create_time,req_msg,resp_msg,chat_category) values(1,'ojs33w2xhz-BRqBfoPgV-RvdvT70',1502007890,'来个笑话','记者:大妈，请问雾霾给你生活带来那些不便呢？答:眼瞎啊！劳资是你大爷......',2)
 select u.nickname as nickname ,cl.create_time  as  create_time ,cl.req_msg as req_msg,cl.resp_msg   as resp_msg from
 chat_log cl join userinfo  u on u.uid=cl.open_id ;
 
 
 
-
-
 commit
 select * from  userinfo
-select answer from knowledge_sub where pid=1 order by rand() limit 0,1
+select * from knowledge_sub where pid=1 order by rand() limit 0,1

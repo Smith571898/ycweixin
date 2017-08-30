@@ -4,6 +4,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.Chat_logMapper">
 
+	<!-- 加入带日志的ehcahe缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"> </cache> -->
 	<!-- -查询所有的聊天记录 或者指定时间的聊天记录 -->
 	<select id="findAllChatLog" parameterType="Map" resultType="Chat_log">
 		select u.nickname as nickname ,cl.create_time as create_time
@@ -15,9 +17,9 @@
 			and create_time between #{starttime} and #{endtime}
 		</if>
 
-		<if test="orderby!=null  and orderby!=''">
+		<if test="orderby != null  and orderby != '' ">
 			order by #{orderby}
-			<if test="orderway!=null and  orderway!=''">
+			<if test="orderway != null and  orderway != ''">
 				#{orderway}
 			</if>
 		</if>
@@ -28,12 +30,14 @@
 	</select>
 
 	<select id="getAllChatLogCount" resultType="Integer">
-		select count(1) from chat_log where 1=1
+		select count(1) from
+		chat_log where 1=1
 	</select>
 
 	<select id="getAllChatLogCountByDate" resultType="Integer"
 		parameterType="Map">
-		select count(1) from chat_log where 1=1 and create_time between #{starttime}
+		select count(1) from chat_log where 1=1 and create_time
+		between #{starttime}
 		and #{endtime}
 
 	</select>

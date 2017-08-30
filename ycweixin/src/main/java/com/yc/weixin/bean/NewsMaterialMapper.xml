@@ -11,6 +11,11 @@
 	<select id="findAllNews" resultType="NewsMaterial" parameterType="Map">
 		select * from newsMaterial <include refid="orderSql"></include> <include refid="pageSql"></include>
 	</select>
+	
+	<select id="findNewsCount" resultType="int">
+		select count(1) from
+		newsMaterial where 1=1
+	</select>
 
 	<sql id="orderSql">
 		<if test="orderby != null and orderby != ''">

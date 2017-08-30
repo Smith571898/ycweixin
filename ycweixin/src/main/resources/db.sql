@@ -28,7 +28,6 @@ select * from userinfo
      nowclass varchar(100),
      ycclass varchar(100)
 );
-<p>源辰微信科技有限公司是一家定位于大学生软件开发,实战培训等一系列软件服务的综合性软件公司，为解决大学生高起点就业和为企业提供解决方案为目标。公司是以软件教育及行业软件开发工作为主，兼顾企业IT技术咨询服务及软件开发，企业员工技术培训。<img alt="" src="../tuwen/201708181419056.PNG" style="height:60px; width:46px" /></p>
 
 select  * from followpush
 update followpush set isfollowpush='否' where fid =1

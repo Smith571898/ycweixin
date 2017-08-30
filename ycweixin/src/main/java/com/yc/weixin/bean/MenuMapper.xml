@@ -4,6 +4,8 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yc.weixin.bean.MenuMapper">
 
+	<!-- 加入带日志的ehcahe缓存 <cache type="org.mybatis.caches.ehcache.LoggingEhcache"> 
+		</cache> -->
 	<!-- 查询所有二级菜单 与所属的一级菜单 -->
 	<select id="findAllmenu" parameterType="Map" resultType="Menu">
 		select sb.sbid as sbid,sb.subname as sub_name,b.name as
@@ -21,9 +23,11 @@
 	<!-- 根据查询到的一级菜单名编号 ，再去查询他的二级菜单名，用于生成菜单用 -->
 	<select id="findTwoMenuByOneName" parameterType="Map"
 		resultType="TwoMenu">
-		select sb.subname as name ,sb.menutype as menutype,sb.menukey as
+		select sb.subname as name ,sb.menutype as
+		menutype,sb.menukey as
 		menukey,sb.url as url,sb.grade as grade
-		from sub_button sb
+		from
+		sub_button sb
 		where sb.sb_bid=#{bid}
 
 	</select>
@@ -56,6 +60,7 @@
 		menutype=#{menutype},name=#{name},menukey=#{menukey},url=#{url} where
 		bid=#{bid}
 	</update>
+	
 	<insert id="addOneGradeMenu" parameterType="Menu"
 		useGeneratedKeys="true" keyProperty="bid">
 		insert into
@@ -66,7 +71,7 @@
 	<insert id="addTwoGradeMenu" parameterType="Menu"
 		useGeneratedKeys="true" keyProperty="sbid">
 		insert into
-		sub_button(sb_bid,menutype,name,menukey,url,grade) values
+		sub_button(sb_bid,menutype,subname,menukey,url,grade) values
 		(#{bid},#{menutype},#{name},#{menukey},#{url},0)
 	</insert>
 

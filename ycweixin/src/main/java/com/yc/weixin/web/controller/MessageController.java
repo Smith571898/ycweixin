@@ -46,14 +46,12 @@ public class MessageController {
 	@Resource(name = "messageBizImpl")
 	private MessageBiz messageBiz;
 
-	@Resource(name = "newsBizImpl")
-	private NewsBiz newsBiz;
 
 	@RequestMapping(value = "FollowPush.action")
 	public ModelAndView FollowPushPage() {
 		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("FollowPush");
+		mav.setViewName("followpush/FollowPush");
 		return mav;
 	}
 
@@ -93,7 +91,7 @@ public class MessageController {
 		System.out.println(isfollowpush);
 		System.out.println(fpic);
 		System.out.println(fid);
-		mav.setViewName("editor");
+		mav.setViewName("followpush/editor");
 		return mav;
 	}
 
@@ -196,65 +194,6 @@ public class MessageController {
 		return mav;
 	}
 
-	// 多图文消息的处理
-	@RequestMapping(path="addArticle.action")
-	public void addArticle(@RequestParam(name = "file", required = false) MultipartFile file,ArticleMaterialModel article,HttpServletRequest req){
-		if(req.getParameter("head")!=null){
-			CommonUtil.news.clear();
-		}
-		
-		if(!file.isEmpty()){
-			try {
-				//获取封面永久缩略图id
-				String filepath = FileLoadUtil.upload(file, req, "material");
-				MediaModel mm = MediaUtil.uploadMateria("image", filepath);
-				article.setThumb_media_id(mm.getMedia_id());
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			
-		}
-		
-		//更换图文内容中的图片地址为微信服务器所提供的地址
-		article.setContent(UpdatePicToQPic.update(article.getContent()));
-		
-		CommonUtil.news.add(article);
-		
-		if(req.getParameter("tail")!=null){
-			NewsMaterialModel nmm = new NewsMaterialModel();
-			nmm.setArticles(CommonUtil.news);
-			System.out.println("图文消息接收完毕");
-			//上传多图文消息素材
-			MediaModel mediaModel = MediaUtil.uploadNewsMateria(nmm);
-			System.out.println("------"+mediaModel);
-			NewsMaterial newsMaterial = new NewsMaterial();
-			List<ArticleMaterial> list = new ArrayList<ArticleMaterial>();
-			newsMaterial.setCreate_at(String.valueOf(mediaModel.getCreated_at()));
-			newsMaterial.setMedia_id(mediaModel.getMedia_id());
-			newsMaterial.setType(mediaModel.getType());
-			newsMaterial.setStatus(0);
-			
-			int index = 0;
-			for(ArticleMaterialModel amm:nmm.getArticles()){
-				ArticleMaterial articleMaterial = new ArticleMaterial();
-				articleMaterial.setAuthor(amm.getAuthor());
-				articleMaterial.setContent(amm.getContent());
-				articleMaterial.setContent_source_url(amm.getContent_source_url());
-				articleMaterial.setDigest(amm.getDigest());
-				articleMaterial.setMedia_id(mediaModel.getMedia_id());
-				articleMaterial.setShow_cover_pic(amm.getShow_cover_pic());
-				articleMaterial.setStatus(index);
-				articleMaterial.setThumb_media_id(amm.getThumb_media_id());
-				articleMaterial.setTitle(amm.getTitle());
-				index++;
-				list.add(articleMaterial);
-			}
-			newsBiz.addNews(newsMaterial, list);
-			
-			SendMateriaMessage.sendMateriaMessageByTag(mediaModel);
-		}
-	}
 
 	@RequestMapping(value = "doAddFollowPush.action", method = RequestMethod.POST)
 	private ModelAndView doAddFollowPush(@RequestParam(value = "fpic", required = false) MultipartFile file,
@@ -270,7 +209,7 @@ public class MessageController {
 			String prefix = df.format(new Date());// 201708101526049
 			String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));// .jpg
 			String filename = prefix + fileType;// E:\apache-tomcat-8.0.44\webapps
-			String path = real + "\\images/";
+			String path = real + File.separator + "images" + File.separator;
 
 			File newFile = new File(path);
 			if (!newFile.exists()) {
@@ -300,7 +239,7 @@ public class MessageController {
 		if (messageBiz.AddFollowPush(fpm)) {
 			mav.setViewName("success");
 		} else {
-			mav.setViewName("faile");
+			mav.setViewName("fail");
 		}
 
 		return mav;

@@ -7,6 +7,29 @@
 	<select id="findOneJoke" resultType="Joke">
 		select joke_content from joke order by rand() limit 0,1
 	</select>
-
+	
+	<select id="findAllJoke" parameterType="Map" resultType="Joke">
+	select  joke_id,joke_content from joke where 1=1
+	<if test="start!=null">
+			limit #{start},#{pagesize}
+		</if>
+	</select>
+	
+	<select id="findJokeCount" resultType="Integer">
+	
+	select count(*)  from joke where 1=1
+	</select>
+	
+	<update id="updatejoke" parameterType="Joke">
+	update joke set joke_content=#{joke_content} where joke_id=#{joke_id}
+	</update>
+	
+	<insert id="addjoke" useGeneratedKeys="true" keyProperty="joke_id" >
+	insert into joke(joke_content) values(#{joke_content});
+	</insert>
+	
+	<delete id="delJokeByjokeid" parameterType="Joke">
+	delete  from joke  where joke_id=#{joke_id}
+	</delete>
 </mapper>
 

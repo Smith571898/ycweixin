@@ -40,9 +40,10 @@ public class MaterialBizImpl implements MaterialBiz {
 		return list;
 	}
 	
+	@Transactional(propagation=Propagation.SUPPORTS,readOnly=true)
 	@Override
 	public Integer finMaterialCount() {
-		Integer total=(int) this.baseDao.getFunc(FollowPushMessage.class, "findFollowPushCount");
+		Integer total=(int) this.baseDao.getFunc(Material.class, "findMaterialCount");
 		return total;
 	}
 

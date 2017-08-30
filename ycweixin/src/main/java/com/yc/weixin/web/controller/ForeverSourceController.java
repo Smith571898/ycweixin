@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,14 +30,13 @@ import com.yc.weixin.utils.MediaUtil;
 
 @RestController
 public class ForeverSourceController {
-	
-	@Resource(name="materialBizImpl")
+
+	@Resource(name = "materialBizImpl")
 	private MaterialBiz materialBiz;
-	
 
 	@RequestMapping(value = "douploadForeverpicbat", method = RequestMethod.POST)
 	public void Sourceupload(@RequestParam(value = "fpics", required = false) MultipartFile[] file,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpServletResponse resp) throws IOException {
 
 		List<String> listImagePath = new ArrayList<String>();
 		for (MultipartFile mf : file) {
@@ -47,7 +47,7 @@ public class ForeverSourceController {
 				Material material = new Material();
 				material.setMedia_id(mediaModel.getMedia_id());
 				material.setMpurl(mediaModel.getUrl());
-				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator)+1));
+				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator) + 1));
 				material.setType("image");
 				material.setCreate_at(System.currentTimeMillis());
 				materialBiz.addMaterial(material);
@@ -58,13 +58,11 @@ public class ForeverSourceController {
 			}
 
 		}
-		System.out.println(1);
-
 	}
 
 	@RequestMapping(value = "douploadForeverVideobat.action", method = RequestMethod.POST)
 	public void Sourceupload1(@RequestParam(value = "fvideos", required = false) MultipartFile[] file,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpServletResponse resp) throws IOException {
 
 		List<String> listImagePath = new ArrayList<String>();
 		for (MultipartFile mf : file) {
@@ -75,7 +73,7 @@ public class ForeverSourceController {
 				Material material = new Material();
 				material.setMedia_id(mediaModel.getMedia_id());
 				material.setMpurl(mediaModel.getUrl());
-				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator)+1));
+				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator) + 1));
 				material.setType("video");
 				material.setCreate_at(System.currentTimeMillis());
 				materialBiz.addMaterial(material);
@@ -86,13 +84,11 @@ public class ForeverSourceController {
 			}
 
 		}
-		System.out.println(1);
-
 	}
 
 	@RequestMapping(value = "douploadForeverAudiobat.action", method = RequestMethod.POST)
 	public void Sourceupload2(@RequestParam(value = "faudios", required = false) MultipartFile[] file,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpServletResponse resp) throws IOException {
 
 		List<String> listImagePath = new ArrayList<String>();
 		for (MultipartFile mf : file) {
@@ -103,7 +99,7 @@ public class ForeverSourceController {
 				Material material = new Material();
 				material.setMedia_id(mediaModel.getMedia_id());
 				material.setMpurl(mediaModel.getUrl());
-				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator)+1));
+				material.setUrl(fileurl.substring(fileurl.lastIndexOf(File.separator) + 1));
 				material.setType("voice");
 				material.setCreate_at(System.currentTimeMillis());
 				materialBiz.addMaterial(material);
@@ -114,7 +110,6 @@ public class ForeverSourceController {
 			}
 
 		}
-		System.out.println(1);
 
 	}
 
@@ -137,16 +132,16 @@ public class ForeverSourceController {
 		String jsonStr = gson.toJson(jsonModel, jsonType);
 		return jsonStr;
 	}
-	
-	
 
 	@RequestMapping(value = "dodelMaterial.action", produces = "text/html;charset=UTF-8")
-	public String delForeverMaterial(Material material,HttpServletRequest request) {
+	public String delForeverMaterial(Material material, HttpServletRequest request) {
 		JsonModel jsonModel = new JsonModel();
-		
-		 try {
+		MediaModel mediaModel = new MediaModel();
+		mediaModel.setMedia_id(material.getMedia_id());
+		try {
+			MediaUtil.delMaterial(mediaModel);
 			materialBiz.delMaterial(material);
-			 jsonModel.setCode(1);
+			jsonModel.setCode(1);
 		} catch (Exception e) {
 			jsonModel.setCode(0);
 			jsonModel.setMsg(e.getMessage());

@@ -35,7 +35,7 @@ public class WeChatUserInfoController {
 	public  ModelAndView  ShowUserInfo(){
 		ModelAndView mav =new ModelAndView();
 		
-		mav.setViewName("WeChatUserInfo");
+		mav.setViewName("admin/WeChatUserInfo");
 		return mav;
 	}
 	

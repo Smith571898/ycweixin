@@ -21,22 +21,22 @@ import com.yc.weixin.model.MenuModel;
 /**
  * 自定义菜单工具类
  * 
- * @author 
+ * @author
  * @date 2013-10-17
  */
 public class MenuUtil {
-	
+
 	private static MenuBiz menuBiz;
 
-	
-	public  MenuBiz getMenuBiz() {
-	
+	public MenuBiz getMenuBiz() {
+
 		return menuBiz;
 	}
 
-	public  void setMenuBiz(MenuBiz menuBiz) {
+	public void setMenuBiz(MenuBiz menuBiz) {
 		MenuUtil.menuBiz = menuBiz;
 	}
+
 	private static Logger log = LoggerFactory.getLogger(MenuUtil.class);
 
 	// 菜单创建（POST）
@@ -49,18 +49,21 @@ public class MenuUtil {
 	/**
 	 * 创建菜单
 	 * 
-	 * @param menu 菜单实例
-	 * @param accessToken 凭证
+	 * @param menu
+	 *            菜单实例
+	 * @param accessToken
+	 *            凭证
 	 * @return true成功 false失败
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static boolean createMenu( String accessToken) throws IOException {
+	public static boolean createMenu(String accessToken) throws IOException {
 		boolean result = false;
 		String url = menu_create_url.replace("ACCESS_TOKEN", accessToken);
 		// 将菜单对象转换成json字符串
-		MenuModel menu=docreatemenu();
+		MenuModel menu = docreatemenu();
 		String jsonMenu = CommonUtil.gson.toJson(menu);
 		// 发起POST请求创建菜单
+		System.out.println(jsonMenu);
 		String jsonObject = CommonUtil.getResources(url, jsonMenu);
 		ErrorModel em = CommonUtil.gson.fromJson(jsonObject, ErrorModel.class);
 
@@ -74,17 +77,18 @@ public class MenuUtil {
 				log.error("创建菜单失败 errcode:{} errmsg:{}", errorCode, errorMsg);
 			}
 		}
-System.out.println(result);
-System.out.println(jsonObject);
+		System.out.println(result);
+		System.out.println(jsonObject);
 		return result;
 	}
 
 	/**
 	 * 查询菜单
 	 * 
-	 * @param accessToken 凭证
+	 * @param accessToken
+	 *            凭证
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static MenuModel getMenu(String accessToken) throws IOException {
 		String result = null;
@@ -102,9 +106,10 @@ System.out.println(jsonObject);
 	/**
 	 * 删除菜单
 	 * 
-	 * @param accessToken 凭证
+	 * @param accessToken
+	 *            凭证
 	 * @return true成功 false失败
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static boolean deleteMenu(String accessToken) throws IOException {
 		boolean result = false;
@@ -125,52 +130,53 @@ System.out.println(jsonObject);
 		}
 		return result;
 	}
-	public static  MenuModel  docreatemenu(){
+
+	public static MenuModel docreatemenu() {
 
 		MenuModel mm = new MenuModel();
-	//MenuBiz menuBiz=	(MenuBiz) ac.getBean("menuBizImpl");
-		List<Menu> Onelist=new ArrayList<Menu>();
-		Map<String,String> map=new HashMap<String,String>();
+		// MenuBiz menuBiz= (MenuBiz) ac.getBean("menuBizImpl");
+		List<Menu> Onelist = new ArrayList<Menu>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("name", "aaa");
-		Onelist=menuBiz.findAllOneMenu(map);
-		List<ButtonModel> list1 = new ArrayList<ButtonModel>();//一级菜单 
-	
-		for(Menu me:Onelist){
-			List<ButtonModel> list2 = new ArrayList<ButtonModel>();//单个一级菜单里的子菜单
-			ButtonModel firstbutton = new ButtonModel();//一级菜单model
-			
+		Onelist = menuBiz.findAllOneMenu(map);
+		List<ButtonModel> list1 = new ArrayList<ButtonModel>();// 一级菜单
+
+		for (Menu me : Onelist) {
+			List<ButtonModel> list2 = new ArrayList<ButtonModel>();// 单个一级菜单里的子菜单
+			ButtonModel firstbutton = new ButtonModel();// 一级菜单model
+
 			firstbutton.setName(me.getName());
-			if(me.getMenutype().equals("click")){//遍历一个一级菜单出来就把他存ButtonModel
+			if (null != me.getMenutype() && "".equals(me.getMenutype()) && me.getMenutype().equals("click")) {// 遍历一个一级菜单出来就把他存ButtonModel
 				firstbutton.setType(me.getMenutype());
 				firstbutton.setKey(me.getMenukey());
-			}else if(me.getMenutype().equals("view")){
+			} else if (null != me.getMenutype() && "".equals(me.getMenutype()) && me.getMenutype().equals("view")) {
 				firstbutton.setType(me.getMenutype());
 				firstbutton.setUrl(me.getUrl());
 			}
-			
-			Map<String,Integer> OneBidmap=new HashMap<String,Integer>();
-			OneBidmap.put("bid",me.getBid());
-			List<TwoMenu> TwoList=menuBiz.findTwoMenuByOneName(OneBidmap);
-			for(TwoMenu tm:TwoList){
+
+			Map<String, Integer> OneBidmap = new HashMap<String, Integer>();
+			OneBidmap.put("bid", me.getBid());
+			List<TwoMenu> TwoList = menuBiz.findTwoMenuByOneName(OneBidmap);
+			for (TwoMenu tm : TwoList) {
 				ButtonModel secondbutton = new ButtonModel();
 				secondbutton.setName(tm.getName());
-				if(tm.getMenutype().equals("click")){
+				if (tm.getMenutype().equals("click")) {
 					secondbutton.setType(tm.getMenutype());
 					secondbutton.setKey(tm.getMenukey());
-				}else if(tm.getMenutype().equals("view")){
+				} else if (tm.getMenutype().equals("view")) {
 					secondbutton.setType(tm.getMenutype());
 					secondbutton.setUrl(tm.getUrl());
 				}
-				
+
 				list2.add(secondbutton);
-			
+
 			}
-			
-			firstbutton.setSub_button(list2);//把一个一级子菜单里面的5个二级菜单存进去
-			list1.add(firstbutton);//  5   10   15
-			
+
+			firstbutton.setSub_button(list2);// 把一个一级子菜单里面的5个二级菜单存进去
+			list1.add(firstbutton);// 5 10 15
+
 		}
-			mm.setButton(list1);
-			return mm;
+		mm.setButton(list1);
+		return mm;
 	}
 }

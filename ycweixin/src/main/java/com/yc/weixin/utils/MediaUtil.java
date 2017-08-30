@@ -122,7 +122,6 @@ public class MediaUtil {
 			e.printStackTrace();
 		}
 		
-		
 		return errorModel;
 	}
 	

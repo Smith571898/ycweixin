@@ -10,40 +10,33 @@ import com.yc.weixin.utils.AccessTokenUtil;
 @Controller
 public class IndexController {
 	
-	
-
 	@RequestMapping(value="ToAdminLogin.action")
 	public String ToAdminLogin(){
-			
-		return "AdminLogin";
-		
+		return "admin/AdminLogin";
 	}
 
 	@RequestMapping(value="toMain.action")
 	public String AdminLogin(){
-			
 		return "main";
-		
 	}
+	
 	@RequestMapping(value="touploadTempMaterial.action")
 	public String touploadTempMaterial(){
-			
-		return "uploadTempMaterial";
-		
+		return "material/uploadTempMaterial";
 	}
+	
 	@RequestMapping(value="touploadForeverMaterial.action")
 	public String touploadForeverMaterial(){
-			
-		return "uploadForeverMaterial";
-		
+		return "material/uploadForeverMaterial";
 	}
+	
 	/**
 	 * 上传临时图片的action   
 	 * @return
 	 */
 	@RequestMapping(value="touploadTemppicbat.action")
 	public String touploadbat(HttpSession session){
-		return "uploadtemppic";
+		return "material/uploadtemppic";
 	}
 	
 	/**
@@ -52,14 +45,9 @@ public class IndexController {
 	 */
 	@RequestMapping(value="touploadforeverpic.action")
 	public String touploadbat1(HttpSession session){
-		return "uploadforeverpic";
+		return "material/uploadforeverpic";
 		
 	}
-	
-	
-
-	
-	
 	
 	/**
 	 * 
@@ -69,7 +57,7 @@ public class IndexController {
 	@RequestMapping(value="touploadTempvideobat.action")
 	public String touploadtempvediobat(HttpSession session){
 		//	session.setAttribute("videoaction", "douploadTempVideobat.action");//把上传临时视频的action  存session  加载uploadvediobat页面的时候注入
-		return "uploadtempvideo";
+		return "material/uploadtempvideo";
 		
 	}
 	
@@ -81,7 +69,7 @@ public class IndexController {
 	@RequestMapping(value="touploadForevervideo.action")
 	public String touploadforevervediobat(HttpSession session){
 		//	session.setAttribute("videoaction", "douploadForeverVideobat.action");//把上传永久视频的action  存session  加载uploadvediobat页面的时候注入
-		return "uploadforevervideo";
+		return "material/uploadforevervideo";
 		
 	}
 	
@@ -94,7 +82,7 @@ public class IndexController {
 	@RequestMapping(value="touploadTempaudiobat.action")
 	public String touploadtempaudiobat(HttpSession session){
 		//	session.setAttribute("audioaction", "douploadTempAudiobat.action");//把上传临时音频的action  存session  加载uploadvediobat页面的时候注入
-		return "uploadtempaudio";
+		return "material/uploadtempaudio";
 		
 	}
 	
@@ -106,70 +94,50 @@ public class IndexController {
 	@RequestMapping(value="touploadForeveraudio.action")
 	public String touploadforeveraudiobat(HttpSession session){
 		//	session.setAttribute("audioaction", "douploadForeverAudiobat.action");//把上传永久音频的action  存session  加载uploadvediobat页面的时候注入
-		return "uploadforeveraudio";
-		
+		return "material/uploadforeveraudio";
 	}
 	
-	
-	@RequestMapping(value="showmenu.action")
-	public String showmenu(){
-			
-		return "showmenu";
-		
-	}
-	
-	@RequestMapping(value="moniweixin.action")
-	public String moni(){
-			
-		return "moniweixin";
-		
-	}
-	@RequestMapping(value="addmenu.action")
-	public String addmenu(){
-			
-		return "addmenu";
-		
-	}
 	@RequestMapping(value="findmenu.action")
 	public String findmenu(){
 			
-		return "findmenu";
-		
-	}
-
-	@RequestMapping(value="goOrderMenu.action")
-	public String goOrderMenu(){
-			
-		return "ordermenu";
+		return "menu/findmenu";
 		
 	}
 
 	@RequestMapping(path="toAddNewsMateria.action")
 	public String toAddNewsMateria(){
-		return "addNewsMateria";
+		return "material/addNewsMateria";
 	}
 	
 	@RequestMapping(path="toAddFollowPush.action")
 	public String toAddFollowPush(){
-		return "addFollowPush";
+		return "followpush/addFollowPush";
 	}
 	
 	@RequestMapping(value="toChatLog.action")
 	public String toChatLog(){
 		
-		return "ChatLog";
+		return "robot/ChatLog";
 	}
 	
-	
-	
+	/**
+	 * 
+	 * 跳转到机器人问题回复设置界面
+	 * @return
+	 */
 	@RequestMapping(value="toRobotReplyManager.action")
 	public String toRobotReplyManager(){
 		
-		return "RobotReplyManager";
+		return "robot/RobotReplyManager";
 	}
 	
 	@RequestMapping(path="toFindMaterial.action")
 	public String toFindMaterial(){
-		return "findMaterial";
+		return "material/findMaterial";
+	}
+	
+	@RequestMapping(path="toFindNews.action")
+	public String toFindNews(){
+		return "material/findNews";
 	}
 }
